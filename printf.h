@@ -18,6 +18,6 @@ typedef struct s_print
       int   sp;         // space flag ' '            
 }    t_print;
 
-int		ft_printf(const char *restrict format,);
+int		ft_printf(const char *restrict format, ...);
 
 #endif
