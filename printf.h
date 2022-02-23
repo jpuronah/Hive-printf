@@ -2,6 +2,7 @@
 # define PRINTF_H
 
 # include <stdarg.h>
+# include <stdio.h>
 
 typedef struct s_print                       
 {                        

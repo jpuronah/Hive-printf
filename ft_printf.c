@@ -8,7 +8,7 @@
 	THINGS TO KEEP IN MIND before starting off:
 
 ----Conversions to handle: csdiupxX%----
-	
+
 	Flags to handle: 0-.*
 	Value to return: length of the printed string (int).
 
@@ -19,8 +19,6 @@
 	ignored.
 	[..]
 */
-
-
 
 /*static void	ft_error(void)
 {
@@ -62,8 +60,6 @@ static int	ft_eval_format(t_print *tab, const char *restrict format, int i)
 	if (format[i] == d)
 
 	if (format[i] == zu)*/
-
-
 
 	while (format[i])
 	{
