@@ -94,7 +94,7 @@ static void	ft_initialise_tab(t_print *tab)
 		index++;
 }
 
-int	ft_printf(const char *restrict format, ...)
+int	ft_printf(const char *format, ...)
 {
 	t_print *tab;
 	int		i;
