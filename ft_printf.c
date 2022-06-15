@@ -6,12 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:16:07 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/15 20:02:21 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/15 21:24:50 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
-#include <stdio.h>
 
 t_printf	*init_printf_flags(t_printf *flags)
 {
@@ -44,10 +43,28 @@ X = va_arg(args, unsigned int)
 
 }*/
 
+int	ft_print_float_or_double(t_printf *flags)
+{
+	printf("print_float\n");
+	char	*s;
+	double	d_num;
+	float	f_num;
+	int		index;
+	char	*char_num;
+
+	index = 0;
+	d_num = va_arg(flags->args, double);
+	printf("%f\n", d_num);
+	/*charteger = ft_itoa(integer);
+	while (charteger[index])
+		flags->total_length += write(1, &charteger[index++], 1);
+	va_end(flags->args);*/
+	return (index);
+}
 
 int	ft_print_integer(t_printf *flags)
 {
-	//printf("print_integer\n");
+	printf("print_integer\n");
 	char	*s;
 	int		integer;
 	int		index;
@@ -64,7 +81,7 @@ int	ft_print_integer(t_printf *flags)
 
 int	ft_print_char(t_printf *flags)
 {
-	//printf("print_char\n");
+	printf("print_char\n");
 	int		c;
 	int		index;
 
@@ -77,7 +94,7 @@ int	ft_print_char(t_printf *flags)
 
 int	ft_print_string(t_printf *flags)
 {
-	//printf("print_string\n");
+	printf("print_string\n");
 	char	*s;
 	int		index;
 
@@ -89,43 +106,55 @@ int	ft_print_string(t_printf *flags)
 	return (index);
 }
 
+void	ft_update_flags(t_printf *flags, const char *restrict format)
+{
+	int	len;
+
+	len = 0;
+	if (flags->precision > 0)
+	{
+		format++;
+		format++;
+		while (ft_isdigit(*format) == 1)
+		{
+			len++;
+			flags->precision = *(format++) - 48;
+		}
+	}
+}
 
 int		evaluate_format_type(const char *restrict format, t_printf *flags, int index)
 {
 	int		return_value;
 
 	return_value = 0;
-	while (format[index] != 's' && format[index] != 'c' && format[index] != 'd')
+	while (format[index] != 's' && format[index] != 'c' && format[index] != 'd' && format[index] != 'i' && format[index] != 'f')
 	{
 		if (format[index] == '.')
-			flags->point = 1;
+			flags->precision = 1;
 		if (format[index] == '-')
 			flags->dash = 1;
 		if (format[index] == '0')
 			flags->is_zero = 1;
 		if (format[index] == '%')
 			flags->percentage = 1;
-		if (format[index] == '.')
-			flags->point = 1;
-		if (format[index] == '.')
-			flags->precision = 1;
-		if (format[index] == '-')
-			flags->sign = -1;
-		//space_flag, total_length, width, padding uupuu
+		//space_flag, total_length, width, sign,, precision padding uupuu
 		index++;
 	}
+	ft_update_flags(flags, format);
 	/*ft_update_flags(flags, 1);
 	if (flags->width && !flags->dash)
 		ft_right_side_cs(flags, 0);
 	if (flags->width && flags->dash)
 		ft_left_side_cs(flags, 0);*/
-
 	if (format[index] == 'c')
 		return_value = ft_print_char(flags);
 	if (format[index] == 's')
 		return_value = ft_print_string(flags);
 	if (format[index] == 'd' || format[index] == 'i')
 		return_value = ft_print_integer(flags);
+	if (format[index] == 'f')
+		return_value = ft_print_float_or_double(flags);
 	return (index);
 }
 
@@ -149,6 +178,7 @@ int		ft_printf(const char *restrict format, ...)
 		//printf("index: %d\n", index);
 		if (format[index] == '%')
 		{
+			printf("%c%c\n\n", format[index], format[index + 1]);
 			evaluate_format_type(format, flags, index + 1);
 			index++;
 			//printf("\nindexloop: %d\n", index);
@@ -169,21 +199,46 @@ int		ft_printf(const char *restrict format, ...)
 
 int	main(int ac, char **av)
 {
-	char	*str;
-	int		integer;
-	int		return_value;
-	char	param;
+	char		*str;
+	int			integer;
+	double		dubbel;;
+	int			return_value;
+	char		param;
+	t_printf	*flags;
 
-	//str = "5";
 	integer = 0;
-
+	flags = NULL;
+	flags = (t_printf *)malloc(sizeof(t_printf));
+	if (flags == NULL)
+		return (-1);
+	flags = init_printf_flags(flags);
+	dubbel = 1230.000865;
+	flags->precision = 6;
+	printf("itoa_double: %s\n", ft_itoa_double(dubbel, flags));
+	exit(0);
 	str = "sana";
 	integer = 12345;
-	return_value = ft_printf("%s, %d, %c", (const char *restrict)str, integer, str[2]);
+
+
+	exit(0);
+	ft_printf("%i\n", integer);
+	printf("%i\n\n", integer);
+	ft_printf("%d\n", integer);
+	printf("%d\n\n", integer);
+	ft_printf("%s\n", str);
+	printf("%s\n\n", str);
+	
+
+	ft_printf("%f\n", dubbel);
+	printf("%f\n", dubbel);
+	
+	ft_printf("%f\n", dubbel);
+	printf("%f\n", dubbel);
+	return_value = ft_printf("%s, %d, %c, %i, %f", (const char *restrict)str, integer, str[2], integer / 2, dubbel);
 	printf("\noma ret: %d\n", return_value);
-	return_value = printf("%s, %d, %c", (const char *restrict)str, integer, str[2]);
+	return_value = printf("%s, %d, %c, %i, %f", (const char *restrict)str, integer, str[2], integer / 2, dubbel);
 	printf("\noikee ret: %d\n", return_value);
-/*
+	/*
 	if (ac == 2 && ft_isalpha(av[1][0]) == 1)
 	{
 		str = ft_strdup(av[1]);

@@ -3,6 +3,8 @@
 
 # include "libft/libft.h"
 # include <stdarg.h>
+# include <stdio.h>
+# include <math.h>
 
 typedef struct s_printf
 {
@@ -20,5 +22,6 @@ typedef struct s_printf
 }				t_printf;
 
 int		ft_printf(const char *restrict format, ...);
+char	*ft_itoa_double(double dubbel, t_printf *flags);
 
 #endif

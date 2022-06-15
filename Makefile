@@ -6,12 +6,12 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/15 17:19:28 by jpuronah          #+#    #+#              #
-#    Updated: 2022/06/15 17:36:33 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/06/15 20:34:33 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_printf
-SOURCES = ft_printf.c
+SOURCES = ft_printf.c itoa_double.c
 OBJECTIVES = $(SOURCES:.c=.o)
 FLAGS = -Wconversion -Wall -Wextra -Werror
 LIBFT = ./libft/
