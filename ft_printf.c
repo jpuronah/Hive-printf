@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:16:07 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/15 17:40:43 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/15 20:02:21 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,39 +44,47 @@ X = va_arg(args, unsigned int)
 
 }*/
 
+
+int	ft_print_integer(t_printf *flags)
+{
+	//printf("print_integer\n");
+	char	*s;
+	int		integer;
+	int		index;
+	char	*charteger;
+
+	index = 0;
+	integer = va_arg(flags->args, int);
+	charteger = ft_itoa(integer);
+	while (charteger[index])
+		flags->total_length += write(1, &charteger[index++], 1);
+	va_end(flags->args);
+	return (index);
+}
+
 int	ft_print_char(t_printf *flags)
 {
-	int	c;
+	//printf("print_char\n");
+	int		c;
 	int		index;
 
 	c = va_arg(flags->args, int);
 	index = 1;
-	//ft_update_flags(flags, 1);
-	//if (flags->width && !flags->dash)
-	//	ft_right_side_cs(flags, 0);
 	flags->total_length += write(1, &c, 1);
-	//if (flags->width && flags->dash)
-	//	ft_left_side_cs(flags, 0);*/
 	va_end(flags->args);
 	return (index);
 }
 
 int	ft_print_string(t_printf *flags)
 {
+	//printf("print_string\n");
 	char	*s;
 	int		index;
 
 	s = va_arg(flags->args, char *);
 	index = 0;
-	//ft_update_flags(flags, 1);
-	//if (flags->width && !flags->dash)
-	//	ft_right_side_cs(flags, 0);
-	//while (*s)
-	//	flags->total_length += write(1, &(*s++), 1);
 	while (s[index])
 		flags->total_length += write(1, &s[index++], 1);
-	//if (flags->width && flags->dash)
-	//	ft_left_side_cs(flags, 0);*/
 	va_end(flags->args);
 	return (index);
 }
@@ -106,16 +114,20 @@ int		evaluate_format_type(const char *restrict format, t_printf *flags, int inde
 		//space_flag, total_length, width, padding uupuu
 		index++;
 	}
+	/*ft_update_flags(flags, 1);
+	if (flags->width && !flags->dash)
+		ft_right_side_cs(flags, 0);
+	if (flags->width && flags->dash)
+		ft_left_side_cs(flags, 0);*/
+
 	if (format[index] == 'c')
 		return_value = ft_print_char(flags);
 	if (format[index] == 's')
 		return_value = ft_print_string(flags);
-	/*if (format[index] == 'd' || format == 'i')
-		ft_putnbr(flags);*/
+	if (format[index] == 'd' || format[index] == 'i')
+		return_value = ft_print_integer(flags);
 	return (index);
 }
-
-
 
 int		ft_printf(const char *restrict format, ...)
 {
@@ -134,10 +146,13 @@ int		ft_printf(const char *restrict format, ...)
 	va_start(flags->args, format);
 	while (format[index] != '\0')
 	{
-		printf("index: %d\n", index);
+		//printf("index: %d\n", index);
 		if (format[index] == '%')
 		{
-			index += evaluate_format_type(format, flags, index + 1);
+			evaluate_format_type(format, flags, index + 1);
+			index++;
+			//printf("\nindexloop: %d\n", index);
+			//printf("retloop: %d\n", flags->total_length);
 		}
 		else
 		{
@@ -155,15 +170,42 @@ int		ft_printf(const char *restrict format, ...)
 int	main(int ac, char **av)
 {
 	char	*str;
+	int		integer;
 	int		return_value;
+	char	param;
 
 	//str = "5";
-	if (ac == 2)
+	integer = 0;
+
+	str = "sana";
+	integer = 12345;
+	return_value = ft_printf("%s, %d, %c", (const char *restrict)str, integer, str[2]);
+	printf("\noma ret: %d\n", return_value);
+	return_value = printf("%s, %d, %c", (const char *restrict)str, integer, str[2]);
+	printf("\noikee ret: %d\n", return_value);
+/*
+	if (ac == 2 && ft_isalpha(av[1][0]) == 1)
 	{
 		str = ft_strdup(av[1]);
 		return_value = ft_printf("%s", (const char *restrict)str);
 		printf("\nret: %d\n", return_value);
 		return_value = printf("%s", (const char *restrict)str);
+		printf("\nret: %d\n", return_value);
+	}
+	else if (ac == 2 && ft_isdigit(av[1][0]) == 1)
+	{
+		str = ft_strdup(av[1]);
+		return_value = ft_printf("%s", (const char *restrict)str);
+		printf("\nret: %d\n", return_value);
+		return_value = printf("%s", (const char *restrict)str);
+		printf("\nret: %d\n", return_value);
+	}
+	else if (ac == 1)
+	{
+		integer = 12345;
+		return_value = ft_printf("%d", integer);
+		printf("\nret: %d\n", return_value);
+		return_value = printf("%d", integer);
 		printf("\nret: %d\n", return_value);
 	}
 	else
@@ -173,5 +215,5 @@ int	main(int ac, char **av)
 		printf("\nret: %d\n", return_value);
 		return_value = printf("%s", (const char *restrict)str);
 		printf("\nret: %d\n", return_value);
-	}
+	}*/
 }
