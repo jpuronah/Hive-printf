@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 20:27:50 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/15 21:24:16 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/16 12:19:55 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,12 @@ char	*ft_get_string(char *str, int n, double d, t_printf *flags)
 {
 	size_t	i;
 	int		precision;
+	int		precision2;
 
-	printf("itoa\n");
-	precision = flags->precision;
-	printf("diffe: %f\n", d);
+	precision = flags->precision * 2;
+	precision2 = flags->precision;
 	while (d != 0 && precision > 0 && n == 0)
 	{
-		printf("pres :  %d\n", precision);
 		d *= 10;
 		precision--;
 		if (precision == 0)
@@ -96,7 +95,6 @@ char	*ft_get_string(char *str, int n, double d, t_printf *flags)
 	}
 	while (n > 0)
 	{
-		printf("d:: %d\n", (n % 10));
 		str[i--] = (n % 10) + 48;
 		n = n / 10;
 	}
@@ -114,15 +112,12 @@ char	*ft_itoa_double(double dubbel, t_printf *flags)
 	difference = dubbel - (double)n;
 	str1 = NULL;
 	str1 = ft_get_string(str1, n, 0.0, flags);
-	printf("str1: %s\n", str1);
 	str2 = NULL;
 	str2 = ft_get_string(str2, 0, difference, flags);
-	printf("str2: %s\n", str2);
 	if (str2)
 	{
 		str1 = ft_strjoin(str1, ".");
 		str2 = ft_strjoin(str1, str2);
-		printf("str2: %s\n", str2);
 	}
 	else
 		str2 = ft_strdup(str1);

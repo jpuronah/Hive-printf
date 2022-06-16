@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:16:07 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/15 21:24:50 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/16 12:19:26 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ X = va_arg(args, unsigned int)
 
 int	ft_print_float_or_double(t_printf *flags)
 {
-	printf("print_float\n");
+	//printf("print_float\n");
 	char	*s;
 	double	d_num;
 	float	f_num;
@@ -54,7 +54,10 @@ int	ft_print_float_or_double(t_printf *flags)
 
 	index = 0;
 	d_num = va_arg(flags->args, double);
-	printf("%f\n", d_num);
+	char_num = ft_itoa_double(d_num, flags);
+	while (char_num[index])
+		flags->total_length += write(1, &char_num[index++], 1);
+	//printf("%f\n", d_num);
 	/*charteger = ft_itoa(integer);
 	while (charteger[index])
 		flags->total_length += write(1, &charteger[index++], 1);
@@ -64,7 +67,7 @@ int	ft_print_float_or_double(t_printf *flags)
 
 int	ft_print_integer(t_printf *flags)
 {
-	printf("print_integer\n");
+	//printf("print_integer\n");
 	char	*s;
 	int		integer;
 	int		index;
@@ -81,7 +84,7 @@ int	ft_print_integer(t_printf *flags)
 
 int	ft_print_char(t_printf *flags)
 {
-	printf("print_char\n");
+	//printf("print_char\n");
 	int		c;
 	int		index;
 
@@ -94,7 +97,7 @@ int	ft_print_char(t_printf *flags)
 
 int	ft_print_string(t_printf *flags)
 {
-	printf("print_string\n");
+	//printf("print_string\n");
 	char	*s;
 	int		index;
 
@@ -106,19 +109,17 @@ int	ft_print_string(t_printf *flags)
 	return (index);
 }
 
-void	ft_update_flags(t_printf *flags, const char *restrict format)
+void	ft_update_flags(t_printf *flags, const char *restrict format, int index)
 {
 	int	len;
 
 	len = 0;
 	if (flags->precision > 0)
 	{
-		format++;
-		format++;
-		while (ft_isdigit(*format) == 1)
+		if (ft_isdigit(format[index]) == 1)
 		{
 			len++;
-			flags->precision = *(format++) - 48;
+			flags->precision = format[index] - 48;
 		}
 	}
 }
@@ -141,7 +142,7 @@ int		evaluate_format_type(const char *restrict format, t_printf *flags, int inde
 		//space_flag, total_length, width, sign,, precision padding uupuu
 		index++;
 	}
-	ft_update_flags(flags, format);
+	ft_update_flags(flags, format, index - 1);
 	/*ft_update_flags(flags, 1);
 	if (flags->width && !flags->dash)
 		ft_right_side_cs(flags, 0);
@@ -175,20 +176,13 @@ int		ft_printf(const char *restrict format, ...)
 	va_start(flags->args, format);
 	while (format[index] != '\0')
 	{
-		//printf("index: %d\n", index);
 		if (format[index] == '%')
 		{
-			printf("%c%c\n\n", format[index], format[index + 1]);
 			evaluate_format_type(format, flags, index + 1);
 			index++;
-			//printf("\nindexloop: %d\n", index);
-			//printf("retloop: %d\n", flags->total_length);
 		}
 		else
-		{
-			//printf("else");
 			return_value += write(1, &format[index], 1);
-		}
 		index++;
 	}
 	va_end(flags->args);
@@ -213,28 +207,18 @@ int	main(int ac, char **av)
 		return (-1);
 	flags = init_printf_flags(flags);
 	dubbel = 1230.000865;
-	flags->precision = 6;
-	printf("itoa_double: %s\n", ft_itoa_double(dubbel, flags));
-	exit(0);
-	str = "sana";
 	integer = 12345;
+	str = "sana";
 
-
-	exit(0);
-	ft_printf("%i\n", integer);
+	/*ft_printf("%i\n", integer);
 	printf("%i\n\n", integer);
 	ft_printf("%d\n", integer);
 	printf("%d\n\n", integer);
 	ft_printf("%s\n", str);
 	printf("%s\n\n", str);
-	
-
 	ft_printf("%f\n", dubbel);
-	printf("%f\n", dubbel);
-	
-	ft_printf("%f\n", dubbel);
-	printf("%f\n", dubbel);
-	return_value = ft_printf("%s, %d, %c, %i, %f", (const char *restrict)str, integer, str[2], integer / 2, dubbel);
+	printf("%f\n", dubbel);*/
+	return_value = ft_printf("%s, %d, %c, %i, %.4f", (const char *restrict)str, integer, str[2], integer / 2, dubbel);
 	printf("\noma ret: %d\n", return_value);
 	return_value = printf("%s, %d, %c, %i, %f", (const char *restrict)str, integer, str[2], integer / 2, dubbel);
 	printf("\noikee ret: %d\n", return_value);
