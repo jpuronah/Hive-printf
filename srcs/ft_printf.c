@@ -6,13 +6,12 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 16:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/27 19:33:37 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/27 19:43:56 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 //#include <ft_printf.h>
-
 
 void	free_flags(t_printf *flags)
 {
@@ -78,37 +77,37 @@ char	*itoa_base(int value, int base)
 
 static int	conv_hex(int nb)
 {
-  if (nb <= 9)
-    return (nb + '0');
-  return (nb - 10 + 'a');
+	if (nb <= 9)
+		return (nb + '0');
+	return (nb - 10 + 'a');
 }
 
 char		*itoa_hex(long long int value)
 {
-  char	*str;
-  int	n;
-  long long int	nb;
+	char	*str;
+	int	n;
+	long long int	nb;
 
-  nb = value;
-  n = 0;
-  while (nb >= 16)
-    {
-      nb = nb / 16;
-      n++;
-    }
-  str = (char *)malloc((n + 1) * sizeof(str));
-  if (str)
-    {
-      str[n + 1] = '\0';
-      while (n >= 0)
+	nb = value;
+	n = 0;
+	while (nb >= 16)
 	{
-	  nb = value % 16;
-	  str[n] = conv_hex(nb);
-	  value = value / 16;
-	  n--;
+		nb = nb / 16;
+		n++;
 	}
-    }
-  return (str);
+	str = (char *)malloc((n + 1) * sizeof(str));
+	if (str)
+	{
+		str[n + 1] = '\0';
+		while (n >= 0)
+		{
+			nb = value % 16;
+			str[n] = conv_hex(nb);
+			value = value / 16;
+			n--;
+		}
+	}
+	return (str);
 }
 
 void	ft_print_pointer(t_printf *flags)

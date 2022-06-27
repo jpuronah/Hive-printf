@@ -1,3 +1,7 @@
+https://github.com/VcsKadric/Print_F
+tääl plain conversions
+
+
 https://csnotes.medium.com/ft-printf-tutorial-42project-f09b6dc1cd0e
 - ft_printf tutorial — 42 project
 
