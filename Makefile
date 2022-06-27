@@ -1,39 +1,55 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/06/15 17:19:28 by jpuronah          #+#    #+#              #
-#    Updated: 2022/06/15 20:34:33 by jpuronah         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+C = clang
 
-NAME = ft_printf
-SOURCES = ft_printf.c itoa_double.c
-OBJECTIVES = $(SOURCES:.c=.o)
-FLAGS = -Wconversion -Wall -Wextra -Werror
-LIBFT = ./libft/
-LIBFT_A = ./libft/libft.a
+NAME = libftprintf.a
+
+FLAGS = -Wall -Wextra -Werror -O2
+
+LIBFT = libft
+
+DIR_S = srcs
+
+DIR_O = obj
+
+HEADER = includes
+
+SOURCES = ft_printf.c \
+			itoa_double.c \
+			init_set_update_flags.c \
+			printers.c \
+
+OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
 all: $(NAME)
 
 $(NAME):
+	mkdir -p obj
+	cc  -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
+	mkdir -p obj
+	cc  -I includes -o obj/init_set_update_flags.o -c srcs/init_set_update_flags.c
+	mkdir -p obj
+	cc  -I includes -o obj/itoa_double.o -c srcs/itoa_double.c
+	mkdir -p obj
+	cc  -I includes -o obj/printers.o -c srcs/printers.c
+	mkdir -p obj
 	make -C $(LIBFT)
-	gcc -c $(CFLAGS) $(SOURCES)
-	gcc $(OBJECTIVES) $(CFLAGS) -o $(NAME) $(LIBFT_A)
+	cp libft/libft.a ./$(NAME)
+	ar rc $(NAME) $(OBJS)
+	ranlib $(NAME)
 
-nf: 
-	gcc -c $(SOURCES)
-	gcc $(OBJECTIVES) -o $(NAME) $(LIBFT_A)
+test:
+	@make all
+	@gcc -o exe main.c libftprintf.a
+	./exe
 
 clean:
-	/bin/rm -f $(OBJECTIVES)
-	make -C $(LIBFT) clean
+	rm -f $(OBJS)
+	rm -rf $(DIR_O)
+	make clean -C $(LIBFT)
 
 fclean: clean
-	/bin/rm -f $(NAME)
-	make -C $(LIBFT) fclean
+	rm -f $(NAME)
+	make fclean -C $(LIBFT)
 
 re: fclean all
+
+.PHONY: fclean re norme all clean

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 20:27:50 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/16 12:19:55 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/27 16:34:19 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,8 @@ char	*ft_get_string(char *str, int n, double d, t_printf *flags)
 {
 	size_t	i;
 	int		precision;
-	int		precision2;
 
 	precision = flags->precision * 2;
-	precision2 = flags->precision;
 	while (d != 0 && precision > 0 && n == 0)
 	{
 		d *= 10;

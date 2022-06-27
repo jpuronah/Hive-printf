@@ -5,26 +5,50 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/06/14 14:52:31 by jpuronah          #+#    #+#              #
-#    Updated: 2022/06/15 17:13:08 by jpuronah         ###   ########.fr        #
+#    Created: 2022/06/15 17:19:28 by jpuronah          #+#    #+#              #
+#    Updated: 2022/06/27 16:10:26 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_printf
-SOURCES = ft_printf.c
+
+NAME = libftprintf.a
+FLAGS = -Wconversion -Wall -Wextra -Werror -O2
+LIBFT = libft
 OBJECTIVES = $(SOURCES:.c=.o)
-LIBFT = ./libft/
-CFLAGS = -Wall -Wextra -Werror 
+LIBFT_A = ./libft/libft.a
+DIR_s = srcs
+DIR_O = obj
+HEADER = includes
+SOURCES =	srcs/ft_printf.c \
+			srcs/itoa_double.c \
+			srcs/init_set_update_flags.c \
+			srcs/printers.c \
+
+SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
+
+OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): OBJ
 	make -C $(LIBFT)
-	gcc -c $(CFLAGS) $(SOURCES)
-	gcc $(OBJECTIVES) $(CFLAGS) -o $(NAME)
+	gcc -o $(SOURCES)
+	cp libft/libft.a ./$(NAME)
+	ar rc $(NAME) $(OBJS)
+	ranlib $(NAME)
+
+OBJ:
+	$(DIR_S)/%.c $(HEADER)/ft_printf.h
+
+test: $(NAME)
+	gcc -o printf libftprintf.a main.c
+	./printf
+
 nf:
-	gcc -c $(SOURCES)
-	gcc $(OBJECTIVES) -o $(NAME)
+	cp libft/libft.a ./$(NAME)
+	ar rc $(NAME) $(OBJECTIVES)
+	ranlib $(NAME)
+
 clean:
 	/bin/rm -f $(OBJECTIVES)
 	make -C $(LIBFT) clean
