@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/30 12:08:27 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/30 13:41:33 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@
 # define F_MINUS 3
 # define F_ZERO 4
 # define F_ASTERISK 5
+# define F_LONG 6
+# define F_LONGLONG 7
+# define F_SHORT 8
+# define F_SHORTSHORT 9
 
 typedef struct s_flags
 {
@@ -50,21 +54,30 @@ typedef struct s_flags
 typedef struct s_printf
 {
 	va_list		args;
-	char		*format;
+
 	short		flag;
-	int			total_length;
+	int			length;
+	int			precision;
+
 	int			number;
+	int			total_length;
 	int			wordlen;
+
+	char		*format;
 }				t_printf;
 
 int		ft_printf(const char *restrict format, ...);
 void	print_error(char *reason, t_printf *flags);
 
+int		parse_flags(const char *restrict format, int index, t_printf *flags);
+int		parse_width_and_precision(const char *restrict format, int index, t_printf *flags);
+int		parse_h_l(const char *restrict format, int index, t_printf *flags);
 
 void	ft_print_char(t_printf *flags);
 void	ft_print_string(t_printf *flags);
 void	ft_print_integer(t_printf *flags);
 void	check_and_print_flags(t_printf *flags);
+
 
 
 

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/29 13:38:57 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/30 13:56:48 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,20 @@ void	ft_print_string(t_printf *flags)
 
 	index = 0;
 	s = va_arg(flags->args, char *);
+	if (!s)
+		print_null_string(flags);
 	flags->wordlen = ft_strlen(s);
-	check_and_print_flags(flags);
+	//check_and_print_flags(flags);
+
+	//!!!!!!
+	(p->f & F_APP_PRECI) ? len = MIN(p->precision, len) : 0;
+		p->padding = (p->min_length - len) > 0 ? (p->min_length - len) : 0;
+	padding();
 	while (s[index])
 		flags->total_length += write(1, &s[index++], 1);
+	padding();
 	//va_end(flags->args);
-}
+}*/
 
 void	ft_print_integer(t_printf *flags)
 {

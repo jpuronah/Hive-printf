@@ -14,6 +14,7 @@ HEADER = includes
 
 SOURCES = ft_printf.c \
 			printers.c \
+			parser.c \
 
 OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
@@ -25,6 +26,8 @@ $(NAME):
 	@gcc $(FLAGS) -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/printers.o -c srcs/printers.c
+	@mkdir -p obj
+	@gcc  $(FLAGS) -I includes -o obj/parser.o -c srcs/parser.c
 	@mkdir -p obj
 	@echo "\033[32mlibft compiled \033[0m"
 	@cp libft/libft.a ./$(NAME)
@@ -44,6 +47,8 @@ nf:
 	@gcc  -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
 	@mkdir -p obj
 	@gcc  -I includes -o obj/printers.o -c srcs/printers.c
+	@mkdir -p obj
+	@gcc -I includes -o obj/parser.o -c srcs/parser.c
 	@mkdir -p obj
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)

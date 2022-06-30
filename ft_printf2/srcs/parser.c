@@ -6,78 +6,97 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/29 13:45:27 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/30 13:41:15 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static void	field_width_precision(t_printf *p)
+#include "printf.h"
+
+static int	ft_strchri(const char *s, int c, int index)
 {
-	if (48 < *p->format && *p->format < 58)
+	char	*str;
+	char	ch;
+
+	str = (char *)s;
+	ch = (char)c;
+	while (str[index] != '\0')
 	{
-		p->min_length = MAX(1, ft_atoi(p->format));
-		while (47 < *p->format && *p->format < 58)
-			++p->format;
+		if (str[index] == ch)
+			return (index);
+		index++;
 	}
-	if (*p->format == '.')
-	{
-		++p->format;
-		p->precision = MAX(ft_atoi(p->format), 0);
-		while (47 < *p->format && *p->format < 58)
-			++p->format;
-		p->f |= F_APP_PRECI;
-	}
+	return (-1);
 }
 
-static void	parse_flags(t_printf *p)
+int	parse_h_l(const char *restrict format, int index, t_printf *flags)
 {
-	while ((p->n = ft_strchri("# +-0*", *p->format, -1)) > -1 && ++p->format)
-		p->f |= (1 << p->n);
-	((p->f & F_MINUS) && !(p->f & F_WILDCARD)) ? p->f &= ~F_ZERO : 0;
-	(p->f & F_PLUS) ? p->f &= ~F_SPACE : 0;
-	if (p->f & F_WILDCARD)
+	while (1)
 	{
-		p->f &= ~F_WILDCARD;
-		if ((p->n = (int)va_arg(p->ap, int)) < 0)
+		if (format[index] == 'l')
 		{
-			p->f |= F_MINUS;
-			p->n = -p->n;
+			if (format[index + 1] == 'l')
+				flags->flag |= (1 << F_LONGLONG);
+			else
+				flags->flag |= (1 << F_LONG);
 		}
-		else
-			p->f &= ~F_MINUS;
-		if (!(p->f & F_APP_PRECI))
-			p->min_length = p->n;
-		else
+		else if (format[index] == 'h')
 		{
-			p->precision = (!(p->f & F_MINUS)) ? p->n : 0;
-			p->f = (!p->n) ? p->f | F_APP_PRECI : p->f & ~F_APP_PRECI;
+			if (format[index + 1] == 'h')
+				flags->flag = (1 << F_SHORTSHORT);
+			else
+				flags->flag = (1 << F_SHORT);
 		}
-	}
-}
-
-void		parse_optionals(t_printf *p)
-{
-	p->f = 0;
-	p->min_length = 0;
-	p->precision = 1;
-	parse_flags(p);
-	field_width_precision(p);
-	while (42)
-	{
-		if (*p->format == 'l')
-			p->f |= (p->format[1] == 'l' && ++p->format) ? F_LONG2 : F_LONG;
-		else if (*p->format == 'h')
-			p->f |= (p->format[1] == 'h' && ++p->format) ? F_SHORT2 : F_SHORT;
-		else if (*p->format == 'j')
-			p->f |= F_INTMAX;
-		else if (*p->format == 'z')
-			p->f |= F_SIZE_T;
 		else
 			break ;
-		++p->format;
+		index++;
 	}
-	parse_flags(p);
-	(p->f & F_PLUS) ? p->f &= ~F_SPACE : 0;
-	if (ft_strchr("CDSUOBX", *p->format))
-		p->f |= (*p->format != 'X') ? F_LONG : F_UPCASE;
-	conversion_specifier(p);
+	if (flags->flag & (1 << F_SHORT) || flags->flag & (1 << F_SHORTSHORT) || flags->flag & (1 << F_LONG) || flags->flag & (1 << F_LONGLONG))
+		printf("flag short/long found: %d\n", flags->flag);
+	return (index);
+}
+
+int	parse_width_and_precision(const char *restrict format, int index, t_printf *flags)
+{
+	if (ft_isdigit(format[index + 1]) == 1 && format[index + 1] != '0')
+	{
+		flags->length = ft_atoi(ft_strsub(format, index + 1, 10));
+		printf("flags->length found: %d\n", flags->length);
+		while (ft_isdigit(format[index++ + 1]))
+			;
+	}
+	if (format[index + 1] != '.')
+	{
+		if (ft_atoi(ft_strsub(format, index + 1, 10)) > 0)
+			flags->precision = ft_atoi(ft_strsub(format, index + 1, 10));
+		printf("flags->precision found: %d\n", flags->precision);
+		while (ft_isdigit(format[index++ + 1]))
+			;
+	}
+	return (index);
+}
+
+int	parse_flags(const char *restrict format, int index, t_printf *flags)
+{
+	int		tmp;
+
+	printf(" INDEX  ***BEFORE*** parse_flags: %d\n", index);
+	tmp = ft_strchri("# +-0*", format[index + 1], 0);
+	while (tmp > -1)
+	{
+		flags->flag |= (1 << tmp);
+		tmp = ft_strchri("# +-0*", format[++index + 1], 0);
+	}
+	if (flags->flag & (1 << F_PREFIX))
+		printf("macro def flag found: |%c|\n", format[index]);
+	if (flags->flag & (1 << F_SPACE))
+		printf("macro def flag found: |%c|\n", format[index]);
+	if (flags->flag & (1 << F_PLUS))
+		printf("macro def flag found: |%c|\n", format[index]);
+	if (flags->flag & (1 << F_MINUS))
+		printf("macro def flag found: |%c|\n", format[index]);
+	if (flags->flag & (1 << F_ZERO))
+		printf("macro def flag found: |%c|\n", format[index]);
+	if (flags->flag & (1 << F_ASTERISK))
+		printf("macro def flag found: |%c|\n", format[index]);
+	return (index);
 }
