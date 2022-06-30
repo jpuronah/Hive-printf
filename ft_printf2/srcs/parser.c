@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/30 13:41:15 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/30 16:21:30 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,30 @@ int	parse_h_l(const char *restrict format, int index, t_printf *flags)
 
 int	parse_width_and_precision(const char *restrict format, int index, t_printf *flags)
 {
+	//printf("wprec: %c\n", format[index]);
 	if (ft_isdigit(format[index + 1]) == 1 && format[index + 1] != '0')
 	{
-		flags->length = ft_atoi(ft_strsub(format, index + 1, 10));
-		printf("flags->length found: %d\n", flags->length);
-		while (ft_isdigit(format[index++ + 1]))
-			;
+		index++;
+		//printf("ylä wprec: %c\n", format[index]);
+		if (ft_atoi(ft_strsub(format, index, 10)) > 0)
+			flags->length = ft_atoi(ft_strsub(format, index, 10));
+		//printf("flags->length found: %d\n", flags->length);
+		while (ft_isdigit(format[index]) == 1)
+		{
+			index++;
+			//printf("loopylä wprec: %c\n", format[index]);
+		}
 	}
-	if (format[index + 1] != '.')
+	if (format[index + 1] == '.')
 	{
+		//printf("al wprec: %c\n", format[index]);
 		if (ft_atoi(ft_strsub(format, index + 1, 10)) > 0)
 			flags->precision = ft_atoi(ft_strsub(format, index + 1, 10));
-		printf("flags->precision found: %d\n", flags->precision);
-		while (ft_isdigit(format[index++ + 1]))
-			;
+		//printf("flags->precision found: %d\n", flags->precision);
+		while (ft_isdigit(format[index + 1]) == 1)
+			index++;
 	}
+	//printf("ala wprec: %c\n", format[index]);
 	return (index);
 }
 
@@ -79,7 +88,7 @@ int	parse_flags(const char *restrict format, int index, t_printf *flags)
 {
 	int		tmp;
 
-	printf(" INDEX  ***BEFORE*** parse_flags: %d\n", index);
+	//printf(" INDEX  ***BEFORE*** parse_flags: %d\n", index);
 	tmp = ft_strchri("# +-0*", format[index + 1], 0);
 	while (tmp > -1)
 	{

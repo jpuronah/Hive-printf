@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/30 13:56:48 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/30 16:22:08 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,62 @@ void	ft_print_char(t_printf *flags)
 	//va_end(flags->args);
 }
 
+void	print_null_string(char *string, t_printf *flags)
+{
+	if (!string)
+	{
+		if (!(flags->flag & (1 << F_ZERO)))
+			write(1, "(null)", 6);
+		else
+			while (flags->length--)
+				write(1, "0", 1);
+	}
+	else
+		write(1, string, (int)ft_strlen(string));
+}
+
+void	padding(t_printf *flags, int phase)
+{
+	if (flags->padding > 0)
+	{
+		if (!phase && !(flags->flag & (1 << F_MINUS)))
+		{
+			while (flags->padding > 0)
+			{
+				write(1, " ", 1);
+				flags->padding--;
+			}
+		}
+		else if (phase && (flags->flag & (1 << F_MINUS)))
+		{
+			while (flags->padding > 0)
+			{
+				write(1, " ", 1);
+				flags->padding--;
+			}
+		}
+	}
+}
+
 void	ft_print_string(t_printf *flags)
 {
-	char	*s;
+	char	*string;
 	int		index;
 
 	index = 0;
-	s = va_arg(flags->args, char *);
-	if (!s)
-		print_null_string(flags);
-	flags->wordlen = ft_strlen(s);
-	//check_and_print_flags(flags);
-
-	//!!!!!!
-	(p->f & F_APP_PRECI) ? len = MIN(p->precision, len) : 0;
-		p->padding = (p->min_length - len) > 0 ? (p->min_length - len) : 0;
-	padding();
-	while (s[index])
-		flags->total_length += write(1, &s[index++], 1);
-	padding();
-	//va_end(flags->args);
-}*/
+	string = va_arg(flags->args, char *);
+	if (!string)
+		print_null_string(string, flags);
+	flags->wordlen = ft_strlen(string);
+	if ((flags->wordlen - flags->precision) > 0)
+		flags->padding = (flags->length - flags->wordlen);
+	else
+		flags->padding = 0;
+	padding(flags, 0);
+	while (string[index])
+		flags->total_length += write(1, &string[index++], 1);
+	padding(flags, 1);
+}
 
 void	ft_print_integer(t_printf *flags)
 {

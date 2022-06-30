@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/30 13:41:33 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/30 16:02:23 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_printf
 	short		flag;
 	int			length;
 	int			precision;
+	int			padding;
 
 	int			number;
 	int			total_length;

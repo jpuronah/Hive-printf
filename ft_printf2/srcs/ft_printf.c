@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/30 13:47:20 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/30 16:21:55 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static t_printf	*init_and_malloc_flags(void)
 	flags->total_length = 0;
 	flags->length = 0;
 	flags->precision = 0;
+	flags->padding = 0;
 	flags->number = 0;
 	flags->wordlen = 0;
 	return (flags);
@@ -66,18 +67,13 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 
 int	evaluate_format_type(const char *restrict format, int index, t_printf *flags)
 {
-	char	next;
-	char	next_plus_flags;
-
-	next = format[index + 1];
 	index = parse_flags(format, index, flags);
-		printf(" INDEX  ***BEFORE*** width_precision: %d\n", index);
+		//printf(" INDEX  ***BEFORE*** width_precision: %d\n", index);
 	index = parse_width_and_precision(format, index, flags);
-		printf(" INDEX  ***AFTER*** width_precision: %d\n", index);
-		printf(" INDEX  ***BEFORE*** parse_h_l: %d\n", index);
+		//printf(" INDEX  ***AFTER*** width_precision: %d\n", index);
+		//printf(" INDEX  ***BEFORE*** parse_h_l: %d\n", index);
 	index = parse_h_l(format, index, flags);
-		printf(" INDEX  ***AFTER*** parse_h_l: %d\n", index);
-	next_plus_flags = format[index];
+		//printf(" INDEX  ***AFTER*** parse_h_l: %d\n", index);
 	index += conversion_specifiers(format, index, flags);
 	return (index);
 }
