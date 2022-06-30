@@ -24,6 +24,8 @@ $(NAME):
 	@mkdir -p obj
 	@gcc $(FLAGS) -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
 	@mkdir -p obj
+	@gcc  $(FLAGS) -I includes -o obj/printers.o -c srcs/printers.c
+	@mkdir -p obj
 	@echo "\033[32mlibft compiled \033[0m"
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)
@@ -35,6 +37,7 @@ test:
 	@echo "\033[32m main & printf linked and runned \033[0m"
 	@gcc -o exe main.c libftprintf.a
 	./exe
+
 
 nf:
 	@mkdir -p obj
