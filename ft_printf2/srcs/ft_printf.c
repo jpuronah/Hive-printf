@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/30 16:21:55 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/06/30 18:33:34 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,38 +43,37 @@ static t_printf	*init_and_malloc_flags(void)
 	flags->padding = 0;
 	flags->number = 0;
 	flags->wordlen = 0;
+	flags->charlen = 0;
 	return (flags);
-}
-
-void	check_and_print_flags(t_printf *flags)
-{
-	while (flags->number-- - flags->wordlen > 0)
-		write(1, " ", 1);
 }
 
 static int	conversion_specifiers(const char *restrict format, int index, t_printf *flags)
 {
 	//"cspdiouxXfnh%"
+	//printf("CONVERSION_SPECIFIER:     index: |%c|\n", format[index]);
 	if (format[index] == 's')
 		ft_print_string(flags);	//'°ÅÄ¶' etc char ---->  ft_put_weird_string ?
 	else if (format[index] == 'c' || format[index] == 'C')
-		ft_print_char(flags);
+		ft_print_char(flags, 0);
 	else if (format[index] == 'd' || format[index] == 'i' || format[index] == 'D')
 		ft_print_integer(flags);
-	check_and_print_flags(flags);
-	return (0);
+	else if (format[index] == '%')
+		ft_print_char(flags, '%');
+	return (index);
 }
 
 int	evaluate_format_type(const char *restrict format, int index, t_printf *flags)
 {
+	if (format[index] == '%')
+		index++;
 	index = parse_flags(format, index, flags);
-		//printf(" INDEX  ***BEFORE*** width_precision: %d\n", index);
+		//printf("     INDEX  ***BEFORE*** width_precision: %d\n", index);
 	index = parse_width_and_precision(format, index, flags);
-		//printf(" INDEX  ***AFTER*** width_precision: %d\n", index);
-		//printf(" INDEX  ***BEFORE*** parse_h_l: %d\n", index);
+		//printf("     INDEX  ***AFTER*** width_precision: %d\n", index);
+		//printf("     INDEX  ***BEFORE*** parse_h_l: %d\n", index);
 	index = parse_h_l(format, index, flags);
-		//printf(" INDEX  ***AFTER*** parse_h_l: %d\n", index);
-	index += conversion_specifiers(format, index, flags);
+		//printf("     INDEX  ***AFTER*** parse_h_l: %d\n", index);
+	index = conversion_specifiers(format, index, flags);
 	return (index);
 }
 
@@ -99,7 +98,7 @@ int	ft_printf(const char *restrict format, ...)
 		index++;
 	}
 	va_end(flags->args);
-	return_value +=flags->total_length;
+	return_value += flags->total_length;
 	free_flags(flags);
 	return (return_value);
 }

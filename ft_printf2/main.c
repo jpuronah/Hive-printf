@@ -16,9 +16,16 @@ int	main(int ac, char **av)
 	str = "sana";
 
 	printf("own printf:\n");
-	ft_printf("%10saa\n", str);
-	printf("real printf:\n");
-	printf("%10saa\n", str);
+	ft_printf("%%");
+	printf("|\n**********************\n");
+	/*ft_printf("%c", 'a');
+	printf("|\n**********************\n");
+	ft_printf("%%");
+	printf("|\n**********************\n");*/
+
+	printf("\nreal printf:\n");
+	printf("%%");
+	printf("|\n**********************\n");
 	/*return_value = ft_printf("%p, %%, %s, %d, %c, %i, %.1f", str, (const char *restrict)str, integer, str[2], integer / 2, dubbel);
 	printf("\noma ret: %d\n", return_value);
 	return_value = printf("%p, %%, %s, %d, %c, %i, %.1f", str, (const char *restrict)str, integer, str[2], integer / 2, dubbel);
