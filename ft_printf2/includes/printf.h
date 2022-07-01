@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/30 17:21:46 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/01 14:02:13 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define F_LONGLONG 7
 # define F_SHORT 8
 # define F_SHORTSHORT 9
+# define F_CAPS_ON 10
 
 typedef struct s_flags
 {
@@ -78,22 +79,7 @@ int		parse_h_l(const char *restrict format, int index, t_printf *flags);
 void	ft_print_char(t_printf *flags, char ch);
 void	ft_print_string(t_printf *flags);
 void	ft_print_integer(t_printf *flags);
+void	ft_print_hexa(t_printf *flags, char format);
 void	check_and_print_flags(t_printf *flags);
-
-
-
-
-/*t_printf	*init_printf_flags(t_printf *flags);
-void		ft_update_flags(t_printf *flags, const char *restrict format, int index);
-void		set_flags(const char *format, int index, t_printf *flags);
-
-void		ft_print_float_or_double(t_printf *flags);
-void		ft_print_integer(t_printf *flags);
-void		ft_print_char(t_printf *flags);
-void		ft_print_percent(t_printf *flags, char percent);
-void		ft_print_string(t_printf *flags);
-
-
-*/
 
 #endif
