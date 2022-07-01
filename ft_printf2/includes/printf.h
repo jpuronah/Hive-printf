@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/01 14:02:13 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/01 14:49:23 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,9 @@ void	ft_print_string(t_printf *flags);
 void	ft_print_integer(t_printf *flags);
 void	ft_print_hexa(t_printf *flags, char format);
 void	check_and_print_flags(t_printf *flags);
+
+void	padding(t_printf *flags, int phase);
+
+int		ft_strchri(const char *s, int c, int index);
 
 #endif

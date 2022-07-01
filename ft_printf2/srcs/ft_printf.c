@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/01 13:42:11 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/01 15:01:35 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,21 @@ static void	free_flags(t_printf *flags)
 {
 	if (flags)
 	{
+		free(flags->format);
 		free(flags);
 		flags = NULL;
 	}
 }
 
+/*
 void	print_error(char *reason, t_printf *flags)
 {
 	ft_putendl(reason);
 	free_flags(flags);
 	exit(1);
-}
+}*/
 
-static t_printf	*init_and_malloc_flags(void)
+static t_printf	*init_and_malloc_structure(void)
 {
 	t_printf	*flags;
 
@@ -64,7 +66,7 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 	return (index);
 }
 
-int	evaluate_format_type(const char *restrict format, int index, t_printf *flags)
+static int	evaluate_format_type(const char *restrict format, int index, t_printf *flags)
 {
 	if (format[index] == '%')
 		index++;
@@ -87,7 +89,7 @@ int	ft_printf(const char *restrict format, ...)
 
 	flags = NULL;
 	//ft_bzero(flags, sizeof(flags)); tarvii bitwise_memsetin
-	flags = init_and_malloc_flags();
+	flags = init_and_malloc_structure();
 	index = 0;
 	return_value = 0;
 	va_start(flags->args, format);

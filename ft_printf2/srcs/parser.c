@@ -6,27 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/30 18:37:44 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/01 14:44:18 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
-
-static int	ft_strchri(const char *s, int c, int index)
-{
-	char	*str;
-	char	ch;
-
-	str = (char *)s;
-	ch = (char)c;
-	while (str[index] != '\0')
-	{
-		if (str[index] == ch)
-			return (index);
-		index++;
-	}
-	return (-1);
-}
 
 int	parse_h_l(const char *restrict format, int index, t_printf *flags)
 {
