@@ -6,11 +6,13 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/01 14:45:49 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/04 21:51:43 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
+
+/* CHARTEGER stuff gotta be gone */
 
 void	ft_print_integer(t_printf *flags)
 {
@@ -30,6 +32,8 @@ void	ft_print_integer(t_printf *flags)
 	while (charteger[index])
 		flags->total_length += write(1, &charteger[index++], 1);
 	padding(flags, 1);
+	free(charteger);
+	charteger = NULL;
 }
 
 
@@ -77,8 +81,8 @@ void	ft_print_hexa(t_printf *flags, char format)
 	char	caps;
 
 	index = 0;
-	if (format == 'X')
-		flags->flag = (1 << F_CAPS_ON);
+	//if (format == 'X')
+	//	flags->flag = (1 << F_CAPS_ON);
 	integer = va_arg(flags->args, int);
 	charteger = itoa_hexadecimal(integer);
 	flags->wordlen = ft_strlen(charteger);
@@ -99,4 +103,6 @@ void	ft_print_hexa(t_printf *flags, char format)
 		index++;
 	}
 	padding(flags, 1);
+	free(charteger);
+	charteger = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/01 14:44:18 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/04 21:47:15 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	parse_h_l(const char *restrict format, int index, t_printf *flags)
 	}
 	return (index);
 }
-
+/*
 int	parse_width_and_precision(const char *restrict format, int index, t_printf *flags)
 {
 	//printf("PARSE_WIDTH_AND_PRECISION:     index: |%c|\n", format[index]);
@@ -69,6 +69,36 @@ int	parse_width_and_precision(const char *restrict format, int index, t_printf *
 		index++;
 	}
 	//printf("ala wprec: %c\n", format[index]);
+	return (index);
+}
+*/
+
+int	parse_width_and_precision(const char *restrict format, int index, t_printf *flags)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = ft_strsub(format, index, 10);
+	if (ft_isdigit(format[index]) == 1 && format[index] != '0')
+	{
+		if (ft_atoi(tmp) > 0)
+			flags->length = ft_atoi(tmp);
+		while (ft_isdigit(format[index]) == 1)
+			index++;
+	}
+	free(tmp);
+	tmp = NULL;
+	tmp = ft_strsub(format, index + 1, 10);
+	if (format[index] == '.')
+	{
+		if (ft_atoi(tmp) > 0)
+			flags->precision = ft_atoi(tmp);
+		while (ft_isdigit(format[index + 1]) == 1)
+			index++;
+		index++;
+	}
+	free(tmp);
+	tmp = NULL;
 	return (index);
 }
 

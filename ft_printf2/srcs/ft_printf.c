@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/01 15:01:35 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/04 21:38:29 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 	else if (format[index] == 'c' || format[index] == 'C')
 		ft_print_char(flags, 0);
 	else if (format[index] == 'd' || format[index] == 'i' || format[index] == 'D')
+	{
 		ft_print_integer(flags);
+	}
 	else if (format[index] == 'x' || format[index] == 'X')
 		ft_print_hexa(flags, format[index]);
 	else if (format[index] == '%')
