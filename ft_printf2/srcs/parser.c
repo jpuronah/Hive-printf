@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/04 21:47:15 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 15:54:14 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,29 @@ int	parse_h_l(const char *restrict format, int index, t_printf *flags)
 		if (format[index] == 'l')
 		{
 			if (format[index + 1] == 'l')
-				flags->flag |= (1 << F_LONGLONG);
+			{
+				//printf("lonlong\n");
+				flags->num_type |= (1 << F_LONGLONG);
+			}
 			else
-				flags->flag |= (1 << F_LONG);
+				flags->num_type |= (1 << F_LONG);
 		}
 		else if (format[index] == 'h')
 		{
 			if (format[index + 1] == 'h')
-				flags->flag = (1 << F_SHORTSHORT);
+				flags->num_type = (1 << F_SHORTSHORT);
 			else
-				flags->flag = (1 << F_SHORT);
+				flags->num_type = (1 << F_SHORT);
 		}
 		else
 			break ;
 		index++;
 	}
-	if (flags->flag & (1 << F_SHORT) || flags->flag & (1 << F_SHORTSHORT) || flags->flag & (1 << F_LONG) || flags->flag & (1 << F_LONGLONG))
+	//printf("%d, %hd\n", flags->flag, flags->num_type);
+	/*if (flags->flag & (1 << F_SHORT) || flags->flag & (1 << F_SHORTSHORT) || flags->flag & (1 << F_LONG) || flags->flag & (1 << F_LONGLONG))
 	{
 		//printf("flag short/long found: %d\n", flags->flag);
-	}
+	}*/
 	return (index);
 }
 /*
@@ -60,9 +64,9 @@ int	parse_width_and_precision(const char *restrict format, int index, t_printf *
 	}
 	if (format[index] == '.')
 	{
-		//printf("ala wprec: %c\n", format[index]);
 		if (ft_atoi(ft_strsub(format, index + 1, 10)))
 			flags->precision = ft_atoi(ft_strsub(format, index + 1, 10));
+		//printf("ala wprec: %c\n", format[index]);
 		//printf("precision: %d\n", flags->precision);
 		while (ft_isdigit(format[index + 1]) == 1)
 			index++;
@@ -79,6 +83,7 @@ int	parse_width_and_precision(const char *restrict format, int index, t_printf *
 
 	tmp = NULL;
 	tmp = ft_strsub(format, index, 10);
+	//printf("PARSE_WIDTH_AND_PRECISION:     index: |%c|\n", format[index]);
 	if (ft_isdigit(format[index]) == 1 && format[index] != '0')
 	{
 		if (ft_atoi(tmp) > 0)
@@ -99,6 +104,8 @@ int	parse_width_and_precision(const char *restrict format, int index, t_printf *
 	}
 	free(tmp);
 	tmp = NULL;
+//	printf("length: %d\n", flags->length);
+//	printf("precision: %d\n", flags->precision);
 	return (index);
 }
 
@@ -108,14 +115,38 @@ int	parse_flags(const char *restrict format, int index, t_printf *flags)
 
 	//printf("PARSE_FLAGS:     index: |%c|\n", format[index]);
 	//printf(" INDEX  ***BEFORE*** parse_flags: %d\n", index);
+//	printf("flags: %c\n", format[index]);
 	tmp = ft_strchri("# +-0*", format[index], 0);
-	while (tmp > -1)
+	//printf("tmp: %d\n", tmp);
+	// Whats the logic here?!?! xdd
+	if (tmp > -1)
 	{
 		flags->flag |= (1 << tmp);
-		tmp = ft_strchri("# +-0*", format[++index], 0);
+		while (ft_strchr("# +-0*", format[index]) != NULL)
+		{
+			//printf("flags: |%c|\n", format[index]);
+			index++;
+		}
 	}
-	if (flags->flag & (1 << F_ZERO))
+	//printf("flag: %d\n", flags->flag);
+	/*printf("tmp: %d\n", tmp);
+	printf("flag: %d\n", flags->flag);
+	printf("%d\n", (1 << F_SPACE));
+	printf("%d\n", (1 << F_PLUS));*/
+	//index--;
+	while (format[index] == '0')//flags->flag & (1 << F_ZERO))
+	{
+		//printf("if\n");
 		index++;
+	}
+	if (flags->flag & (1 << F_SPACE) && ~flags->flag & (1 << F_PLUS))
+		flags->total_length += write(1, " ", 1);
+	if (flags->flag & (1 << F_PLUS))
+		flags->total_length += write(1, "+", 1);
+	/*if (flags->flag & (1 << F_SPACE) && ~flags->flag & (1 << F_PLUS))
+		flags->total_length += write(1, " ", 1);
+	if (flags->flag & (1 << F_PLUS))
+		flags->total_length += write(1, "+", 1);*/
 	/*
 	if (flags->flag & (1 << F_PREFIX))
 		printf("macro def flag found: |%c|\n", format[index]);

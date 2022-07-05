@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/04 21:38:29 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 15:54:01 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static t_printf	*init_and_malloc_structure(void)
 	if (flags == NULL)
 		return (NULL);
 	flags->flag = 0;
+	flags->num_type = 0;
 	flags->total_length = 0;
 	flags->length = 0;
 	flags->precision = 0;
@@ -57,9 +58,12 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 		ft_print_string(flags);	//'°ÅÄ¶' etc char ---->  ft_put_weird_string ?
 	else if (format[index] == 'c' || format[index] == 'C')
 		ft_print_char(flags, 0);
-	else if (format[index] == 'd' || format[index] == 'i' || format[index] == 'D')
+	else if ((format[index] == 'd' || format[index] == 'i' || format[index] == 'D'))
 	{
-		ft_print_integer(flags);
+		if (flags->num_type & (1 << F_LONG) || flags->num_type & (1 << F_LONGLONG))
+			ft_print_long_long(flags);
+		else
+			ft_print_integer(flags);
 	}
 	else if (format[index] == 'x' || format[index] == 'X')
 		ft_print_hexa(flags, format[index]);

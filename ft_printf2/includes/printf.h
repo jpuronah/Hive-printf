@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/01 14:49:23 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 15:52:42 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_printf
 	va_list		args;
 
 	short		flag;
+	short		num_type;
 	int			length;
 	int			precision;
 	int			padding;
@@ -79,11 +80,13 @@ int		parse_h_l(const char *restrict format, int index, t_printf *flags);
 void	ft_print_char(t_printf *flags, char ch);
 void	ft_print_string(t_printf *flags);
 void	ft_print_integer(t_printf *flags);
+void	ft_print_long_long(t_printf *flags);
 void	ft_print_hexa(t_printf *flags, char format);
 void	check_and_print_flags(t_printf *flags);
 
 void	padding(t_printf *flags, int phase);
 
 int		ft_strchri(const char *s, int c, int index);
+char	*ft_itoa_long_long(long long n);
 
 #endif

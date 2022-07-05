@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/01 15:06:33 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 10:22:18 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ void	print_null_string(char *string, t_printf *flags)
 	if (!string)
 	{
 		if (!(flags->flag & (1 << F_ZERO)))
-			write(1, "(null)", 6);
+			flags->total_length += write(1, "(null)", 6);
 		else
 			while (flags->length--)
-				write(1, "0", 1);
+				flags->total_length += write(1, "0", 1);
 	}
 	else
-		write(1, string, (int)ft_strlen(string));
+		flags->total_length += write(1, string, (int)ft_strlen(string));
 }
 
 void	ft_print_string(t_printf *flags)
@@ -85,16 +85,15 @@ void	ft_print_string(t_printf *flags)
 	string = va_arg(flags->args, char *);
 	//printf("string: %s\n", string);
 	if (!string)
-	{
 		print_null_string(string, flags);
-	}
 	else
 	{
 		flags->wordlen = ft_strlen(string);
-		if ((flags->length - flags->precision) > 0)
-			flags->padding = (flags->length - (flags->wordlen - flags->precision));
+		//if ((flags->length - flags->precision) > 0)
+		if ((flags->wordlen - flags->precision) > 0)
+			flags->padding = (flags->length) - (flags->wordlen - flags->precision);
 		else
-			flags->padding = 0;
+			flags->padding = flags->length;
 		/*printf("%d\n", flags->length);
 		printf("%d\n", flags->wordlen);
 		printf("%d\n", flags->precision);*/

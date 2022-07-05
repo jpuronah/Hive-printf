@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/04 21:51:43 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 15:53:34 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,61 @@
 
 /* CHARTEGER stuff gotta be gone */
 
+void	ft_print_long_long(t_printf *flags)
+{
+	long		long_num;
+	long long	longlong_num;
+	char		*charteger_l;
+	char		*charteger_ll;
+	int			index;
+
+	charteger_l = NULL;
+	charteger_ll = NULL;
+	index = 0;
+	if (flags->num_type & (1 << F_LONG))
+	{
+		long_num = va_arg(flags->args, long);
+		charteger_l = ft_itoa_long_long(long_num);
+		flags->wordlen = ft_strlen(charteger_l);
+		if ((flags->wordlen - flags->precision) > 0)
+			flags->padding = (flags->length - flags->wordlen);
+		else
+			flags->padding = 0;
+		padding(flags, 0);
+		while (charteger_l[index] && (flags->num_type & (1 << F_LONG)))
+			flags->total_length += write(1, &charteger_l[index++], 1);
+		padding(flags, 1);
+	}
+	else
+	{
+		longlong_num = va_arg(flags->args, long long);
+		charteger_ll = ft_itoa_long_long(longlong_num);
+		flags->wordlen = ft_strlen(charteger_ll);
+		if ((flags->wordlen - flags->precision) > 0)
+			flags->padding = (flags->length - flags->wordlen);
+		else
+			flags->padding = 0;
+		padding(flags, 0);
+		while (charteger_ll[index] && (flags->num_type & (1 << F_LONG)))
+			flags->total_length += write(1, &charteger_ll[index++], 1);
+		padding(flags, 1);
+	}
+	if (charteger_l)
+		free(charteger_l);
+	if (charteger_ll)
+		free(charteger_ll);
+	charteger_l = NULL;
+	charteger_ll = NULL;
+}
+
 void	ft_print_integer(t_printf *flags)
 {
-	int		integer;
-	char	*charteger;
-	int		index;
+	int			integer;
+	char		*charteger;
+	int			index;
 
 	index = 0;
+	charteger = NULL;
 	integer = va_arg(flags->args, int);
 	charteger = ft_itoa(integer);
 	flags->wordlen = ft_strlen(charteger);
@@ -81,8 +129,8 @@ void	ft_print_hexa(t_printf *flags, char format)
 	char	caps;
 
 	index = 0;
-	//if (format == 'X')
-	//	flags->flag = (1 << F_CAPS_ON);
+	if (format == 'X')
+		flags->flag = (1 << F_CAPS_ON);
 	integer = va_arg(flags->args, int);
 	charteger = itoa_hexadecimal(integer);
 	flags->wordlen = ft_strlen(charteger);
