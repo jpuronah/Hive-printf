@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 15:54:14 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:57:50 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int	parse_flags(const char *restrict format, int index, t_printf *flags)
 	//printf("PARSE_FLAGS:     index: |%c|\n", format[index]);
 	//printf(" INDEX  ***BEFORE*** parse_flags: %d\n", index);
 //	printf("flags: %c\n", format[index]);
+	tmp = -1;
 	tmp = ft_strchri("# +-0*", format[index], 0);
 	//printf("tmp: %d\n", tmp);
 	// Whats the logic here?!?! xdd
@@ -128,7 +129,7 @@ int	parse_flags(const char *restrict format, int index, t_printf *flags)
 			index++;
 		}
 	}
-	//printf("flag: %d\n", flags->flag);
+	//printf("flag<: %d\n", flags->flag);
 	/*printf("tmp: %d\n", tmp);
 	printf("flag: %d\n", flags->flag);
 	printf("%d\n", (1 << F_SPACE));
@@ -143,6 +144,11 @@ int	parse_flags(const char *restrict format, int index, t_printf *flags)
 		flags->total_length += write(1, " ", 1);
 	if (flags->flag & (1 << F_PLUS))
 		flags->total_length += write(1, "+", 1);
+	if (flags->flag & (1 << F_PREFIX))
+	{
+		//printf("oasad\n");
+		//index++;
+	}
 	/*if (flags->flag & (1 << F_SPACE) && ~flags->flag & (1 << F_PLUS))
 		flags->total_length += write(1, " ", 1);
 	if (flags->flag & (1 << F_PLUS))

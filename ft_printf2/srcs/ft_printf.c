@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 15:54:01 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:59:21 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static t_printf	*init_and_malloc_structure(void)
 	flags->number = 0;
 	flags->wordlen = 0;
 	flags->charlen = 0;
+	flags->caps_on = 0;
 	return (flags);
 }
 
@@ -67,6 +68,8 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 	}
 	else if (format[index] == 'x' || format[index] == 'X')
 		ft_print_hexa(flags, format[index]);
+	else if (format[index] == 'o')// || format[index] == 'O')
+		ft_print_octal(flags);
 	else if (format[index] == '%')
 		ft_print_char(flags, '%');
 	return (index);

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 15:53:34 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 17:02:00 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ void	ft_print_integer(t_printf *flags)
 	charteger = NULL;
 }
 
-
-static int	conv_hex(int num)
+static int	convert_hex(int num)
 {
 	if (num <= 9)
 		return (num + '0');
@@ -112,7 +111,7 @@ char		*itoa_hexadecimal(long long int value)
 		while (n >= 0)
 		{
 			num = value % 16;
-			str[n] = conv_hex(num);
+			str[n] = convert_hex(num);
 			value = value / 16;
 			n--;
 		}
@@ -128,9 +127,11 @@ void	ft_print_hexa(t_printf *flags, char format)
 	char	*charteger;
 	char	caps;
 
+	//printf("asdflags: %c\n", format);
 	index = 0;
+	//printf("flag: %d\n", flags->flag);
 	if (format == 'X')
-		flags->flag = (1 << F_CAPS_ON);
+		flags->caps_on = 1;
 	integer = va_arg(flags->args, int);
 	charteger = itoa_hexadecimal(integer);
 	flags->wordlen = ft_strlen(charteger);
@@ -141,7 +142,12 @@ void	ft_print_hexa(t_printf *flags, char format)
 	padding(flags, 0);
 	while (charteger[index])
 	{
-		if (flags->flag & (1 << F_CAPS_ON) && ft_isalpha(charteger[index]) == 1)
+		//printf("flag: %d\n", flags->flag);
+		if (index == 0 && flags->caps_on == 1 && flags->flag & (1 << F_PREFIX))
+			flags->total_length += write(1, "0X", 2);
+		else if (index == 0 && flags->caps_on == 0 && flags->flag & (1 << F_PREFIX))
+			flags->total_length += write(1, "0x", 2);
+		if (flags->caps_on == 1 && ft_isalpha(charteger[index]) == 1)
 		{
 			caps = charteger[index] - 32;
 			flags->total_length += write(1, &caps, 1);

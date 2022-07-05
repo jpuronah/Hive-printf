@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 15:52:42 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:55:17 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_printf
 	int			length;
 	int			precision;
 	int			padding;
+	int			caps_on;
 
 	int			number;
 	int			total_length;
@@ -82,6 +83,7 @@ void	ft_print_string(t_printf *flags);
 void	ft_print_integer(t_printf *flags);
 void	ft_print_long_long(t_printf *flags);
 void	ft_print_hexa(t_printf *flags, char format);
+void	ft_print_octal(t_printf *flags);
 void	check_and_print_flags(t_printf *flags);
 
 void	padding(t_printf *flags, int phase);

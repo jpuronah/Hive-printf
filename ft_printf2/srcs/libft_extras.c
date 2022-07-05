@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 15:40:55 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:58:13 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_strchri(const char *s, int c, int index)
 			ret = index;
 		index++;
 	}
-	if (ret > 0)
+	if (ret > -1)
 		return (ret);
 	return (-1);
 }
