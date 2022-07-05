@@ -6,11 +6,18 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 16:08:14 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 16:56:53 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 17:29:54 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
+
+void	ft_print_float_double(t_printf *flags)
+{
+	if (flags)
+		exit(0);
+	exit(1);
+}
 
 char	*ft_itoa_octal(int num)
 {
@@ -48,7 +55,11 @@ void	ft_print_octal(t_printf *flags)
 	charteger = ft_itoa_octal(integer);
 	flags->wordlen = ft_strlen(charteger);
 	if ((flags->wordlen - flags->precision) > 0)
+	{
 		flags->padding = (flags->length - flags->wordlen);
+		if (flags->flag & (1 << F_PREFIX))
+			flags->padding--;
+	}
 	else
 		flags->padding = 0;
 	padding(flags, 0);

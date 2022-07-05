@@ -6,13 +6,37 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 17:02:00 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 17:22:40 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
 /* CHARTEGER stuff gotta be gone */
+
+void	ft_print_unsigned(t_printf *flags)
+{
+	unsigned long long	unsigned_int;
+	char				*charteger;
+	int					index;
+
+	index = 0;
+	charteger = NULL;
+	unsigned_int = va_arg(flags->args, unsigned long long);
+	charteger = ft_itoa_long_long(unsigned_int);
+	flags->wordlen = ft_strlen(charteger);
+	if ((flags->wordlen - flags->precision) > 0)
+		flags->padding = (flags->length - flags->wordlen);
+	else
+		flags->padding = 0;
+	padding(flags, 0);
+	while (charteger[index])
+		flags->total_length += write(1, &charteger[index++], 1);
+	padding(flags, 1);
+	free(charteger);
+	charteger = NULL;
+}
+
 
 void	ft_print_long_long(t_printf *flags)
 {
@@ -143,9 +167,9 @@ void	ft_print_hexa(t_printf *flags, char format)
 	while (charteger[index])
 	{
 		//printf("flag: %d\n", flags->flag);
-		if (index == 0 && flags->caps_on == 1 && flags->flag & (1 << F_PREFIX))
+		if (index == 0 && integer != 0 && flags->caps_on == 1 && flags->flag & (1 << F_PREFIX))
 			flags->total_length += write(1, "0X", 2);
-		else if (index == 0 && flags->caps_on == 0 && flags->flag & (1 << F_PREFIX))
+		else if (index == 0 && integer != 0 && flags->caps_on == 0 && flags->flag & (1 << F_PREFIX))
 			flags->total_length += write(1, "0x", 2);
 		if (flags->caps_on == 1 && ft_isalpha(charteger[index]) == 1)
 		{

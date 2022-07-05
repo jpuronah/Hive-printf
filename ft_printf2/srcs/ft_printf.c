@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 16:59:21 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/05 17:28:02 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 		else
 			ft_print_integer(flags);
 	}
+	else if (format[index] == 'u')
+		ft_print_unsigned(flags);
+	else if (format[index] == 'f')
+		ft_print_float_double(flags);
 	else if (format[index] == 'x' || format[index] == 'X')
 		ft_print_hexa(flags, format[index]);
 	else if (format[index] == 'o')// || format[index] == 'O')
