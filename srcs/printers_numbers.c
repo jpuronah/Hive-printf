@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/07 13:50:23 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/07 14:23:48 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,6 @@ void	ft_print_hexa_long(t_printf *flags, char format)
 	index = 0;
 	if (format == 'X')
 		flags->caps_on = 1;
-	printf("formatt: %c\n", format);
-	printf("%d\n", flags->num_type);
 	integer = va_arg(flags->args, long long);
 	charteger = itoa_hexadecimal(integer);
 	flags->wordlen = ft_strlen(charteger);
