@@ -12,17 +12,19 @@ real printf:
 **********************
 
 
-main.c:29:11: warning: flag ' ' results in undefined behavior with 'c' conversion specifier [-Wformat]
-        printf("% c", 0);
-                ~^~
+main.c:33:24: warning: data argument not used by format string [-Wformat-extra-args]
+        ret = printf("%   %", "test");
+                     ~~~~~~~  ^
 1 warning generated.
 ./exe
 own printf:
- |
+ 137133879test|
+ret: 14
+
 **********************
 
 real printf:
-|
+%|
+ret: 1
+
 **********************
-
-

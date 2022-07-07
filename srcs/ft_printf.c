@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/07 13:47:37 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/07 21:21:27 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ static t_printf	*init_and_malloc_structure(void)
 		return (NULL);
 	flags->flag = 0;
 	flags->num_type = 0;
-	flags->total_length = 0;
-	flags->length = 0;
+	flags->length_written = 0;
+	flags->padding_length = 0;
+	flags->width = 0;
 	flags->precision = 0;
 	flags->padding = 0;
-	flags->number = 0;
+	//flags->number = 0;
 	flags->wordlen = 0;
 	flags->charlen = 0;
 	flags->caps_on = 0;
@@ -64,7 +65,8 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 	{
 		if (flags->num_type & (1 << F_LONG) || flags->num_type & (1 << F_LONGLONG))
 			ft_print_hexa_long(flags, format[index]);
-		ft_print_hexa(flags, format[index]);
+		else
+			ft_print_hexa(flags, format[index]);
 	}
 	else if (format[index] == 'o')
 		ft_print_octal(flags);
@@ -78,7 +80,8 @@ static int	evaluate_format_type(const char *restrict format, int index, t_printf
 	if (format[index] == '%')
 		index++;
 	index = parse_flags(format, index, flags);
-	index = parse_width_and_precision(format, index, flags);
+	index = parse_width(format, index, flags);
+	index = parse_precision(format, index, flags);
 	index = parse_h_l(format, index, flags);
 	index = conversion_specifiers(format, index, flags);
 	return (index);
@@ -104,7 +107,7 @@ int	ft_printf(const char *restrict format, ...)
 		index++;
 	}
 	va_end(flags->args);
-	return_value += flags->total_length;
+	return_value += flags->length_written;
 	free_flags(flags);
 	return (return_value);
 }

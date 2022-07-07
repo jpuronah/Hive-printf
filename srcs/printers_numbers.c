@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/07 14:23:48 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/07 20:50:31 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,16 @@ void	ft_print_unsigned(t_printf *flags)
 	charteger = ft_itoa_long_long(unsigned_int);
 	flags->wordlen = ft_strlen(charteger);
 	if ((flags->wordlen - flags->precision) > 0)
-		flags->padding = (flags->length - flags->wordlen);
+		flags->padding = (flags->padding_length - flags->wordlen);
 	else
 		flags->padding = 0;
 	padding(flags, 0);
 	while (charteger[index])
-		flags->total_length += write(1, &charteger[index++], 1);
+		flags->length_written += write(1, &charteger[index++], 1);
 	padding(flags, 1);
 	free(charteger);
 	charteger = NULL;
 }
-
 
 void	ft_print_long_long(t_printf *flags)
 {
@@ -55,12 +54,12 @@ void	ft_print_long_long(t_printf *flags)
 		charteger_l = ft_itoa_long_long(long_num);
 		flags->wordlen = ft_strlen(charteger_l);
 		if ((flags->wordlen - flags->precision) > 0)
-			flags->padding = (flags->length - flags->wordlen);
+			flags->padding = (flags->padding_length - flags->wordlen);
 		else
 			flags->padding = 0;
 		padding(flags, 0);
 		while (charteger_l[index] && (flags->num_type & (1 << F_LONG)))
-			flags->total_length += write(1, &charteger_l[index++], 1);
+			flags->length_written += write(1, &charteger_l[index++], 1);
 		padding(flags, 1);
 	}
 	else
@@ -69,12 +68,12 @@ void	ft_print_long_long(t_printf *flags)
 		charteger_ll = ft_itoa_long_long(longlong_num);
 		flags->wordlen = ft_strlen(charteger_ll);
 		if ((flags->wordlen - flags->precision) > 0)
-			flags->padding = (flags->length - flags->wordlen);
+			flags->padding = (flags->padding_length - flags->wordlen);
 		else
 			flags->padding = 0;
 		padding(flags, 0);
 		while (charteger_ll[index] && (flags->num_type & (1 << F_LONG)))
-			flags->total_length += write(1, &charteger_ll[index++], 1);
+			flags->length_written += write(1, &charteger_ll[index++], 1);
 		padding(flags, 1);
 	}
 	if (charteger_l)
@@ -97,12 +96,12 @@ void	ft_print_integer(t_printf *flags)
 	charteger = ft_itoa(integer);
 	flags->wordlen = ft_strlen(charteger);
 	if ((flags->wordlen - flags->precision) > 0)
-		flags->padding = (flags->length - flags->wordlen);
+		flags->padding = (flags->padding_length - flags->wordlen);
 	else
 		flags->padding = 0;
 	padding(flags, 0);
 	while (charteger[index])
-		flags->total_length += write(1, &charteger[index++], 1);
+		flags->length_written += write(1, &charteger[index++], 1);
 	padding(flags, 1);
 	free(charteger);
 	charteger = NULL;
@@ -144,7 +143,7 @@ char		*itoa_hexadecimal(long long int value)
 }
 
 // 	unsigned int as a hexadecimal number. x uses lower-case letters and X uses upper-case. 
-void	ft_print_hexa(t_printf *flags, char format)
+/*void	ft_print_hexa(t_printf *flags, char format)
 {
 	int		integer;
 	int		index;
@@ -158,7 +157,7 @@ void	ft_print_hexa(t_printf *flags, char format)
 	charteger = itoa_hexadecimal(integer);
 	flags->wordlen = ft_strlen(charteger);
 	if ((flags->wordlen - flags->precision) > 0)
-		flags->padding = (flags->length - flags->wordlen);
+		flags->padding = (flags->padding_length - flags->wordlen);
 	else
 		flags->padding = 0;
 	if (flags->flag & (1 << F_PREFIX))
@@ -167,16 +166,59 @@ void	ft_print_hexa(t_printf *flags, char format)
 	while (charteger[index])
 	{
 		if (index == 0 && integer != 0 && flags->caps_on == 1 && flags->flag & (1 << F_PREFIX))
-			flags->total_length += write(1, "0X", 2);
+			flags->length_written += write(1, "0X", 2);
 		else if (index == 0 && integer != 0 && flags->caps_on == 0 && flags->flag & (1 << F_PREFIX))
-			flags->total_length += write(1, "0x", 2);
+			flags->length_written += write(1, "0x", 2);
 		if (flags->caps_on == 1 && ft_isalpha(charteger[index]) == 1)
 		{
 			caps = charteger[index] - 32;
-			flags->total_length += write(1, &caps, 1);
+			flags->length_written += write(1, &caps, 1);
 		}
 		else
-			flags->total_length += write(1, &charteger[index], 1);
+			flags->length_written += write(1, &charteger[index], 1);
+		index++;
+	}
+	padding(flags, 1);
+	free(charteger);
+	charteger = NULL;
+}*/
+
+void	ft_print_hexa(t_printf *flags, char format)
+{
+	int		integer;
+	int		index;
+	char	*charteger;
+	char	caps;
+
+	index = 0;
+	if (format == 'X')
+		flags->caps_on = 1;
+	integer = va_arg(flags->args, int);
+	charteger = itoa_hexadecimal(integer);
+	flags->wordlen = ft_strlen(charteger);
+	flags->padding = (flags->width - flags->wordlen);
+	if (flags->padding < 0)
+		flags->padding = 0;
+	if (flags->flag & (1 << F_PREFIX))
+		flags->padding -= 2;
+	if (integer != 0 && flags->caps_on == 1 && flags->flag & (1 << F_PREFIX) && flags->flag & (1 << F_ZERO))
+		flags->length_written += write(1, "0X", 2);
+	else if (integer != 0 && flags->caps_on == 0 && flags->flag & (1 << F_PREFIX) && flags->flag & (1 << F_ZERO))
+		flags->length_written += write(1, "0x", 2);
+	padding(flags, 0);
+	while (charteger[index])
+	{
+		if (index == 0 && integer != 0 && flags->caps_on == 1 && flags->flag & (1 << F_PREFIX) && ~flags->flag & (1 << F_ZERO))
+			flags->length_written += write(1, "0X", 2);
+		else if (index == 0 && integer != 0 && flags->caps_on == 0 && flags->flag & (1 << F_PREFIX) && ~flags->flag & (1 << F_ZERO))
+			flags->length_written += write(1, "0x", 2);
+		if (flags->caps_on == 1 && ft_isalpha(charteger[index]) == 1)
+		{
+			caps = charteger[index] - 32;
+			flags->length_written += write(1, &caps, 1);
+		}
+		else
+			flags->length_written += write(1, &charteger[index], 1);
 		index++;
 	}
 	padding(flags, 1);
@@ -184,6 +226,51 @@ void	ft_print_hexa(t_printf *flags, char format)
 	charteger = NULL;
 }
 
+void	ft_print_hexa_long(t_printf *flags, char format)
+{
+	long long	integer;
+	int			index;
+	char		*charteger;
+	char		caps;
+
+	index = 0;
+	if (format == 'X')
+		flags->caps_on = 1;
+	integer = va_arg(flags->args, long long);
+	charteger = itoa_hexadecimal(integer);
+	flags->wordlen = ft_strlen(charteger);
+	flags->padding = (flags->width - flags->wordlen);// + flags->precision);
+	//printf("padding: %d, width %d, precision %d\n", flags->padding, flags->width, flags->precision);
+	if (flags->flag & (1 << F_PREFIX))
+		flags->padding -= 2;
+	if (flags->precision == 0)
+		flags->precision = -1;
+	//padding(flags, 0);
+	while (charteger[index])// && flags->precision--)
+	{
+		/*printf("padding: %d, width %d, precision %d\n", flags->padding, flags->width, flags->precision);
+		printf("index: %d: ", index);*/
+		//write(1, " loop ", 6);
+		if (index == 0 && integer != 0 && flags->caps_on == 1 && flags->flag & (1 << F_PREFIX))
+			flags->length_written += write(1, "0X", 2);
+		else if (index == 0 && integer != 0 && flags->caps_on == 0 && flags->flag & (1 << F_PREFIX))
+			flags->length_written += write(1, "0x", 2);
+		if (flags->caps_on == 1 && ft_isalpha(charteger[index]) == 1)
+		{
+			caps = charteger[index] - 32;
+			flags->length_written += write(1, &caps, 1);
+		}
+		else
+			flags->length_written += write(1, &charteger[index], 1);
+		//printf("charteger[%d]: |%c|\n", index, charteger[index]);
+		index++;
+	}
+	//padding(flags, 1);
+	free(charteger);
+	charteger = NULL;
+}
+
+/*
 void	ft_print_hexa_long(t_printf *flags, char format)
 {
 	long long		integer;
@@ -198,7 +285,7 @@ void	ft_print_hexa_long(t_printf *flags, char format)
 	charteger = itoa_hexadecimal(integer);
 	flags->wordlen = ft_strlen(charteger);
 	if ((flags->wordlen - flags->precision) > 0)
-		flags->padding = (flags->length - flags->wordlen);
+		flags->padding = (flags->padding_length - flags->wordlen);
 	else
 		flags->padding = 0;
 	if (flags->flag & (1 << F_PREFIX))
@@ -207,19 +294,19 @@ void	ft_print_hexa_long(t_printf *flags, char format)
 	while (charteger[index])
 	{
 		if (index == 0 && integer != 0 && flags->caps_on == 1 && flags->flag & (1 << F_PREFIX))
-			flags->total_length += write(1, "0X", 2);
+			flags->length_written += write(1, "0X", 2);
 		else if (index == 0 && integer != 0 && flags->caps_on == 0 && flags->flag & (1 << F_PREFIX))
-			flags->total_length += write(1, "0x", 2);
+			flags->length_written += write(1, "0x", 2);
 		if (flags->caps_on == 1 && ft_isalpha(charteger[index]) == 1)
 		{
 			caps = charteger[index] - 32;
-			flags->total_length += write(1, &caps, 1);
+			flags->length_written += write(1, &caps, 1);
 		}
 		else
-			flags->total_length += write(1, &charteger[index], 1);
+			flags->length_written += write(1, &charteger[index], 1);
 		index++;
 	}
 	padding(flags, 1);
 	free(charteger);
 	charteger = NULL;
-}
+}*/

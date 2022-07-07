@@ -57,7 +57,6 @@ leaks:
 	@gcc -o exe main.c libftprintf.a
 	leaks -atExit -- ./exe
 
-
 nf:
 	@mkdir -p obj
 	@gcc  -I includes -o obj/ft_printf.o -c srcs/ft_printf.c

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/06 09:36:41 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/07 15:48:33 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 	int			zero_padding;
 	int			point;
 	int			dash;
-	int			total_length;
+	int			length_written;
 	int			sign;
 	int			is_zero;
 	int			percentage;
@@ -46,6 +46,7 @@
 # define F_SHORT 8
 # define F_SHORTSHORT 9
 # define F_CAPS_ON 10
+# define F_PRECISION 11
 
 typedef struct s_flags
 {
@@ -58,13 +59,13 @@ typedef struct s_printf
 
 	short		flag;
 	short		num_type;
-	int			length;
+	int			padding_length;
+	int			width;
 	int			precision;
 	int			padding;
 	int			caps_on;
 
-	int			number;
-	int			total_length;
+	int			length_written;
 	int			wordlen;
 	int			charlen;
 
@@ -75,7 +76,9 @@ int		ft_printf(const char *restrict format, ...);
 void	print_error(char *reason, t_printf *flags);
 
 int		parse_flags(const char *restrict format, int index, t_printf *flags);
-int		parse_width_and_precision(const char *restrict format, int index, t_printf *flags);
+int		parse_precision(const char *restrict format, int index, t_printf *flags);
+int		parse_width(const char *restrict format, int index, t_printf *flags);
+
 int		parse_h_l(const char *restrict format, int index, t_printf *flags);
 
 void	ft_print_char(t_printf *flags, char ch);
