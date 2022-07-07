@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 17:22:40 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/06 09:38:05 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,53 @@ void	ft_print_hexa(t_printf *flags, char format)
 		flags->padding = (flags->length - flags->wordlen);
 	else
 		flags->padding = 0;
+	if (flags->flag & (1 << F_PREFIX))
+		flags->padding -= 2;
+	padding(flags, 0);
+	while (charteger[index])
+	{
+		//printf("flag: %d\n", flags->flag);
+		if (index == 0 && integer != 0 && flags->caps_on == 1 && flags->flag & (1 << F_PREFIX))
+			flags->total_length += write(1, "0X", 2);
+		else if (index == 0 && integer != 0 && flags->caps_on == 0 && flags->flag & (1 << F_PREFIX))
+			flags->total_length += write(1, "0x", 2);
+		if (flags->caps_on == 1 && ft_isalpha(charteger[index]) == 1)
+		{
+			caps = charteger[index] - 32;
+			flags->total_length += write(1, &caps, 1);
+		}
+		else
+			flags->total_length += write(1, &charteger[index], 1);
+		index++;
+	}
+	padding(flags, 1);
+	free(charteger);
+	charteger = NULL;
+}
+
+void	ft_print_hexa_long(t_printf *flags, char format)
+{
+	long long		integer;
+	int				index;
+	char			*charteger;
+	char			caps;
+
+	//printf("asdflags: %c\n", format);
+	index = 0;
+	//printf("flag: %d\n", flags->flag);
+	if (format == 'X')
+		flags->caps_on = 1;
+	printf("formatt: %c\n", format);
+	printf("%d\n", flags->num_type);
+	integer = va_arg(flags->args, long long);
+	charteger = itoa_hexadecimal(integer);
+	flags->wordlen = ft_strlen(charteger);
+	if ((flags->wordlen - flags->precision) > 0)
+		flags->padding = (flags->length - flags->wordlen);
+	else
+		flags->padding = 0;
+	if (flags->flag & (1 << F_PREFIX))
+		flags->padding -= 2;
 	padding(flags, 0);
 	while (charteger[index])
 	{

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 17:28:02 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/07 11:52:56 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 		ft_print_string(flags);	//'°ÅÄ¶' etc char ---->  ft_put_weird_string ?
 	else if (format[index] == 'c' || format[index] == 'C')
 		ft_print_char(flags, 0);
-	else if ((format[index] == 'd' || format[index] == 'i' || format[index] == 'D'))
+	else if (ft_strchr("diD", format[index]))// (format[index] == 'd' || format[index] == 'i' || format[index] == 'D'))
 	{
 		if (flags->num_type & (1 << F_LONG) || flags->num_type & (1 << F_LONGLONG))
 			ft_print_long_long(flags);
@@ -71,7 +71,11 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 	else if (format[index] == 'f')
 		ft_print_float_double(flags);
 	else if (format[index] == 'x' || format[index] == 'X')
+	{
+		if (flags->num_type & (1 << F_LONG) || flags->num_type & (1 << F_LONGLONG))
+			ft_print_hexa_long(flags, format[index]);
 		ft_print_hexa(flags, format[index]);
+	}
 	else if (format[index] == 'o')// || format[index] == 'O')
 		ft_print_octal(flags);
 	else if (format[index] == '%')

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/05 17:29:19 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/06 09:36:41 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	ft_print_long_long(t_printf *flags);
 void	ft_print_float_double(t_printf *flags);
 
 void	ft_print_hexa(t_printf *flags, char format);
+void	ft_print_hexa_long(t_printf *flags, char format);
 void	ft_print_octal(t_printf *flags);
 //void	check_and_print_flags(t_printf *flags);
 

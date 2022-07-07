@@ -9,7 +9,9 @@ int	main(int ac, char **av)
 	int			return_value;
 	char		param;
 	t_printf	*flags;
+	int			ret;
 
+	ret = 0;
 	integer = 0;
 	dubbel = 1230.000865;
 	integer = 55;
@@ -18,16 +20,18 @@ int	main(int ac, char **av)
 	long long longi = 321321321321213321;
 
 	printf("own printf:\n");
-	ft_printf("%f paska\n");
-	printf("|\n**********************\n");
+	ret = ft_printf("%lX", 4294967296);
+	printf("|\nret: %d\n", ret);
+	printf("\n**********************\n");
 	/*ft_printf("%c", 'a');
 	printf("|\n**********************\n");
 	ft_printf("%%");
 	printf("|\n**********************\n");*/
 
 	printf("\nreal printf:\n");
-	printf("%f paska\n");
-	printf("|\n**********************\n");
+	ret = printf("%lX", 4294967296);
+	printf("|\nret: %d\n", ret);
+	printf("\n**********************\n");
 	/*return_value = ft_printf("%p, %%, %s, %d, %c, %i, %.1f", str, (const char *restrict)str, integer, str[2], integer / 2, dubbel);
 	printf("\noma ret: %d\n", return_value);
 	return_value = printf("%p, %%, %s, %d, %c, %i, %.1f", str, (const char *restrict)str, integer, str[2], integer / 2, dubbel);
