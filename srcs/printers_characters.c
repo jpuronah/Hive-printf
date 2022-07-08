@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/07 20:49:59 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/08 13:55:07 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,22 @@ void	padding(t_printf *flags, int phase)
 {
 	char	ch;
 
+	//printf("paska\n");
 	ch = 32;
 	if (flags->flag & (1 << F_ZERO))
 		ch = 48;
-	if (flags->padding > 0)
+	//printf("padding: %d, width %d, precision %d, wordlen %d\n", flags->padding, flags->width, flags->precision, flags->wordlen);
+	if (flags->padding > -1)
 	{
 		if (!phase && !(flags->flag & (1 << F_MINUS)))
 		{
 			while (flags->padding > 0)
 			{
-				write(1, &ch, 1);
-				flags->length_written++;
+				flags->length_written += write(1, &ch, 1);
 				flags->padding--;
 			}
+			while (flags->pad_overflow-- > 0)
+				flags->length_written += write(1, "0", 1);
 		}
 		else if (phase && (flags->flag & (1 << F_MINUS)))
 		{
@@ -104,8 +107,12 @@ void	ft_print_string(t_printf *flags)
 	else
 	{
 		flags->wordlen = ft_strlen(string);
+		if (flags->flag & (1 << F_PRECISION))
+			flags->wordlen = ft_min(flags->wordlen, flags->precision);
 		//printf("%d\n", flags->padding);
 		flags->padding = (flags->width - flags->wordlen);// + flags->precision);
+		//if (flags->precision > 0)
+		//	flags->padding += flags->precision;
 		//printf("padding: %d, width %d, precision %d\n", flags->padding, flags->width, flags->precision);
 		if (flags->padding < 0)
 			flags->padding = 0;

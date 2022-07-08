@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 16:08:14 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/07 16:41:51 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/08 12:59:00 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_print_octal(t_printf *flags)
 	flags->padding = (flags->width - flags->wordlen);// + flags->precision);
 	if (flags->flag & (1 << F_PREFIX))
 		flags->padding--;
-	printf("padding: %d, width %d, precision %d\n", flags->padding, flags->width, flags->precision);
+	//printf("padding: %d, width %d, precision %d\n", flags->padding, flags->width, flags->precision);
 	if (flags->padding < 0)
 		flags->padding = 0;
 	padding(flags, 0);

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/07 15:48:33 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/08 13:46:49 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_printf
 	int			padding;
 	int			caps_on;
 
+	short		pad_overflow;
+
 	int			length_written;
 	int			wordlen;
 	int			charlen;
@@ -98,6 +100,8 @@ void	ft_print_octal(t_printf *flags);
 void	padding(t_printf *flags, int phase);
 
 int		ft_strchri(const char *s, int c, int index);
+int		ft_min(int a, int b);
+int		ft_max(int a, int b);
 char	*ft_itoa_long_long(long long n);
 
 #endif

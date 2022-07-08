@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/07 20:50:31 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/08 14:00:29 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,15 @@ void	ft_print_long_long(t_printf *flags)
 	charteger_ll = NULL;
 }
 
+/* Tänne pitää tehä char *integer[21], mihin plussat ja miinukset 
+	- eli voi käyttää chartegerii
+	- --- - >> asetetaa charteger[0] = '-' , jos jotain 
+						charteger[0] = '+' , jos jotain 
+						charteger[0] = '0' , jos jotain 
+						jne.
+
+*/
+ 
 void	ft_print_integer(t_printf *flags)
 {
 	int			integer;
@@ -93,12 +102,42 @@ void	ft_print_integer(t_printf *flags)
 	index = 0;
 	charteger = NULL;
 	integer = va_arg(flags->args, int);
+	//printf("charteger: |%s|\n", charteger);
 	charteger = ft_itoa(integer);
 	flags->wordlen = ft_strlen(charteger);
-	if ((flags->wordlen - flags->precision) > 0)
-		flags->padding = (flags->padding_length - flags->wordlen);
+	if ((integer < 0 || flags->flag & (1 <<F_PLUS) || flags->flag & (1 << F_SPACE) || (flags->flag & 1 << F_ZERO)))
+		--flags->precision;
+	if (integer < 0 || flags->flag & (1 << F_PLUS) || flags->flag & (1 << F_SPACE))
+		flags->wordlen++;
+	if (flags->precision > flags->width || flags->precision > flags->wordlen)
+		flags->pad_overflow = flags->precision - flags->wordlen;
+	flags->wordlen = ft_max(flags->wordlen, flags->precision);
+	if (flags->width > flags->wordlen)
+		flags->padding = (flags->width - flags->wordlen);
 	else
 		flags->padding = 0;
+	//printf("padding: %d, width %d, precision %d, wordlen %d\n", flags->padding, flags->width, flags->precision, flags->wordlen);
+	if (integer > 0 && flags->flag & (1 << F_SPACE) && ~flags->flag & (1 << F_PLUS))
+		flags->length_written += write(1, " ", 1);
+	if (integer >= 0 && flags->flag & (1 << F_PLUS))
+		flags->length_written += write(1, "+", 1);
+	if (integer < 0 && flags->flag & (1 << F_PLUS))
+	{
+		flags->length_written += write(1, "-", 1);
+		integer *= -1;
+		free(charteger);
+		charteger = NULL;
+		charteger = ft_itoa(integer);
+	}
+	if (flags->padding < 0)
+		flags->padding = 0;
+	else
+		padding(flags, 0);
+	/*if ((flags->wordlen - flags->precision) > 0)
+		flags->padding = (flags->padding_length - flags->wordlen);
+	else
+		flags->padding = 0;*/
+	//printf("padding: %d, width %d, precision %d\n", flags->padding, flags->width, flags->precision);
 	padding(flags, 0);
 	while (charteger[index])
 		flags->length_written += write(1, &charteger[index++], 1);

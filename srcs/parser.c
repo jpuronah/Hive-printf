@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/07 21:21:11 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/08 13:01:51 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ int	parse_flags(const char *restrict format, int index, t_printf *flags)
 	//	printf("molempi paska\n");
 	//while (format[index] == '0')
 	//	index++;
-	if (flags->flag & (1 << F_PLUS))
-		flags->length_written += write(1, "+", 1);
+	//if (flags->flag & (1 << F_PLUS))
+	//	flags->length_written += write(1, "+", 1);
 	/*
 	if (flags->flag & (1 << F_PREFIX))
 		printf("macro def flag found: |%c|\n", format[index]);
