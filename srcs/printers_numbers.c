@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/08 14:00:29 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/11 14:50:30 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_print_long_long(t_printf *flags)
 						jne.
 
 */
- 
+
 void	ft_print_integer(t_printf *flags)
 {
 	int			integer;
@@ -102,7 +102,6 @@ void	ft_print_integer(t_printf *flags)
 	index = 0;
 	charteger = NULL;
 	integer = va_arg(flags->args, int);
-	//printf("charteger: |%s|\n", charteger);
 	charteger = ft_itoa(integer);
 	flags->wordlen = ft_strlen(charteger);
 	if ((integer < 0 || flags->flag & (1 <<F_PLUS) || flags->flag & (1 << F_SPACE) || (flags->flag & 1 << F_ZERO)))
@@ -116,11 +115,20 @@ void	ft_print_integer(t_printf *flags)
 		flags->padding = (flags->width - flags->wordlen);
 	else
 		flags->padding = 0;
-	//printf("padding: %d, width %d, precision %d, wordlen %d\n", flags->padding, flags->width, flags->precision, flags->wordlen);
-	if (integer > 0 && flags->flag & (1 << F_SPACE) && ~flags->flag & (1 << F_PLUS))
+	printf("padding: %d, width %d, precision %d, wordlen %d, overf: %d\n", flags->padding, flags->width, flags->precision, flags->wordlen, flags->pad_overflow);
+	/*if (integer > 0 && flags->flag & (1 << F_SPACE) && ~flags->flag & (1 << F_PLUS))
 		flags->length_written += write(1, " ", 1);
 	if (integer >= 0 && flags->flag & (1 << F_PLUS))
-		flags->length_written += write(1, "+", 1);
+		flags->length_written += write(1, "+", 1);*/
+	if (flags->pad_overflow > 0)
+		
+	if (flags->flag & (1 << F_SPACE))
+		charteger[0] = ' ';
+	if (integer < 0)
+		charteger[0] = '-';
+	if (integer >= 0 && flags->flag & (1 << F_PLUS))
+		charteger[0] = '+';
+	printf("chateretegeger: %s\n", charteger);
 	if (integer < 0 && flags->flag & (1 << F_PLUS))
 	{
 		flags->length_written += write(1, "-", 1);

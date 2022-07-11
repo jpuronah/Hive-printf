@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/08 13:55:07 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:52:12 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	padding(t_printf *flags, int phase)
 	ch = 32;
 	if (flags->flag & (1 << F_ZERO))
 		ch = 48;
-	//printf("padding: %d, width %d, precision %d, wordlen %d\n", flags->padding, flags->width, flags->precision, flags->wordlen);
 	if (flags->padding > -1)
 	{
 		if (!phase && !(flags->flag & (1 << F_MINUS)))
@@ -108,7 +107,9 @@ void	ft_print_string(t_printf *flags)
 	{
 		flags->wordlen = ft_strlen(string);
 		if (flags->flag & (1 << F_PRECISION))
+		{
 			flags->wordlen = ft_min(flags->wordlen, flags->precision);
+		}
 		//printf("%d\n", flags->padding);
 		flags->padding = (flags->width - flags->wordlen);// + flags->precision);
 		//if (flags->precision > 0)

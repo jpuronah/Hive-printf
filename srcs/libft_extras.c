@@ -6,18 +6,17 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/08 12:50:21 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/11 19:37:39 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-int		ft_max(int a, int b)
+long long	ft_abs_ll(long long i)
 {
-	if (a > b)
-		return (a);
-	else
-		return (b);
+	if (i < 0)
+		return (i * -1);
+	return (i);
 }
 
 int		ft_min(int a, int b)

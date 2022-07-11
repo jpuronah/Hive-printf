@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/08 13:46:49 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/11 19:36:36 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,13 @@
 # define F_LONG 6
 # define F_LONGLONG 7
 # define F_SHORT 8
-# define F_SHORTSHORT 9
+# define F_SHORTCHAR 9
 # define F_CAPS_ON 10
 # define F_PRECISION 11
+# define F_MAXINT 12
+# define F_UNSIGNED 13
+# define F_POINTER 13
+
 
 typedef struct s_flags
 {
@@ -59,6 +63,9 @@ typedef struct s_printf
 
 	short		flag;
 	short		num_type;
+	int			num_length;
+	short		numchar;
+
 	int			padding_length;
 	int			width;
 	int			precision;
@@ -99,9 +106,10 @@ void	ft_print_octal(t_printf *flags);
 
 void	padding(t_printf *flags, int phase);
 
-int		ft_strchri(const char *s, int c, int index);
-int		ft_min(int a, int b);
-int		ft_max(int a, int b);
-char	*ft_itoa_long_long(long long n);
+int			ft_strchri(const char *s, int c, int index);
+int			ft_min(int a, int b);
+int			ft_max(int a, int b);
+long long	ft_abs_ll(long long i);
+char		*ft_itoa_long_long(long long n);
 
 #endif

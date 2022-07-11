@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/08 13:01:51 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/11 16:42:18 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,21 @@ int	parse_h_l(const char *restrict format, int index, t_printf *flags)
 			}
 			else
 				flags->num_type |= (1 << F_LONG);
+			if (flags->num_type == (1 << F_LONGLONG))
+				index++;
+			index++;
+			break ;
 		}
 		else if (format[index] == 'h')
 		{
 			if (format[index + 1] == 'h')
-				flags->num_type = (1 << F_SHORTSHORT);
+				flags->num_type = (1 << F_SHORTCHAR);
 			else
 				flags->num_type = (1 << F_SHORT);
+			if (flags->num_type == (1 << F_SHORTCHAR))
+				index++;
+			index++;
+			break ;
 		}
 		else
 			break ;
@@ -114,6 +122,9 @@ int	parse_flags(const char *restrict format, int index, t_printf *flags)
 			index++;
 		tmp = ft_strchri("# +-0*", format[index], 0);
 	}
+	if (flags->flag & (1 << F_MINUS))
+		flags->flag &= ~(1 << F_ZERO);
+	//(p->f & F_PLUS) ? p->f &= ~F_SPACE : 0;
 	//if (flags->flag & (1 << F_PREFIX) && flags->flag & (1 << F_ZERO))
 	//	printf("molempi paska\n");
 	//while (format[index] == '0')
