@@ -28,3 +28,12 @@ real printf:
 ret: 1
 
 **********************
+
+
+main.c:33:17: warning: flag '+' results in undefined behavior with 'u' conversion specifier [-Wformat]
+        ret = printf("%+u", 4294967295);
+                      ~^~
+main.c:33:22: warning: format specifies type 'unsigned int' but the argument has type 'long' [-Wformat]
+        ret = printf("%+u", 4294967295);
+                      ~~~   ^~~~~~~~~~
+                      %+ld

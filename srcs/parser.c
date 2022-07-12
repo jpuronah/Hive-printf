@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/11 16:42:18 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/12 13:09:17 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	parse_precision(const char *restrict format, int index, t_printf *flags)
 	if (format[index] == '.')
 	{
 		flags->flag |= (1 << F_PRECISION);
+		if (ft_isdigit(format[index]) == 0)
+			flags->precision = 0;
 		if (ft_atoi(tmp) > 0)
 			flags->precision = ft_atoi(tmp);
 		while (ft_isdigit(format[index + 1]) == 1)
@@ -147,3 +149,4 @@ int	parse_flags(const char *restrict format, int index, t_printf *flags)
 	*/
 	return (index);
 }
+

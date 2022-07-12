@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/11 19:37:21 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/12 14:35:21 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static t_printf	*init_and_malloc_structure(void)
 	flags->width = 0;
 	flags->precision = 1;
 	flags->padding = 0;
-	//flags->number = 0;
 	flags->wordlen = 0;
 	flags->charlen = 0;
 	flags->caps_on = 0;
@@ -51,128 +50,125 @@ static t_printf	*init_and_malloc_structure(void)
 	return (flags);
 }
 
+int	ft_islower(int c)
+{
+	if ((c >= 97 && c <= 122))
+		return (1);
+	else
+		return (0);
+}
+
 void	printf_write(t_printf *flags, void *new, size_t size)
 {
-	////printf("|%s|\n", (char *)new);
-	write(1, new, size);
-	flags->length_written += size;
-	
-	/*while (21 - buffer_index < (int)size)
+	int		index;
+	int		hold_size;
+	char	*string;
+	char	tmp;
+
+	index = 0;
+	tmp = 0;
+	hold_size = size;
+	string = ft_strdup((char *)new);
+	while (size--)
 	{
-		diff = 21 - buffer_index;
-		ft_memcpy(&(dst[buffer_index]), &(new[new_i]), diff);
-		size -= diff;
-		new_i += diff;
-		buffer_index += diff;
-		write(1, dst, buffer_index);
-		flags->length_written += buffer_index;
-		buffer_index = 0;
+		//printf("string: |%s|\n", string);
+		//printf("|%c|\n", string[index]);
+		if (ft_islower(string[index]) == 1 && flags->flag & (1 << F_CAPS_ON))
+		{
+			tmp = string[index++] - 32;
+			//printf("|%c, %c|\n", tmp, string[index - 1]);
+			write(1, &tmp, 1);
+		}
+		else
+			write(1, &string[index++], 1);
 	}
-	//printf("DEST\n\n|%s|\n|%s|\n", dst, (char *)new);
-	ft_memcpy(&(dst[buffer_index]), &(new[new_i]), diff);
-	buffer_index += size;*/
+	flags->length_written += hold_size;
 	flags->precision = 1;
+	free(string);
 }
 
-/*void	printf_write(t_printf *flags, void *new, size_t size)
+static void	check_flags_and_padding_base(intmax_t number, t_printf *flags, int variable, int base)
 {
-	int			diff;
-	long long	new_i;
-	int			buffer_index;
-	char		dst[21];
-
-	new_i = 0;
-	buffer_index = 0;
-	while (21 - buffer_index < (int)size)
-	{
-		diff = 21 - buffer_index;
-		ft_memcpy(&(dst[buffer_index]), &(new[new_i]), diff);
-		size -= diff;
-		new_i += diff;
-		buffer_index += diff;
-		write(1, dst, buffer_index);
-		flags->length_written += buffer_index;
-		buffer_index = 0;
-	}
-	//printf("DEST\n\n|%s|\n|%s|\n", dst, (char *)new);
-	ft_memcpy(&(dst[buffer_index]), &(new[new_i]), diff);
-	buffer_index += size;
-}*/
-
-void	itoa_base_fill(uintmax_t tmp, int base, char s[21], t_printf *flags)
-{
-	int		len;
-
-	//if (tmp && !(flags->flag & F_POINTER) && (flags->flag & F_ZERO) && (flags->flag & F_PREFIX) &&
-	//base == 16 && !(flags->flag & F_LONGLONG) && flags->num_length > 3)
-	//	flags->num_length -= 2;
-	len = flags->num_length;
-	flags->numchar = 'a' - 10 - 0;
-	while (len--)
-	{
-		/*printf("%ju\n", tmp);
-		printf("%ju\n", tmp % base);
-		printf("%ju\n", tmp % base + '0');*/
-		//s[len] = (char *)((tmp % base + ((tmp % base < 10))) ? '0' : flags->numchar);//tmp % base + '0';
-		s[len] = (char)(tmp % base + ((tmp % (uintmax_t)base < 10) ? '0' : flags->numchar));
-		/*printf("d: %d\n", s[len]);
-		printf("c: %c\n", s[len]);*/
-		//if (tmp % base >= 10)
-		//	s[len] += 32;
-		////printf("tmp : %ju\n", tmp);
-		////printf("p->pc : %d\n", flags->numchar);
-		////printf("base : %d\n", base);
-		////printf("s len : %c\n\n", s[len]);
-		tmp /= base;
-	}
-	(flags->flag & (1 << F_PRECISION) && flags->flag & (1 << F_ZERO)) ? s[0] = ' ' : 0;
-}
-
-void	check_flags_and_padding(intmax_t number, int length, t_printf *flags)
-{
-	if ((number < 0 || flags->flag & (1 << F_PLUS) || flags->flag & (1 << F_SPACE)) && flags->flag & (1 << F_ZERO))
-		--flags->precision;
-	flags->num_length = ft_max(length, flags->precision);
-	if (number < 0 || flags->flag & (1 << F_PLUS) || flags->flag & (1 << F_SPACE))
+	if (flags->flag & (1 << F_ZERO))
+		flags->precision = flags->width;
+	variable = 0;
+	if (!(flags->num_length >= flags->precision))
+		variable = 1;
+	flags->num_length = ft_max(flags->precision, flags->num_length);
+	if (flags->flag & (1 << F_PREFIX) && base == 8 && variable == 0)
+		flags->width--;
+	if (flags->flag & (1 << F_PREFIX) && base == 8 && number == 0 && flags->flag & (1 << F_PRECISION))
 		flags->num_length++;
 	if (flags->num_length < flags->width)
 		flags->padding = flags->width - flags->num_length;
-	//printf("padding: %d\n", flags->padding);
+	if (flags->flag & (1 << F_PREFIX) && base == 16 && !(flags->flag & (1 << F_ZERO)))
+	{
+		flags->padding = ft_max(0, (flags->width - flags->num_length));
+		if (flags->flag & (1 << F_PREFIX))
+			flags->padding -= 2;
+	}
+	//printf("padding: %d, precision: %d, width: %d, numlen: %d\n", flags->padding, flags->precision, flags->width, flags->num_length);
 }
 
-void	itoa_printf(intmax_t number, t_printf *flags, int length)
+void	itoa_base_printf(intmax_t number, t_printf *flags, int base)
 {
 	char		number_as_char[21];
 	intmax_t	tmp;
+	int			variable;
 
+	variable = 0;
+	flags->num_length = 0;
 	tmp = number;
 	if (number < 0)
 		tmp = (uintmax_t)number * -1;
-	tmp = ft_abs(number);
+	tmp = ft_abs_ll(number);
 	while (tmp)
 	{
-		tmp /= 10;
-		++length;
+		tmp /= base;
+		flags->num_length++;
 	}
-	//printf("padding: %d, width %d, precision %d, wordlen %d, overf: %d\n", flags->padding, flags->width, flags->precision, flags->wordlen, flags->pad_overflow);
-	check_flags_and_padding(number, length, flags);
+	check_flags_and_padding_base(number, flags, variable, base);
 	padding(flags, 0);
 	tmp = ft_abs_ll(number);
-	itoa_base_fill(tmp, 10, number_as_char, flags);
-	if (flags->flag & (1 << F_SPACE))
-		number_as_char[0] = ' ';
-	//flags->flag & (1 << F_SPACE) ? number_as_char[0] = ' ' : 0;
-	//(number < 0) ? number_as_char[0] = '-' : 0;
-	if (number < 0)
-		number_as_char[0] = '-';
-	//(flags->flag & (1 << F_PLUS) && number >= 0) ? number_as_char[0] = '+' : 0;
-	if (number >= 0 && flags->flag & (1 << F_PLUS))
-		number_as_char[0] = '+';
+	if ((number || flags->flag & (1 << F_POINTER)) && (flags->flag & (1 << F_PREFIX) && ((base == 8 && variable == 0) || base == 16)))
+		printf_write(flags, "0", 1);
+	if ((number || flags->flag & (1 << F_POINTER)) && (flags->flag & (1 << F_PREFIX) && base == 16))
+	{
+		if (flags->flag & (1 << F_CAPS_ON))
+			printf_write(flags, "X", 1);
+		else
+			printf_write(flags, "x", 1);
+	}
+	itoa_base_fill(tmp, base, number_as_char, flags);
 	printf_write(flags, number_as_char, flags->num_length);
 	padding(flags, 1);
 }
 
-void	parse_va_arg_type(t_printf *flags)
+void	parse_va_arg_type_numbers_base(int base, t_printf *flags)
+{
+	intmax_t	number;
+
+	if (flags->num_type & (1 << F_LONG))
+		number = (intmax_t)va_arg(flags->args, unsigned long);
+	else if (flags->num_type & (1 << F_LONGLONG))
+		number = (intmax_t)va_arg(flags->args, unsigned long long);
+	else if (flags->num_type & (1 << F_SHORT))
+		number = (intmax_t)((short)va_arg(flags->args, int));
+	else if (flags->num_type & (1 << F_SHORTCHAR))
+		number = (intmax_t)((char)va_arg(flags->args, int));
+	else if (flags->num_type & (1 << F_MAXINT))
+		number = (va_arg(flags->args, intmax_t));
+	else if (flags->num_type & (1 << F_SIZET))
+		number = ((uintmax_t)va_arg(flags->args, size_t));
+	else
+		number = ((uintmax_t)va_arg(flags->args, unsigned int));
+	if (flags->flag & (1 << F_ZERO))
+		flags->precision = flags->width;
+	itoa_base_printf(number, flags, base);
+	
+}
+
+void	parse_va_arg_type_numbers(t_printf *flags)
 {
 	intmax_t	number;
 
@@ -181,13 +177,9 @@ void	parse_va_arg_type(t_printf *flags)
 	else if (flags->num_type & (1 << F_LONGLONG))
 		number = (intmax_t)va_arg(flags->args, long long);
 	else if (flags->num_type & (1 << F_SHORT))
-	{
 		number = (intmax_t)((short)va_arg(flags->args, int));
-	}
 	else if (flags->num_type & (1 << F_SHORTCHAR))
-	{
 		number = (intmax_t)((char)va_arg(flags->args, int));
-	}
 	else if (flags->num_type & (1 << F_MAXINT))
 		number = (va_arg(flags->args, intmax_t));
 	else if (flags->num_type & F_UNSIGNED)
@@ -196,13 +188,24 @@ void	parse_va_arg_type(t_printf *flags)
 		number = ((intmax_t)va_arg(flags->args, int));
 	if (flags->flag & (1 << F_ZERO))
 		flags->precision = flags->width;
-	//printf("parse: %d\n", flags->precision);
-	//printf("parse: %d\n", flags->num_length);
 	itoa_printf(number, flags, 0);
+}
+
+int	ft_is_capital(int c)
+{
+	if ((c >= 65 && c <= 90))
+		return (1);
+	else
+		return (0);
 }
 
 static int	conversion_specifiers(const char *restrict format, int index, t_printf *flags)
 {
+	if (ft_is_capital(format[index]) == 1)
+		flags->flag |= (1 << F_CAPS_ON);
+	if (format[index] == 'u' || format[index] == 'U')
+		flags->num_type |= (1 << F_UNSIGNED);
+	//if (flags->num_type & (1 << F_LONG) && flags->num_type & (1 << F_UNSIGNED))
 	if (format[index] == 's')
 	{
 		if (~flags->flag & (1 << F_PRECISION))
@@ -212,29 +215,14 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 	else if (format[index] == 'c' || format[index] == 'C')
 		ft_print_char(flags, 0);
 	else if (ft_strchr("diD", format[index]))
-	{
-		parse_va_arg_type(flags);
-		/*if (flags->num_type & (1 << F_LONG) || flags->num_type & (1 << F_LONGLONG))
-			ft_print_long_long(flags);
-		else
-			ft_print_integer(flags);*/
-	}
-	else if (format[index] == 'u')
-		ft_print_unsigned(flags);
-	else if (format[index] == 'f')
-		ft_print_float_double(flags);
-	else if (format[index] == 'x' || format[index] == 'X')
-	{
-		if (flags->num_type & (1 << F_LONG) || flags->num_type & (1 << F_LONGLONG))
-			ft_print_hexa_long(flags, format[index]);
-		else
-			ft_print_hexa(flags, format[index]);
-	}
-	else if (format[index] == 'o')
-		ft_print_octal(flags);
+		parse_va_arg_type_numbers(flags);
+	else if (ft_strchr("oOuUbBxX", format[index]))
+		parse_va_arg_type_numbers_base(ft_strchri_lu(".b..ou..x", format[index], 0) << 1, flags);
 	else if (format[index] == '%')
 		ft_print_char(flags, '%');
 	return (index);
+	/*else if (format[index] == 'f' || format[index] == 'F')
+		(flags->flag & (1 << F_PRECISION) && !flags->precision) ? parse_va_arg_type_numbers(flags) : pf_putdouble(flags);*/
 }
 
 static int	evaluate_format_type(const char *restrict format, int index, t_printf *flags)

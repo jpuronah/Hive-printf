@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/11 19:37:39 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/12 12:27:00 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,25 @@ int	ft_strchri(const char *s, int c, int index)
 	return (-1);
 }
 
+int	ft_strchri_lu(const char *s, int c, int index)
+{
+	char	*str;
+	char	ch;
+	char	ret;
+
+	str = (char *)s;
+	ch = (char)c;
+	ret = -1;
+	while (str[index] != '\0')
+	{
+		if (str[index] == ch || str[index] == ch + 32)
+			ret = index;
+		index++;
+	}
+	if (ret > -1)
+		return (ret);
+	return (-1);
+}
 
 static size_t	ft_len(long long n)
 {

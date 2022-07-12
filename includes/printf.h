@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/11 19:36:36 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/12 14:24:53 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@
 # define F_PRECISION 11
 # define F_MAXINT 12
 # define F_UNSIGNED 13
-# define F_POINTER 13
+# define F_POINTER 14
+# define F_SIZET 15
 
 
 typedef struct s_flags
@@ -90,6 +91,11 @@ int		parse_width(const char *restrict format, int index, t_printf *flags);
 
 int		parse_h_l(const char *restrict format, int index, t_printf *flags);
 
+
+
+void	printf_write(t_printf *flags, void *new, size_t size);
+
+
 void	ft_print_char(t_printf *flags, char ch);
 void	ft_print_string(t_printf *flags);
 
@@ -99,14 +105,21 @@ void	ft_print_long_long(t_printf *flags);
 
 void	ft_print_float_double(t_printf *flags);
 
-void	ft_print_hexa(t_printf *flags, char format);
+void	itoa_printf(intmax_t number, t_printf *flags, int length);
+void	pf_putdouble(t_printf *p);
+
+void	itoa_base_fill(uintmax_t tmp, int base, char s[21], t_printf *flags);
+
+
+/*void	ft_print_hexa(t_printf *flags, char format);
 void	ft_print_hexa_long(t_printf *flags, char format);
-void	ft_print_octal(t_printf *flags);
+void	ft_print_octal(t_printf *flags);*/
 //void	check_and_print_flags(t_printf *flags);
 
 void	padding(t_printf *flags, int phase);
 
 int			ft_strchri(const char *s, int c, int index);
+int			ft_strchri_lu(const char *s, int c, int index);
 int			ft_min(int a, int b);
 int			ft_max(int a, int b);
 long long	ft_abs_ll(long long i);

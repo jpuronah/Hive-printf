@@ -18,6 +18,7 @@ SOURCES = ft_printf.c \
 			printers_numbers.c \
 			libft_extras.c \
 			printers_octal.c \
+			float_double.c \
 			
 
 OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
@@ -39,6 +40,8 @@ $(NAME):
 	@gcc  $(FLAGS) -I includes -o obj/printers_numbers.o -c srcs/printers_numbers.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/printers_octal.o -c srcs/printers_octal.c
+	@mkdir -p obj
+	@gcc  $(FLAGS) -I includes -o obj/float_double.o -c srcs/float_double.c
 	@mkdir -p obj
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)
@@ -68,6 +71,8 @@ nf:
 	@gcc -I includes -o obj/libft_extras.o -c srcs/libft_extras.c
 	@mkdir -p obj
 	@gcc -I includes -o obj/printers_numbers.o -c srcs/printers_numbers.c
+	@mkdir -p obj
+	@gcc -I includes -o obj/float_double.o -c srcs/float_double.c
 	@mkdir -p obj
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)
