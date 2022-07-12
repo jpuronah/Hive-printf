@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/12 20:57:52 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/12 21:14:31 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ typedef struct s_printf
 	char		*format;
 }				t_printf;
 
-int		ft_printf(const char *restrict format, ...);
+int		ft_printf(const char *format, ...);
 void	print_error(char *reason, t_printf *flags);
 
-int		parse_flags(const char *restrict format, int index, t_printf *flags);
-int		parse_precision(const char *restrict format, int index, t_printf *flags);
-int		parse_width(const char *restrict format, int index, t_printf *flags);
+int		parse_flags(const char *format, int index, t_printf *flags);
+int		parse_precision(const char *format, int index, t_printf *flags);
+int		parse_width(const char *format, int index, t_printf *flags);
 
-int		parse_h_l(const char *restrict format, int index, t_printf *flags);
+int		parse_h_l(const char *format, int index, t_printf *flags);
 
 
 
