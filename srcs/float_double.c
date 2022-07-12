@@ -6,61 +6,84 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 10:48:02 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/12 11:29:29 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:51:32 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
-/*
-static void		ldtoa_fill(double n, t_printf *p, long value)
-{
-	int		len;
-	int		accuracy;
-	char	s[48];
 
-	len = p->printed - 1 - p->precision;
-	accuracy = p->printed - 1 - len;
-	while (accuracy--)
-	{
-		s[len + accuracy + 1] = value % 10 + '0';
-		value /= 10;
-	}
-	(p->precision > 0) ? s[len] = '.' : 0;
-	value = (long)(ABS(n));
-	while (++accuracy < len)
-	{
-		s[len - accuracy - 1] = value % 10 + '0';
-		value /= 10;
-	}
-	(p->f & F_APP_PRECI && p->f & F_ZERO) ? s[0] = ' ' : 0;
-	(p->f & F_SPACE) ? s[0] = ' ' : 0;
-	(n < 0) ? s[0] = '-' : 0;
-	(p->f & F_PLUS && n >= 0) ? s[0] = '+' : 0;
-	buffer(p, s, len + 1 + 6);
+double	ft_pow(double n, int pow)
+{
+	return (pow ? n * ft_pow(n, pow - 1) : 1);
 }
 
-void			pf_putdouble(t_printf *p)
+static void	long_double_float_toa_fill(double number, t_printf *flags, long value)
 {
-	double		n;
-	long		tmp;
-	int			len;
-	double		decimal;
-	long		value;
+	int		length;
+	int		accuracy;
+	char	string[48];
 
-	n = (double)va_arg(p->ap, double);
-	(p->f & F_ZERO) ? p->precision = p->min_length : 0;
-	if (!(p->f & F_APP_PRECI))
-		p->precision = 6;
-	len = (p->precision > 0) ? 1 : 0;
-	tmp = (long)(ABS(n));
-	while (tmp && ++len)
+	length = flags->num_length - 1 - flags->precision;
+	accuracy = flags->num_length - 1 - length;
+	//printf("accu: %d, length: %d, value: %ld, numlen: %d\n", accuracy, length, value, flags->num_length);
+	while (accuracy)
+	{
+		string[length + accuracy + 1] = value % 10 + '0';
+		value /= 10;
+		accuracy--;
+	}
+	//printf("string: |%s|\n", string);
+	if (flags->precision > 0)
+		string[length] = '.';
+	value = ft_abs_ll(number);
+	while (accuracy < length)
+	{
+		string[length - accuracy - 1] = value % 10 + '0';
+		value /= 10;
+		accuracy++;
+	}
+	if (flags->flag & (1 << F_PRECISION) && flags->flag & (1 << F_ZERO))
+		string[0] = ' ';
+	if (flags->flag & (1 << F_SPACE))
+		string[0] = ' ';
+	if (number < 0)
+		string[0] = '-';
+	if (flags->flag & (1 << F_PLUS) && number >= 0)
+		string[0] = '+';
+	printf_write(flags, string, flags->num_length);
+}
+
+void	parse_va_arg_type_numbers_float_double(t_printf *flags)
+{
+	double	number;
+	long	tmp;
+	int		length;
+	double	decimal;
+	long	value;
+
+	number = (double)va_arg(flags->args, double);
+	if (flags->flag & (1 << F_ZERO))
+		flags->precision = flags->width;
+	if (~flags->flag & (1 << F_PRECISION))
+		flags->precision = 6;
+	if (flags->precision > 0)
+		length = 1;
+	tmp = ft_abs_ll(number);
+	while (tmp)
+	{
 		tmp /= 10;
-	(p->f & F_ZERO) ? p->precision = p->min_length : 0;
-	p->printed = p->precision + len + ((n < 0) ? 1 : 0);
-	decimal = ((n < 0.0f) ? -n : n);
-	decimal = (decimal - (long)(((n < 0.0f) ? -n : n))) *
-	ft_pow(10, p->precision + 1);
+		length++;
+	}
+	if (flags->flag & (1 << F_ZERO))
+		flags->precision = flags->width;
+	flags->num_length = flags->precision + length;
+	if (number < 0)
+		flags->num_length++;
+	decimal = number;
+	if (number < 0)
+		decimal *= -1;
+	decimal = decimal - (long)number * ft_pow(10, flags->precision + 1);
 	decimal = ((long)decimal % 10 > 4) ? (decimal) / 10 + 1 : decimal / 10;
 	value = (int)decimal;
-	ldtoa_fill(n, p, value);
-}**/
+	long_double_float_toa_fill(number, flags, value);
+}

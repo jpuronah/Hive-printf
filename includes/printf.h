@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/12 14:24:53 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:57:52 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@
 # define F_UNSIGNED 13
 # define F_POINTER 14
 # define F_SIZET 15
-
 
 typedef struct s_flags
 {
@@ -99,12 +98,17 @@ void	printf_write(t_printf *flags, void *new, size_t size);
 void	ft_print_char(t_printf *flags, char ch);
 void	ft_print_string(t_printf *flags);
 
+void	parse_va_arg_type_numbers(t_printf *flags);
+void	parse_va_arg_type_numbers_float_double(t_printf *flags);
+void	parse_va_arg_type_numbers_base(int base, t_printf *flags);
+
 void	ft_print_integer(t_printf *flags);
 void	ft_print_unsigned(t_printf *flags);
 void	ft_print_long_long(t_printf *flags);
 
 void	ft_print_float_double(t_printf *flags);
 
+void	print_pointer_address(t_printf *flags);
 void	itoa_printf(intmax_t number, t_printf *flags, int length);
 void	pf_putdouble(t_printf *p);
 
@@ -120,6 +124,8 @@ void	padding(t_printf *flags, int phase);
 
 int			ft_strchri(const char *s, int c, int index);
 int			ft_strchri_lu(const char *s, int c, int index);
+int			ft_islower(int c);
+int			ft_is_capital(int c);
 int			ft_min(int a, int b);
 int			ft_max(int a, int b);
 long long	ft_abs_ll(long long i);

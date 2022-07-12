@@ -6,11 +6,27 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/12 12:27:00 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:22:48 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
+
+int	ft_islower(int c)
+{
+	if ((c >= 97 && c <= 122))
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_is_capital(int c)
+{
+	if ((c >= 65 && c <= 90))
+		return (1);
+	else
+		return (0);
+}
 
 long long	ft_abs_ll(long long i)
 {
