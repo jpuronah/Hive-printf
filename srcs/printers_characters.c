@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/11 15:52:12 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/13 08:25:48 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,12 @@ void	print_null_string(char *string, t_printf *flags)
 		padding(flags, 1);
 	}
 	else
-		flags->length_written += write(1, string, (int)ft_strlen(string));
+	{
+		//what bout dis
+		printf("JEESUS");
+		printf("     %zu\n", ft_strlen(string));
+		flags->length_written += (int)write(1, string, (ssize_t)ft_strlen(string));
+	}
 }
 
 void	ft_print_string(t_printf *flags)
