@@ -6,13 +6,13 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/12 13:09:17 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/13 09:16:30 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-int	parse_h_l(const char *restrict format, int index, t_printf *flags)
+int	parse_h_l(const char *format, int index, t_printf *flags)
 {
 	while (1)
 	{
@@ -47,7 +47,7 @@ int	parse_h_l(const char *restrict format, int index, t_printf *flags)
 	return (index);
 }
 
-int	parse_width(const char *restrict format, int index, t_printf *flags)
+int	parse_width(const char *format, int index, t_printf *flags)
 {
 	char	*tmp;
 
@@ -77,7 +77,7 @@ int	parse_width(const char *restrict format, int index, t_printf *flags)
 	return (index);
 }
 
-int	parse_precision(const char *restrict format, int index, t_printf *flags)
+int	parse_precision(const char *format, int index, t_printf *flags)
 {
 	char	*tmp;
 
@@ -111,7 +111,7 @@ int	parse_precision(const char *restrict format, int index, t_printf *flags)
 	return (index);
 }
 
-int	parse_flags(const char *restrict format, int index, t_printf *flags)
+int	parse_flags(const char *format, int index, t_printf *flags)
 {
 	int		tmp;
 

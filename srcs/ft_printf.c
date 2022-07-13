@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/13 08:58:16 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/13 09:17:45 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	printf_write(t_printf *flags, void *new, size_t size)
 	free(string);
 }
 
-void		ft_no_conversion_specifier(t_printf *flags, const char *restrict format)
+void		ft_no_conversion_specifier(t_printf *flags, const char *format)
 {
 	//printf("assa%s\n", format);
 	if ((flags->padding = flags->width - 1) > 0)
@@ -92,7 +92,7 @@ void		ft_no_conversion_specifier(t_printf *flags, const char *restrict format)
 	printf_write(flags, (char *)format, 1);
 }
 
-static int	conversion_specifiers(const char *restrict format, int index, t_printf *flags)
+static int	conversion_specifiers(const char *format, int index, t_printf *flags)
 {
 //	printf("c: |%c|\n", format[index]);
 	if (ft_is_capital(format[index]) == 1)
@@ -134,7 +134,7 @@ static int	conversion_specifiers(const char *restrict format, int index, t_print
 	return (index);
 }
 
-static int	evaluate_format_type(const char *restrict format, int index, t_printf *flags)
+static int	evaluate_format_type(const char *format, int index, t_printf *flags)
 {
 	if (format[index] == '%')
 		index++;
