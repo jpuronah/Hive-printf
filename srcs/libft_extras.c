@@ -6,11 +6,19 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/14 11:56:34 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 13:53:37 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
+
+double	ft_pow(double n, int pow)
+{
+	if (pow)
+		return (n * ft_pow(n, pow - 1));
+	else
+		return (1);
+}
 
 int	ft_islower(int c)
 {
@@ -35,7 +43,7 @@ long long	ft_abs_ll(long long i)
 	return (i);
 }
 
-int		ft_min(int a, int b)
+int	ft_min(int a, int b)
 {
 	if (a < b)
 		return (a);

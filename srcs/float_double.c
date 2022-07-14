@@ -6,18 +6,29 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 10:48:02 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/14 12:21:11 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:09:04 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-double	ft_pow(double n, int pow)
+static char	check_flags(t_printf *flags, char *string, double number)
 {
-	return (pow ? n * ft_pow(n, pow - 1) : 1);
+	char	tmp;
+
+	tmp = string[0];
+	if (flags->flag & (1 << F_PRECISION) && flags->flag & (1 << F_ZERO))
+		tmp = ' ';
+	if (flags->flag & (1 << F_SPACE))
+		tmp = ' ';
+	if (number < 0)
+		tmp = '-';
+	if (flags->flag & (1 << F_PLUS) && number >= 0)
+		tmp = '+';
+	return (tmp);
 }
 
-static void	long_double_float_toa_fill(double number, t_printf *flags, long value)
+static void	long_double_float_toa_fill(double number, t_printf *flags, long num)
 {
 	int		length;
 	int		accuracy;
@@ -25,41 +36,32 @@ static void	long_double_float_toa_fill(double number, t_printf *flags, long valu
 
 	length = flags->num_length - 1 - flags->precision;
 	accuracy = flags->num_length - 1 - length;
-	//printf("accu: %d, length: %d, value: %ld, numlen: %d\n", accuracy, length, value, flags->num_length);
 	while (accuracy)
 	{
-		string[length + accuracy + 1] = value % 10 + '0';
-		value /= 10;
+		string[length + accuracy + 1] = num % 10 + '0';
+		num /= 10;
 		accuracy--;
 	}
-	//printf("string: |%s|\n", string);
 	if (flags->precision > 0)
 		string[length] = '.';
-	value = ft_abs_ll((long long)number);
+	num = ft_abs_ll((long long)number);
 	while (accuracy < length)
 	{
-		string[length - accuracy - 1] = value % 10 + '0';
-		value /= 10;
+		string[length - accuracy - 1] = num % 10 + '0';
+		num /= 10;
 		accuracy++;
 	}
-	if (flags->flag & (1 << F_PRECISION) && flags->flag & (1 << F_ZERO))
-		string[0] = ' ';
-	if (flags->flag & (1 << F_SPACE))
-		string[0] = ' ';
-	if (number < 0)
-		string[0] = '-';
-	if (flags->flag & (1 << F_PLUS) && number >= 0)
-		string[0] = '+';
+	string[0] = check_flags(flags, string, number);
 	printf_write(flags, string, (size_t)flags->num_length);
 }
 
-void	parse_va_arg_type_numbers_float_double(t_printf *flags)
+void	get_va_arg_float_double(t_printf *flags)
 {
 	double	number;
 	long	tmp;
 	int		length;
 	double	decimal;
-	long	value;
+	long	num;
 
 	number = (double)va_arg(flags->args, double);
 	if (flags->flag & (1 << F_ZERO))
@@ -83,7 +85,11 @@ void	parse_va_arg_type_numbers_float_double(t_printf *flags)
 	if (number < 0)
 		decimal *= -1;
 	decimal = decimal - (long)number * ft_pow(10, flags->precision + 1);
-	decimal = ((long)decimal % 10 > 4) ? (decimal) / 10 + 1 : decimal / 10;
-	value = (int)decimal;
-	long_double_float_toa_fill(number, flags, value);
+	if ((long)decimal % 10 > 4)
+		decimal = (decimal) / 10 + 1;
+	else
+		decimal = (decimal) / 10;
+	//decimal = ((long)decimal % 10 > 4) ? (decimal) / 10 + 1 : decimal / 10;
+	num = (int)decimal;
+	long_double_float_toa_fill(number, flags, num);
 }

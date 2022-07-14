@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/14 11:55:38 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 13:33:57 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int	parse_h_l(const char *format, int index, t_printf *flags)
 		if (format[index] == 'l')
 		{
 			if (format[index + 1] == 'l')
-			{
 				flags->num_type |= (1 << F_LONGLONG);
-			}
 			else
 				flags->num_type |= (1 << F_LONG);
 			if (flags->num_type == (1 << F_LONGLONG))
@@ -62,18 +60,6 @@ int	parse_width(const char *format, int index, t_printf *flags)
 	}
 	free(tmp);
 	tmp = NULL;
-	
-	/*tmp = ft_strsub(format, index + 1, 10);
-	if (format[index] == '.')
-	{
-		if (ft_atoi(tmp) > 0)
-			flags->precision = ft_atoi(tmp);
-		while (ft_isdigit(format[index + 1]) == 1)
-			index++;
-		index++;
-	}
-	free(tmp);
-	tmp = NULL;*/
 	return (index);
 }
 
@@ -81,16 +67,6 @@ int	parse_precision(const char *format, int index, t_printf *flags)
 {
 	char	*tmp;
 
-	/*tmp = NULL;
-	tmp = ft_strsub(format, index, 10);
-	if (ft_isdigit(format[index]) == 1 && format[index] != '0')
-	{
-		if (ft_atoi(tmp) > 0)
-			flags->padding_length = ft_atoi(tmp);
-		while (ft_isdigit(format[index]) == 1)
-			index++;
-	}
-	free(tmp);*/
 	tmp = NULL;
 	tmp = ft_strsub(format, (unsigned int)index + 1, 10);
 	if (format[index] == '.')
@@ -106,8 +82,6 @@ int	parse_precision(const char *format, int index, t_printf *flags)
 	}
 	free(tmp);
 	tmp = NULL;
-	//printf("%d, %d\n", flags->width, flags->precision);
-	//printf("flag: %d\n", flags->flag);
 	return (index);
 }
 
@@ -126,27 +100,48 @@ int	parse_flags(const char *format, int index, t_printf *flags)
 	}
 	if (flags->flag & (1 << F_MINUS))
 		flags->flag &= ~(1 << F_ZERO);
-	//(p->f & F_PLUS) ? p->f &= ~F_SPACE : 0;
-	//if (flags->flag & (1 << F_PREFIX) && flags->flag & (1 << F_ZERO))
-	//	printf("molempi paska\n");
-	//while (format[index] == '0')
-	//	index++;
-	//if (flags->flag & (1 << F_PLUS))
-	//	flags->length_written += write(1, "+", 1);
-	/*
-	if (flags->flag & (1 << F_PREFIX))
-		printf("macro def flag found: |%c|\n", format[index]);
-	if (flags->flag & (1 << F_SPACE))
-		printf("macro def flag found: |%c|\n", format[index]);
-	if (flags->flag & (1 << F_PLUS))
-		printf("macro def flag found: |%c|\n", format[index]);
-	if (flags->flag & (1 << F_MINUS))
-		printf("macro def flag found: |%c|\n", format[index]);
-	if (flags->flag & (1 << F_ZERO))
-		index++;
-	if (flags->flag & (1 << F_ASTERISK))
-		printf("macro def flag found: |%c|\n", format[index]);
-	*/
 	return (index);
 }
 
+void	ft_no_conversion_specifier(t_printf *flags, const char *format)
+{
+	flags->padding = flags->width - 1;
+	if (flags->padding > 0)
+	{
+		padding(flags, 0);
+		printf_write(flags, (char *)format, 1);
+		padding(flags, 1);
+		return ;
+	}
+	printf_write(flags, (char *)format, 1);
+}
+
+int	conversion_specifiers(const char *format, int index, t_printf *flags)
+{
+	if (ft_is_capital(format[index]) == 1)
+		flags->flag |= (1 << F_CAPS_ON);
+	if (format[index] == 'u' || format[index] == 'U')
+		flags->num_type |= (1 << F_UNSIGNED);
+	if (format[index] == 's')
+		ft_print_string(flags);
+	else if (format[index] == 'c' || format[index] == 'C')
+		ft_print_char(flags, 0);
+	else if (ft_strchri("diD", format[index], 0) > -1)
+		get_va_arg(flags);
+	else if (format[index] == 'f' || format[index] == 'F')
+	{
+		if (flags->flag & (1 << F_PRECISION) && !flags->precision)
+			get_va_arg(flags);
+		else
+			get_va_arg_float_double(flags);
+	}
+	else if (ft_strchri("oOuUbBxX", format[index], 0) > -1)
+		get_va_arg_base(ft_strchri_lu(".b..ou..x", format[index], 0) << 1, flags);
+	else if (format[index] == 'p')
+		print_pointer_address(flags);
+	else if (format[index] == '%')
+		ft_print_char(flags, '%');
+	else
+		ft_no_conversion_specifier(flags, format);
+	return (index);
+}
