@@ -6,13 +6,13 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/12 20:58:48 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 12:17:06 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-static void	check_flags_and_padding_base(intmax_t number, t_printf *flags, int variable, int base)
+static void	check_flags_and_padding_base(uintmax_t number, t_printf *flags, int variable, int base)
 {
 	if (flags->flag & (1 << F_ZERO))
 		flags->precision = flags->width;
@@ -35,26 +35,26 @@ static void	check_flags_and_padding_base(intmax_t number, t_printf *flags, int v
 	//printf("padding: %d, precision: %d, width: %d, numlen: %d\n", flags->padding, flags->precision, flags->width, flags->num_length);
 }
 
-void	itoa_base_printf(intmax_t number, t_printf *flags, int base)
+void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 {
 	char		number_as_char[21];
-	intmax_t	tmp;
+	uintmax_t	tmp;
 	int			variable;
 
 	variable = 0;
 	flags->num_length = 0;
 	tmp = number;
-	if (number < 0)
-		tmp = (uintmax_t)number * -1;
-	tmp = ft_abs_ll(number);
+	/*if (number < 0)
+		tmp = (uintmax_t)number * -1;*/
+	//tmp = (uintmax_t)ft_abs_ll((long long)number);
 	while (tmp)
 	{
-		tmp /= base;
+		tmp /= (uintmax_t)base;
 		flags->num_length++;
 	}
 	check_flags_and_padding_base(number, flags, variable, base);
 	padding(flags, 0);
-	tmp = ft_abs_ll(number);
+	//tmp = (uintmax_t)ft_abs_ll((long long)number);
 	if ((number || flags->flag & (1 << F_POINTER)) && (flags->flag & (1 << F_PREFIX) && ((base == 8 && variable == 0) || base == 16)))
 		printf_write(flags, "0", 1);
 	if ((number || flags->flag & (1 << F_POINTER)) && (flags->flag & (1 << F_PREFIX) && base == 16))
@@ -65,24 +65,24 @@ void	itoa_base_printf(intmax_t number, t_printf *flags, int base)
 			printf_write(flags, "x", 1);
 	}
 	itoa_base_fill(tmp, base, number_as_char, flags);
-	printf_write(flags, number_as_char, flags->num_length);
+	printf_write(flags, number_as_char, (size_t)flags->num_length);
 	padding(flags, 1);
 }
 
 void	parse_va_arg_type_numbers_base(int base, t_printf *flags)
 {
-	intmax_t	number;
+	uintmax_t	number;
 
 	if (flags->num_type & (1 << F_LONG))
-		number = (intmax_t)va_arg(flags->args, unsigned long);
+		number = ((uintmax_t)va_arg(flags->args, unsigned long));
 	else if (flags->num_type & (1 << F_LONGLONG))
-		number = (intmax_t)va_arg(flags->args, unsigned long long);
+		number = ((uintmax_t)va_arg(flags->args, unsigned long long));
 	else if (flags->num_type & (1 << F_SHORT))
-		number = (intmax_t)((short)va_arg(flags->args, int));
+		number = (uintmax_t)((short)va_arg(flags->args, int));
 	else if (flags->num_type & (1 << F_SHORTCHAR))
-		number = (intmax_t)((char)va_arg(flags->args, int));
+		number = (uintmax_t)((char)va_arg(flags->args, int));
 	else if (flags->num_type & (1 << F_MAXINT))
-		number = (va_arg(flags->args, intmax_t));
+		number = (va_arg(flags->args, uintmax_t));
 	else if (flags->num_type & (1 << F_SIZET))
 		number = ((uintmax_t)va_arg(flags->args, size_t));
 	else
@@ -130,12 +130,11 @@ static void	check_flags_and_padding_diD(intmax_t number, int length, t_printf *f
 void	itoa_printf(intmax_t number, t_printf *flags, int length)
 {
 	char		number_as_char[21];
-	intmax_t	tmp;
+	uintmax_t	tmp;
 
-	tmp = number;
-	if (number < 0)
-		tmp = (uintmax_t)number * -1;
-	tmp = ft_abs_ll(number);
+	tmp = (uintmax_t)ft_abs_ll((long long)number);
+	/*if (number < 0)
+		tmp = (uintmax_t)number * -1;*/
 	while (tmp)
 	{
 		tmp /= 10;
@@ -143,7 +142,7 @@ void	itoa_printf(intmax_t number, t_printf *flags, int length)
 	}
 	check_flags_and_padding_diD(number, length, flags);
 	padding(flags, 0);
-	tmp = ft_abs_ll(number);
+	tmp = (uintmax_t)ft_abs_ll((long long)number);
 	itoa_base_fill(tmp, 10, number_as_char, flags);
 	if (flags->flag & (1 << F_SPACE))
 		number_as_char[0] = ' ';
@@ -151,7 +150,7 @@ void	itoa_printf(intmax_t number, t_printf *flags, int length)
 		number_as_char[0] = '-';
 	if (number >= 0 && flags->flag & (1 << F_PLUS))
 		number_as_char[0] = '+';
-	printf_write(flags, number_as_char, flags->num_length);
+	printf_write(flags, number_as_char, (size_t)flags->num_length);
 	padding(flags, 1);
 }
 
@@ -176,8 +175,8 @@ void	itoa_base_fill(uintmax_t tmp, int base, char s[21], t_printf *flags)
 		flags->numchar = 'a' - 10 - 32;
 	while (len--)
 	{
-		s[len] = (tmp % base + ((tmp % (uintmax_t)base < 10) ? '0' : flags->numchar));
-		tmp /= base;
+		s[len] = (char)(tmp % (uintmax_t)base + ((tmp % (uintmax_t)base < 10) ? '0' : (uintmax_t)flags->numchar));
+		tmp /= (uintmax_t)base;
 	}
 	(flags->flag & (1 << F_PRECISION) && flags->flag & (1 << F_ZERO)) ? s[0] = ' ' : 0;
 }

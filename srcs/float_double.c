@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 10:48:02 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/12 20:51:32 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 12:21:11 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	long_double_float_toa_fill(double number, t_printf *flags, long valu
 	//printf("string: |%s|\n", string);
 	if (flags->precision > 0)
 		string[length] = '.';
-	value = ft_abs_ll(number);
+	value = ft_abs_ll((long long)number);
 	while (accuracy < length)
 	{
 		string[length - accuracy - 1] = value % 10 + '0';
@@ -50,7 +50,7 @@ static void	long_double_float_toa_fill(double number, t_printf *flags, long valu
 		string[0] = '-';
 	if (flags->flag & (1 << F_PLUS) && number >= 0)
 		string[0] = '+';
-	printf_write(flags, string, flags->num_length);
+	printf_write(flags, string, (size_t)flags->num_length);
 }
 
 void	parse_va_arg_type_numbers_float_double(t_printf *flags)
@@ -68,7 +68,7 @@ void	parse_va_arg_type_numbers_float_double(t_printf *flags)
 		flags->precision = 6;
 	if (flags->precision > 0)
 		length = 1;
-	tmp = ft_abs_ll(number);
+	tmp = ft_abs_ll((long long)number);
 	while (tmp)
 	{
 		tmp /= 10;

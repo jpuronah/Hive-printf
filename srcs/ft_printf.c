@@ -6,14 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/13 09:17:45 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:52:35 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
-#include <stdarg.h>
-#include <errno.h>
-#include <stdio.h>
 
 static void	free_flags(t_printf *flags)
 {
@@ -37,7 +34,6 @@ static t_printf	*init_and_malloc_structure(void)
 	flags->num_type = 0;
 	flags->num_length = 0;
 	flags->numchar = 0;
-
 	flags->length_written = 0;
 	flags->padding_length = 0;
 	flags->width = 0;
@@ -46,7 +42,7 @@ static t_printf	*init_and_malloc_structure(void)
 	flags->wordlen = 0;
 	flags->charlen = 0;
 	flags->caps_on = 0;
-	flags->pad_overflow = 0;
+	//flags->pad_overflow = 0;
 	return (flags);
 }
 

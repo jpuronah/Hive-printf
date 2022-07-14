@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 08:14:52 by jpuronah          #+#    #+#              #
-#    Updated: 2022/07/13 08:20:10 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/07/14 12:19:01 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ C = clang
 
 NAME = libftprintf.a
 
-FLAGS = -Wall -Wextra -Werror -O2
+FLAGS = -Wconversion -Wall -Wextra -Werror -O2
 
 LIBFT = libft
 
@@ -29,7 +29,6 @@ SOURCES = ft_printf.c \
 			printers_characters.c \
 			printers_numbers.c \
 			libft_extras.c \
-			printers_octal.c \
 			float_double.c \
 			
 
@@ -50,8 +49,6 @@ $(NAME):
 	@gcc  $(FLAGS) -I includes -o obj/libft_extras.o -c srcs/libft_extras.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/printers_numbers.o -c srcs/printers_numbers.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/printers_octal.o -c srcs/printers_octal.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/float_double.o -c srcs/float_double.c
 	@mkdir -p obj

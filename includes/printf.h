@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/12 21:14:31 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:52:18 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdarg.h>
 # include <stdio.h>
 # include <math.h>
+
+# include <errno.h>// ??!?!
 
 /*typedef struct s_printf
 {

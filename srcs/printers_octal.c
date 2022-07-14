@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 16:08:14 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/08 12:59:00 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 12:17:46 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_print_float_double(t_printf *flags)
 		exit(0);
 	exit(1);
 }
-
+/*
 char	*ft_itoa_octal(int num)
 {
 	char		*str;
@@ -38,7 +38,7 @@ char	*ft_itoa_octal(int num)
 	}
 	str = ft_itoa_long_long(octal);
 	return (str);
-}
+}*/
 
 // 	unsigned int as a hexadecimal number. x uses lower-case letters and X uses upper-case. 
 /*void	ft_print_octal(t_printf *flags)
@@ -72,6 +72,8 @@ char	*ft_itoa_octal(int num)
 	charteger = NULL;
 }*/
 
+
+/*
 void	ft_print_octal(t_printf *flags)
 {
 	int		integer;
@@ -106,3 +108,4 @@ void	ft_print_octal(t_printf *flags)
 	free(charteger);
 	charteger = NULL;
 }
+*/

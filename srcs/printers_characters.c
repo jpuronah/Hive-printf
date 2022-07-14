@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/13 08:25:48 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:53:33 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	print_null_string(char *string, t_printf *flags)
 		//what bout dis
 		printf("JEESUS");
 		printf("     %zu\n", ft_strlen(string));
-		flags->length_written += (int)write(1, string, (ssize_t)ft_strlen(string));
+		flags->length_written += (int)write(1, string, (size_t)ft_strlen(string));
 	}
 }
 
@@ -110,7 +110,7 @@ void	ft_print_string(t_printf *flags)
 		print_null_string(string, flags);
 	else
 	{
-		flags->wordlen = ft_strlen(string);
+		flags->wordlen = (int)ft_strlen(string);
 		if (flags->flag & (1 << F_PRECISION))
 		{
 			flags->wordlen = ft_min(flags->wordlen, flags->precision);

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/13 09:16:30 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:55:38 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ int	parse_width(const char *format, int index, t_printf *flags)
 	char	*tmp;
 
 	tmp = NULL;
-	tmp = ft_strsub(format, index, 10);
+	tmp = ft_strsub(format, (unsigned int)index, 10);
 	if (ft_isdigit(format[index]) == 1 && format[index] != '0')
 	{
 		if (ft_atoi(tmp) > 0)
-			flags->width = ft_atoi(tmp);
+			flags->width = (int)ft_atoi(tmp);
 		while (ft_isdigit(format[index]) == 1)
 			index++;
 	}
@@ -92,14 +92,14 @@ int	parse_precision(const char *format, int index, t_printf *flags)
 	}
 	free(tmp);*/
 	tmp = NULL;
-	tmp = ft_strsub(format, index + 1, 10);
+	tmp = ft_strsub(format, (unsigned int)index + 1, 10);
 	if (format[index] == '.')
 	{
 		flags->flag |= (1 << F_PRECISION);
 		if (ft_isdigit(format[index]) == 0)
 			flags->precision = 0;
 		if (ft_atoi(tmp) > 0)
-			flags->precision = ft_atoi(tmp);
+			flags->precision = (int)ft_atoi(tmp);
 		while (ft_isdigit(format[index + 1]) == 1)
 			index++;
 		index++;
