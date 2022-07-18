@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/14 13:38:39 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/18 19:16:41 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,12 @@ static t_printf	*init_and_malloc_structure(void)
 	flags->num_length = 0;
 	flags->numchar = 0;
 	flags->length_written = 0;
-	flags->padding_length = 0;
+	//flags->padding_length = 0;
 	flags->width = 0;
 	flags->precision = 1;
 	flags->padding = 0;
 	flags->wordlen = 0;
 	flags->charlen = 0;
-	flags->caps_on = 0;
 	return (flags);
 }
 
@@ -76,7 +75,7 @@ void	printf_write(t_printf *flags, void *new, size_t size)
 	free(string);
 }
 
-int	evaluate_format_type(const char *format, int index, t_printf *flags)
+int	evaluate_format_type(char *format, int index, t_printf *flags)
 {
 	if (format[index] == '%')
 		index++;

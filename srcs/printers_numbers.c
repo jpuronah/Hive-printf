@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/14 14:14:02 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/18 19:49:09 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	itoa_base_fill(uintmax_t tmp, int base, char s[21], t_printf *flags)
 		flags->num_length -= 2;
 	len = flags->num_length;
 	flags->numchar = 'a' - 10;
-	if (flags->caps_on == 1)
+	//if (flags->caps_on == 1)
+	if (flags->flag & (1 << F_CAPS_ON))
 		flags->numchar = 'a' - 10 - 32;
 	while (len--)
 	{
@@ -63,7 +64,7 @@ static void	pad_adjust_base(uintmax_t number, t_printf *flags, int variable, int
 
 void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 {
-	char		number_as_char[21];
+	char		number_as_char[210];
 	uintmax_t	tmp;
 	int			variable;
 
@@ -134,7 +135,7 @@ static void	pad_adjust_did(intmax_t number, int length, t_printf *flags)
 
 void	itoa_printf(intmax_t number, t_printf *flags, int length)
 {
-	char		number_as_char[21];
+	char		number_as_char[210];
 	uintmax_t	tmp;
 
 	tmp = (uintmax_t)ft_abs_ll((long long)number);

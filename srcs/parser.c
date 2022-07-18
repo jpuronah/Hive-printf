@@ -6,13 +6,13 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/14 13:33:57 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/18 19:16:26 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-int	parse_h_l(const char *format, int index, t_printf *flags)
+int	parse_h_l(char *format, int index, t_printf *flags)
 {
 	while (1)
 	{
@@ -45,7 +45,7 @@ int	parse_h_l(const char *format, int index, t_printf *flags)
 	return (index);
 }
 
-int	parse_width(const char *format, int index, t_printf *flags)
+int	parse_width(char *format, int index, t_printf *flags)
 {
 	char	*tmp;
 
@@ -63,7 +63,7 @@ int	parse_width(const char *format, int index, t_printf *flags)
 	return (index);
 }
 
-int	parse_precision(const char *format, int index, t_printf *flags)
+int	parse_precision(char *format, int index, t_printf *flags)
 {
 	char	*tmp;
 
@@ -85,25 +85,25 @@ int	parse_precision(const char *format, int index, t_printf *flags)
 	return (index);
 }
 
-int	parse_flags(const char *format, int index, t_printf *flags)
+int	parse_flags(char *format, int index, t_printf *flags)
 {
 	int		tmp;
 
 	tmp = -1;
-	tmp = ft_strchri("# +-0*", format[index], 0);
+	tmp = ft_strchri("# +-0", format[index], 0);//"# +-0*"
 	while (tmp > -1)
 	{
 		flags->flag |= (1 << tmp);
 		if (tmp > -1)
 			index++;
-		tmp = ft_strchri("# +-0*", format[index], 0);
+		tmp = ft_strchri("# +-0", format[index], 0);
 	}
 	if (flags->flag & (1 << F_MINUS))
 		flags->flag &= ~(1 << F_ZERO);
 	return (index);
 }
 
-void	ft_no_conversion_specifier(t_printf *flags, const char *format)
+void	ft_no_conversion_specifier(t_printf *flags, char *format)
 {
 	flags->padding = flags->width - 1;
 	if (flags->padding > 0)
@@ -116,7 +116,7 @@ void	ft_no_conversion_specifier(t_printf *flags, const char *format)
 	printf_write(flags, (char *)format, 1);
 }
 
-int	conversion_specifiers(const char *format, int index, t_printf *flags)
+int	conversion_specifiers(char *format, int index, t_printf *flags)
 {
 	if (ft_is_capital(format[index]) == 1)
 		flags->flag |= (1 << F_CAPS_ON);
