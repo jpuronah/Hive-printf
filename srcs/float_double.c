@@ -6,11 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 10:48:02 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/14 14:09:04 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/19 13:08:04 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "../includes/printf.h"
 
 static char	check_flags(t_printf *flags, char *string, double number)
 {

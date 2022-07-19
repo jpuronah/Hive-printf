@@ -6,11 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/18 19:16:41 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/19 17:34:04 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "../includes/printf.h"
 
 static void	free_flags(t_printf *flags)
 {
@@ -83,6 +83,11 @@ int	evaluate_format_type(char *format, int index, t_printf *flags)
 	index = parse_width(format, index, flags);
 	index = parse_precision(format, index, flags);
 	index = parse_h_l(format, index, flags);
+	/*printf("%d\n", flags->width);
+	printf("%d\n", flags->precision);
+	printf("%d\n", flags->num_length);
+	printf("%d\n", flags->num_type);
+	printf("%d\n", flags->padding);*/
 	index = conversion_specifiers(format, index, flags);
 	return (index);
 }

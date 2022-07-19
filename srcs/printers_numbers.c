@@ -6,11 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/18 19:49:09 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/19 17:37:36 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "../includes/printf.h"
 
 void	itoa_base_fill(uintmax_t tmp, int base, char s[21], t_printf *flags)
 {
@@ -23,7 +23,6 @@ void	itoa_base_fill(uintmax_t tmp, int base, char s[21], t_printf *flags)
 		flags->num_length -= 2;
 	len = flags->num_length;
 	flags->numchar = 'a' - 10;
-	//if (flags->caps_on == 1)
 	if (flags->flag & (1 << F_CAPS_ON))
 		flags->numchar = 'a' - 10 - 32;
 	while (len--)
@@ -82,7 +81,7 @@ void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 		&& (flags->flag & (1 << F_PREFIX)
 			&& ((base == 8 && variable == 0) || base == 16)))
 		printf_write(flags, "0", 1);
-	if ((number || flags->flag & (1 << F_POINTER))
+	if ((number || (flags->flag & (1 << F_POINTER)))
 		&& (flags->flag & (1 << F_PREFIX) && base == 16))
 	{
 		if (flags->flag & (1 << F_CAPS_ON))
@@ -120,7 +119,7 @@ void	get_va_arg_base(int base, t_printf *flags)
 
 static void	pad_adjust_did(intmax_t number, int length, t_printf *flags)
 {
-	//printf("padding: %d, precision: %d, width: %d\n",
+	
 	//				flags->padding, flags->precision, flags->width);
 	if ((number < 0 || flags->flag & (1 << F_PLUS)
 			|| flags->flag & (1 << F_SPACE)) && flags->flag & (1 << F_ZERO))
@@ -139,6 +138,8 @@ void	itoa_printf(intmax_t number, t_printf *flags, int length)
 	uintmax_t	tmp;
 
 	tmp = (uintmax_t)ft_abs_ll((long long)number);
+	if (tmp == 0 && flags->flag & (1 << F_ZERO))
+		length++;
 	while (tmp)
 	{
 		tmp /= 10;
@@ -194,4 +195,5 @@ void	print_pointer_address(t_printf *flags)
 	flags->flag |= (1 << F_PREFIX);
 	flags->flag |= (1 << F_POINTER);
 	itoa_base_printf((uintmax_t)pointer, flags, 16);
+	flags->flag = 0;
 }
