@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/19 17:37:36 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/20 18:12:52 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,12 @@ void	itoa_base_fill(uintmax_t tmp, int base, char s[21], t_printf *flags)
 		s[0] = ' ';
 }
 
-static void	pad_adjust_base(uintmax_t number, t_printf *flags, int variable, int base)
+static void	pad_adjust_base(uintmax_t number, t_printf *flags, int oct_zero_check, int base)
 {
 	if (flags->flag & (1 << F_ZERO))
 		flags->precision = flags->width;
-	variable = 0;
-	if (!(flags->num_length >= flags->precision))
-		variable = 1;
 	flags->num_length = ft_max(flags->precision, flags->num_length);
-	if (flags->flag & (1 << F_PREFIX) && base == 8 && variable == 0)
+	if (flags->flag & (1 << F_PREFIX) && base == 8 && oct_zero_check == 0)
 		flags->width--;
 	if (flags->flag & (1 << F_PREFIX) && base == 8 && number == 0
 		&& flags->flag & (1 << F_PRECISION))
@@ -65,9 +62,9 @@ void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 {
 	char		number_as_char[210];
 	uintmax_t	tmp;
-	int			variable;
+	int			oct_zero_check;
 
-	variable = 0;
+	oct_zero_check = 0;
 	flags->num_length = 0;
 	tmp = number;
 	while (tmp)
@@ -75,11 +72,13 @@ void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 		tmp /= (uintmax_t)base;
 		flags->num_length++;
 	}
-	pad_adjust_base(number, flags, variable, base);
+	if (flags->num_length < flags->precision)
+		oct_zero_check = 1;
+	pad_adjust_base(number, flags, oct_zero_check, base);
 	padding(flags, 0);
 	if ((number || flags->flag & (1 << F_POINTER))
 		&& (flags->flag & (1 << F_PREFIX)
-			&& ((base == 8 && variable == 0) || base == 16)))
+			&& ((base == 8 && oct_zero_check == 0) || base == 16)))
 		printf_write(flags, "0", 1);
 	if ((number || (flags->flag & (1 << F_POINTER)))
 		&& (flags->flag & (1 << F_PREFIX) && base == 16))
@@ -98,22 +97,33 @@ void	get_va_arg_base(int base, t_printf *flags)
 {
 	uintmax_t	number;
 
+	//printf("type: %d\n", flags->num_type);
+	//printf("flag: %d\n", flags->flag);
 	if (flags->num_type & (1 << F_LONG))
 		number = ((uintmax_t)va_arg(flags->args, unsigned long));
 	else if (flags->num_type & (1 << F_LONGLONG))
 		number = ((uintmax_t)va_arg(flags->args, unsigned long long));
 	else if (flags->num_type & (1 << F_SHORT))
-		number = (uintmax_t)((short)va_arg(flags->args, int));
+	{
+		//printf("short\n");
+		number = (uintmax_t)((unsigned short)va_arg(flags->args, int));
+	}
 	else if (flags->num_type & (1 << F_SHORTCHAR))
-		number = (uintmax_t)((char)va_arg(flags->args, int));
-	else if (flags->num_type & (1 << F_MAXINT))
-		number = (va_arg(flags->args, uintmax_t));
+	{
+		//printf("short\n");
+		number = (uintmax_t)((unsigned char)va_arg(flags->args, int));
+	}
 	else if (flags->num_type & (1 << F_SIZET))
 		number = ((uintmax_t)va_arg(flags->args, size_t));
 	else
+	{
 		number = ((uintmax_t)va_arg(flags->args, unsigned int));
+	}
 	if (flags->flag & (1 << F_ZERO))
 		flags->precision = flags->width;
+	//else if (flags->num_type & (1 << F_MAXINT))
+	//	number = (va_arg(flags->args, uintmax_t));
+	//printf("num: %jd\n", number);
 	itoa_base_printf(number, flags, base);
 }
 
@@ -163,22 +173,48 @@ void	get_va_arg(t_printf *flags)
 {
 	intmax_t	number;
 
+	//printf("type: %d\n", flags->num_type);
 	if (flags->num_type & (1 << F_LONG))
+	{
+		//printf("1\n");
 		number = (intmax_t)va_arg(flags->args, long);
+	}
 	else if (flags->num_type & (1 << F_LONGLONG))
+	{
+		//printf("2\n");
 		number = (intmax_t)va_arg(flags->args, long long);
+	}
 	else if (flags->num_type & (1 << F_SHORT))
+	{
+		//printf("3\n");
 		number = (intmax_t)((short)va_arg(flags->args, int));
+	}
 	else if (flags->num_type & (1 << F_SHORTCHAR))
+	{
+		//printf("4\n");
 		number = (intmax_t)((char)va_arg(flags->args, int));
+	}
 	else if (flags->num_type & (1 << F_MAXINT))
+	{
+		//printf("5\n");
 		number = (va_arg(flags->args, intmax_t));
+	}
 	else if (flags->num_type & F_UNSIGNED)
+	{
+		//printf("6\n");
 		number = ((intmax_t)va_arg(flags->args, ssize_t));
+	}
 	else
+	{
+		//printf("7\n");
 		number = ((intmax_t)va_arg(flags->args, int));
+	}
 	if (flags->flag & (1 << F_ZERO))
+	{
+		//printf("8\n");
 		flags->precision = flags->width;
+	}
+	//printf("%jd\n", number);
 	itoa_printf(number, flags, 0);
 }
 
