@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/19 17:19:49 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:10:54 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,12 @@ typedef struct s_printf
 }				t_printf;
 
 
-/*
-** ------------------------------ Prototypes -----------------------------------
-*/
+/* ------------------------------ Prototypes -------------------------------- */
+
 
 int		ft_printf(const char *format, ...);
 
-/*
-** -------------------------- Parsing Functions --------------------------------
-*/
+/* -------------------------- Parsing Functions ----------------------------- */
 
 int		evaluate_format_type(char *format, int index, t_printf *flags);
 int		conversion_specifiers(char *format, int index, t_printf *flags);
@@ -75,31 +72,23 @@ int		parse_precision(char *format, int index, t_printf *flags);
 int		parse_width(char *format, int index, t_printf *flags);
 int		parse_h_l(char *format, int index, t_printf *flags);
 
-/*
-** --------------------------- Print & Padding ---------------------------------
-*/
+/* --------------------------- Print & Padding ------------------------------ */
 
 void	printf_write(t_printf *flags, void *new, size_t size);
 void	padding(t_printf *flags, int phase);
 
-/*
-** ---------------------- Strings & Chars Functions ----------------------------
-*/
+/* ---------------------- Strings & Chars Functions ------------------------- */
 
 void	ft_print_char(t_printf *flags, char ch);
 void	ft_print_string(t_printf *flags);
 
-/*
-** -------------------------- Numbers Functions --------------------------------
-*/
+/* -------------------------- va_arg Functions ----------------------------- */
 
 void	get_va_arg(t_printf *flags);
 void	get_va_arg_base(int base, t_printf *flags);
 void	get_va_arg_float_double(t_printf *flags);
 
-/*
-** -------------------------- Numbers Functions --------------------------------
-*/
+/* -------------------------- Numbers Functions ----------------------------- */
 
 void	ft_print_integer(t_printf *flags);
 void	ft_print_unsigned(t_printf *flags);
@@ -107,15 +96,11 @@ void	ft_print_long_long(t_printf *flags);
 void	ft_print_float_double(t_printf *flags);
 void	pf_putdouble(t_printf *p);
 
-/*
-** -------------------------- Bonus Functions --------------------------------
-*/
+/* -------------------------- Bonus Functions ------------------------------- */
 
 void	print_pointer_address(t_printf *flags);
 
-/*
-** --------------------------- Libft Functions ---------------------------------
-*/
+/* ------------------------ Libft Extra Functions --------------------------- */
 
 int			ft_strchri(char *s, int c, int index);
 int			ft_strchri_lu(char *s, int c, int index);
@@ -124,6 +109,7 @@ int			ft_is_capital(int c);
 int			ft_min(int a, int b);
 int			ft_max(int a, int b);
 char		*ft_itoa_long_long(long long n);
+char		*ft_strdupi(char const *s1, size_t size);
 double		ft_pow(double n, int pow);
 long long	ft_abs_ll(long long i);
 

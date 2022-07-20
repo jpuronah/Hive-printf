@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/19 13:08:15 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:13:43 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,23 @@ void	ft_print_char(t_printf *flags, char ch)
 void	print_null_string(char *string, t_printf *flags)
 {
 	char	*nul_str;
-	int		index;
-	int		precision;
 
-	precision = -1;
-	if (flags->precision > 0)
-		precision = flags->precision;
 	nul_str = "(null)";
-	index = 0;
+	/*printf("%d\n", flags->precision);
+	printf("%d\n", flags->width);
+	printf("%d\n", flags->wordlen);*/
 	if (!string)
 	{
-		flags->padding = flags->width - 6;
+		flags->wordlen = 6;
+		if (flags->flag & (1 << F_PRECISION))
+			flags->wordlen = ft_min(flags->wordlen, flags->precision);
+		if ((flags->width - flags->wordlen) > 0)
+			flags->padding = flags->width - flags->wordlen;
 		if (flags->padding < 0)
 			flags->padding = 0;
 		padding(flags, 0);
-		if (!(flags->flag & (1 << F_ZERO)))
-			while (nul_str[index] != '\0' && precision--)
-				flags->length_written += write(1, &nul_str[index++], 1);
-
+		//if (!(flags->flag & (1 << F_ZERO)))
+		printf_write(flags, nul_str, flags->wordlen);
 		padding(flags, 1);
 	}
 	else
@@ -88,31 +87,27 @@ void	print_null_string(char *string, t_printf *flags)
 
 void	ft_print_string(t_printf *flags)
 {
-	char	*string;
-	int		index;
+	unsigned	*string;
+	/*int			index;
 
-	index = 0;
+	index = 0;*/
 	if (~flags->flag & (1 << F_PRECISION))
 		flags->precision -= 1;
-	string = va_arg(flags->args, char *);
+	//string = va_arg(flags->args, char *);
+	string = va_arg(flags->args, unsigned *);
 	if (!string)
-		print_null_string(string, flags);
+		print_null_string((char *)string, flags);
 	else
 	{
-		flags->wordlen = (int)ft_strlen(string);
+		flags->wordlen = (int)ft_strlen((char *)string);
 		if (flags->flag & (1 << F_PRECISION))
-		{
 			flags->wordlen = ft_min(flags->wordlen, flags->precision);
-		}
-		flags->padding = (flags->width - flags->wordlen);
-		if (flags->padding < 0)
-			flags->padding = 0;
-		else
-			padding(flags, 0);
-		if (flags->precision == 0)
-			flags->precision = -1;
-		while (string[index] && flags->precision--)
-			flags->length_written += write(1, &string[index++], 1);
+		if ((flags->width - flags->wordlen) > 0)
+			flags->padding = (flags->width - flags->wordlen);
+		padding(flags, 0);
+		//while (string[index] && flags->precision--)
+		//	flags->length_written += write(1, &string[index++], 1);
+		printf_write(flags, string, flags->wordlen);
 		padding(flags, 1);
 	}
 }

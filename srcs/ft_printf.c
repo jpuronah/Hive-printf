@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/19 17:34:04 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:05:20 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	printf_write(t_printf *flags, void *new, size_t size)
 	tmp = 0;
 	hold_size = size;
 	string = ft_strdup((char *)new);
+	//printf("%s\n", string);
 	while (size--)
 	{
 		if (ft_islower(string[index]) == 1 && flags->flag & (1 << F_CAPS_ON))
@@ -73,6 +74,20 @@ void	printf_write(t_printf *flags, void *new, size_t size)
 	flags->length_written += hold_size;
 	flags->precision = 1;
 	free(string);
+}
+
+void	default_flags(t_printf *flags)
+{
+	flags->flag = 0;
+	flags->num_type = 0;
+	flags->num_length = 0;
+	flags->numchar = 0;
+	//flags->padding_length = 0;
+	flags->width = 0;
+	flags->precision = 1;
+	flags->padding = 0;
+	flags->wordlen = 0;
+	flags->charlen = 0;
 }
 
 int	evaluate_format_type(char *format, int index, t_printf *flags)
@@ -89,6 +104,7 @@ int	evaluate_format_type(char *format, int index, t_printf *flags)
 	printf("%d\n", flags->num_type);
 	printf("%d\n", flags->padding);*/
 	index = conversion_specifiers(format, index, flags);
+	default_flags(flags);
 	return (index);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/19 13:08:09 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:06:18 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,4 +143,26 @@ char	*ft_itoa_long_long(long long n)
 		n = n / 10;
 	}
 	return (str);
+}
+
+char	*ft_strdupi(char const *s1, size_t size)
+{
+	char			*dest;
+	unsigned int	len;
+	unsigned int	i;
+
+	len = 0;
+	while (s1[len] != '\0')
+		len++;
+	dest = (char *)malloc(sizeof(char) * (len + 1));
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0' && size--)
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
