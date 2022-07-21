@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 08:14:52 by jpuronah          #+#    #+#              #
-#    Updated: 2022/07/18 19:47:14 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/07/21 12:57:38 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ C = clang
 
 NAME = libftprintf.a
 
-FLAGS = -Wall -Wextra -Werror
-#FLAGS = -Wconversion -Wall -Wextra -Werror -O2
+#FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wconversion -Wall -Wextra -Werror -O2
 
 LIBFT = libft
 
@@ -30,8 +30,9 @@ SOURCES = ft_printf.c \
 			printers_characters.c \
 			printers_numbers.c \
 			libft_extras.c \
-			float_double.c \
-			
+			float_double_pointer.c \
+			write_and_set_flags.c \
+			get_va_arg_numbers.c \
 
 OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
@@ -51,7 +52,11 @@ $(NAME):
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/printers_numbers.o -c srcs/printers_numbers.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/float_double.o -c srcs/float_double.c
+	@gcc  $(FLAGS) -I includes -o obj/float_double_pointer.o -c srcs/float_double_pointer.c
+	@mkdir -p obj
+	@gcc  $(FLAGS) -I includes -o obj/write_and_set_flags.o -c srcs/write_and_set_flags.c
+	@mkdir -p obj
+	@gcc  $(FLAGS) -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
 	@mkdir -p obj
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)

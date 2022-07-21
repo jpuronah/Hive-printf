@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/20 18:30:09 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/21 08:09:08 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_islower(int c)
 		return (0);
 }
 
-int	ft_is_capital(int c)
+int	ft_isupper(int c)
 {
 	if ((c >= 65 && c <= 90))
 		return (1);
