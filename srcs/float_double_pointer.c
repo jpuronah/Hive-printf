@@ -6,13 +6,13 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 10:48:02 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/21 13:02:04 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:02:38 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
 
-static char	check_flags(t_printf *flags, char *string, double number)
+static char	check_flags(t_printf *flags, char *string, long double number)
 {
 	char	tmp;
 
@@ -28,27 +28,37 @@ static char	check_flags(t_printf *flags, char *string, double number)
 	return (tmp);
 }
 
-void	long_double_float_toa_fill(double number, t_printf *flags, long num)
+void	long_double_float_toa_fill(long double number, t_printf *flags, long num)
 {
 	int		length;
 	int		accuracy;
 	char	*string;
 
+	//printf("number: %Lf\n", number);
+	//printf("num: %ld\n", num);
 	string = NULL;
 	length = flags->num_length - 1 - flags->precision;
 	accuracy = flags->num_length - 1 - length;
-	string = ft_memalloc((size_t)(accuracy + length));
+	string = ft_memalloc((size_t)(accuracy + length + 1));
+	//printf("accu: %d\n", accuracy);
+	//printf("length: %d\n", length);
 	while (accuracy--)
 	{
-		string[length + accuracy] = (char)(num % 10 + '0');
+		//printf("%d: ", length + accuracy + 1);
+		//printf("num1: %ld\n", num % 10);
+		string[length + accuracy + 1] = (num % 10 + '0');
 		num /= 10;
 	}
 	if (flags->precision > 0)
 		string[length] = '.';
 	num = ft_abs_ll((long long)number);
-	while (accuracy++ < length)
+	while (accuracy < length)
 	{
+		//printf("%d: ", length - accuracy - 1);
+		//printf("num2: %ld\n", num % 10);
+		accuracy++;
 		string[length - accuracy - 1] = num % 10 + '0';
+		//printf("%c\n", string[length - accuracy - 1]);
 		num /= 10;
 	}
 	string[0] = check_flags(flags, string, number);

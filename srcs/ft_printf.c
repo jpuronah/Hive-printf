@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/21 12:52:02 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/22 11:42:28 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ static t_printf	*init_and_malloc_structure(void)
 	flags->padding = 0;
 	flags->wordlen = 0;
 	flags->charlen = 0;
+
+	flags->min_length = 0;
+	flags->zero_padding_precision = 0;
 	return (flags);
 }
 

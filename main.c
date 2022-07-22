@@ -23,7 +23,8 @@ int	main(int ac, char **av)
 	long long longi = 321321321321213321;
 
 	printf("own printf:\n");
-	ret = ft_printf("%03.7i", -2375);
+	//ret = ft_printf("%Lf", 1.42l);
+	ret = ft_printf("{%f}{%lf}{%Lf}", 1444565444646.6465424242242, 1444565444646.6465424242242, 1444565444646.6465424242242l);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 	/*ft_printf("%c", 'a');
@@ -32,7 +33,8 @@ int	main(int ac, char **av)
 	printf("|\n**********************\n");*/
 
 	printf("\nreal printf:\n");
-	ret = printf("%03.7i", -2375);
+	//ret = printf("%Lf", 1.42l);
+	ret = printf("{%f}{%lf}{%Lf}", 1444565444646.6465424242242, 1444565444646.6465424242242, 1444565444646.6465424242242l);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 	/*return_value = ft_printf("%p, %%, %s, %d, %c, %i, %.1f", str, (const char *restrict)str, integer, str[2], integer / 2, dubbel);

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:29:39 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/21 12:53:45 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/22 11:42:31 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ void	padding(t_printf *flags, int phase)
 	char	ch;
 
 	ch = 32;
-	if (flags->flag & (1 << F_ZERO))
+	if (flags->flag & (1 << F_ZERO))// && flags->zero_padding_precision)// && flags->precision >= flags->width)
 		ch = 48;
+	if (flags->zero_padding_precision > 0)
+		ch = 32;
+	//printf("padding: %d, prec: %d, wdth: %d, numlen: %d,  zeropad: %d\n", flags->padding, flags->precision, flags->width, flags->num_length, flags->zero_padding_precision);
 	if (flags->padding > -1)
 	{
 		if (!phase && !(flags->flag & (1 << F_MINUS)))
@@ -78,6 +81,9 @@ void	reset_flags(t_printf *flags)
 	flags->padding = 0;
 	flags->wordlen = 0;
 	flags->charlen = 0;
+
+	flags->zero_padding_precision = 0;
+	flags->min_length = 0;
 }
 
 void	ft_no_conversion_specifier(t_printf *flags, char *format)

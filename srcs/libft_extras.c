@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/21 08:09:08 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/21 14:45:33 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	ft_strchri_lu(char *s, int c, int index)
 	char	ch;
 	int		ret;
 
+	printf("c: %c\n", c);
+	printf("s: %s\n", s);
 	str = (char *)s;
 	ch = (char)c;
 	ret = -1;
@@ -86,6 +88,8 @@ int	ft_strchri_lu(char *s, int c, int index)
 			ret = index;
 		index++;
 	}
+	printf("retlu: %d\n", ret);
+	printf("str[i]: %c\n", str[index - 1]);
 	if (ret > -1)
 		return (ret);
 	return (-1);

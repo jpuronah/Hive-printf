@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 08:14:52 by jpuronah          #+#    #+#              #
-#    Updated: 2022/07/21 12:57:38 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/07/21 14:34:45 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,11 @@ nf:
 	@mkdir -p obj
 	@gcc -I includes -o obj/printers_numbers.o -c srcs/printers_numbers.c
 	@mkdir -p obj
-	@gcc -I includes -o obj/float_double.o -c srcs/float_double.c
+	@gcc  $(FLAGS) -I includes -o obj/float_double_pointer.o -c srcs/float_double_pointer.c
+	@mkdir -p obj
+	@gcc -I includes -o obj/write_and_set_flags.o -c srcs/write_and_set_flags.c
+	@mkdir -p obj
+	@gcc -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
 	@mkdir -p obj
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)

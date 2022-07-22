@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/21 12:51:33 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:31:22 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ typedef struct s_printf
 
 	short		flag;
 	short		num_type;
+	int			min_length;
 	int			num_length;
 	short		numchar;
 
 	int			width;
 	int			precision;
 	int			padding;
+	int			zero_padding_precision;
 
 	int			length_written;
 	int			wordlen;
@@ -87,14 +89,15 @@ void	ft_no_conversion_specifier(t_printf *flags, char *format);
 /* -------------------------- va_arg Functions ----------------------------- */
 
 void	get_va_arg(t_printf *flags);
-void	get_va_arg_base(int base, t_printf *flags);
+void	get_va_arg_base(char format, t_printf *flags);
+//void	get_va_arg_base(int base, t_printf *flags);
 void	get_va_arg_float_double(t_printf *flags);
 
 /* -------------------------- Numbers Functions ----------------------------- */
 
 void	itoa_printf(intmax_t number, t_printf *flags, int length);
 void	itoa_base_printf(uintmax_t number, t_printf *flags, int base);
-void	long_double_float_toa_fill(double number, t_printf *flags, long num);
+void	long_double_float_toa_fill(long double number, t_printf *flags, long num);
 void	pf_putdouble(t_printf *p);
 void	print_pointer_address(t_printf *flags);
 
