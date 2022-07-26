@@ -6,31 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/26 10:00:50 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/26 11:58:14 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
-
-int	ft_strchri(char *s, int c, int index)
-{
-	char	*str;
-	char	ch;
-	int		ret;
-
-	str = (char *)s;
-	ch = (char)c;
-	ret = -1;
-	while (str[index] != '\0')
-	{
-		if (str[index] == ch)
-			ret = index;
-		index++;
-	}
-	if (ret > -1)
-		return (ret);
-	return (-1);
-}
 
 long long	ft_abs_ll(long long i)
 {

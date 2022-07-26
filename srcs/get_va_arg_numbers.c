@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:33:45 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/26 10:39:56 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/26 12:04:47 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	get_va_arg(t_printf *flags)
 		number = ((intmax_t)va_arg(flags->args, ssize_t));
 	else
 		number = ((intmax_t)va_arg(flags->args, int));
-	//printf("padding: %d, prec: %d, wdth: %d, numlen: %d,  zeropad: %d\n", flags->padding, flags->precision, flags->width, flags->num_length, flags->zero_padding_precision);
 	if (flags->flag & (1 << F_ZERO))
 	{
 		if (flags->precision < flags->num_length)
@@ -43,8 +42,6 @@ void	get_va_arg(t_printf *flags)
 	}
 	if (number < 0 && flags->flag & (1 << F_ZERO) && flags->zero_padding_precision > 0)
 		flags->precision++;
-	//	flags->zero_padding_precision = (flags->width - flags->precision);
-	//printf("padding: %d, prec: %d, wdth: %d, numlen: %d,  zeropad: %d\n", flags->padding, flags->precision, flags->width, flags->num_length, flags->zero_padding_precision);
 	itoa_printf(number, flags, 0);
 }
 
@@ -82,8 +79,6 @@ void	get_va_arg_base(char format, t_printf *flags)
 		number = ((uintmax_t)va_arg(flags->args, size_t));
 	else
 		number = ((uintmax_t)va_arg(flags->args, unsigned int));
-	//if (flags->flag & (1 << F_ZERO))
-	//	flags->precision = flags->width;
 	if (flags->flag & (1 << F_ZERO))
 	{
 		if (flags->width > flags->precision && flags->flag & (1 << F_PRECISION))
@@ -114,7 +109,6 @@ void	get_va_arg_float_double(t_printf *flags)
 	if (flags->precision > 0)
 		length = 1;
 	tmp = ft_abs_ll((long long)number);
-	//printf("tmp: %ld\n", tmp);
 	while (tmp)
 	{
 		tmp /= 10;
@@ -125,9 +119,7 @@ void	get_va_arg_float_double(t_printf *flags)
 	flags->num_length = flags->precision + length;
 	if (number < 0)
 		flags->num_length++;
-	//printf("number: %Lf\n", number);
 	decimal = number;
-	//printf("deciml: %Lf\n", decimal);
 	if (number < 0)
 		decimal *= -1;
 	if ((long)number < 0.0f)
@@ -138,8 +130,6 @@ void	get_va_arg_float_double(t_printf *flags)
 		decimal = (decimal) / 10 + 1;
 	else
 		decimal = (decimal) / 10;
-	//printf("decimal: %Lf\n", decimal);
 	num = (int)decimal;
-	//printf("num: %ld\n", num);
-	long_double_float_toa_fill(number, flags, num);
+	itoa_float_double(number, flags, num);
 }

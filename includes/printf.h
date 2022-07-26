@@ -6,19 +6,20 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/22 12:31:22 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/26 12:02:47 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRINTF_H
 # define PRINTF_H
 
-# include "libft.h"
+//# include "libft.h"
+# include "../libft/libft.h"
 # include <stdarg.h>
 # include <stdio.h>
 # include <math.h>
 
-# include <errno.h>// ??!?!
+//# include <errno.h>// ??!?!
 
 # define F_PREFIX 0
 # define F_SPACE 1
@@ -72,6 +73,7 @@ int		parse_precision(char *format, int index, t_printf *flags);
 int		parse_width(char *format, int index, t_printf *flags);
 int		parse_l(char *format, int index, t_printf *flags);
 int		parse_h(char *format, int index, t_printf *flags);
+int		check_unsigned_and_l(char *format, int index, t_printf *flags);
 //int		parse_h_l(char *format, int index, t_printf *flags);
 
 /* --------------------------- Print & Padding ------------------------------ */
@@ -97,7 +99,7 @@ void	get_va_arg_float_double(t_printf *flags);
 
 void	itoa_printf(intmax_t number, t_printf *flags, int length);
 void	itoa_base_printf(uintmax_t number, t_printf *flags, int base);
-void	long_double_float_toa_fill(long double number, t_printf *flags, long num);
+void	itoa_float_double(long double number, t_printf *flags, long num);
 void	pf_putdouble(t_printf *p);
 void	print_pointer_address(t_printf *flags);
 

@@ -6,12 +6,16 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:29:39 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/22 11:42:31 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/26 12:16:32 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
+/*
+	Täält ft_strdup pois, koska void* new ei aina lopu '\0'
+		-> segfault strdupis
 
+*/
 void	printf_write(t_printf *flags, void *new, size_t size)
 {
 	int		index;
@@ -38,16 +42,23 @@ void	printf_write(t_printf *flags, void *new, size_t size)
 	free(string);
 }
 
-void	padding(t_printf *flags, int phase)
+static char	set_ch(t_printf *flags)
 {
 	char	ch;
 
 	ch = 32;
-	if (flags->flag & (1 << F_ZERO))// && flags->zero_padding_precision)// && flags->precision >= flags->width)
+	if (flags->flag & (1 << F_ZERO))
 		ch = 48;
 	if (flags->zero_padding_precision > 0)
 		ch = 32;
-	//printf("padding: %d, prec: %d, wdth: %d, numlen: %d,  zeropad: %d\n", flags->padding, flags->precision, flags->width, flags->num_length, flags->zero_padding_precision);
+	return (ch);
+}
+
+void	padding(t_printf *flags, int phase)
+{
+	char	ch;
+
+	ch = set_ch(flags);
 	if (flags->padding > -1)
 	{
 		if (!phase && !(flags->flag & (1 << F_MINUS)))
@@ -81,7 +92,6 @@ void	reset_flags(t_printf *flags)
 	flags->padding = 0;
 	flags->wordlen = 0;
 	flags->charlen = 0;
-
 	flags->zero_padding_precision = 0;
 	flags->min_length = 0;
 }

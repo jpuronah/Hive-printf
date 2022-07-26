@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 08:14:52 by jpuronah          #+#    #+#              #
-#    Updated: 2022/07/21 14:34:45 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/07/26 11:55:01 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SOURCES = ft_printf.c \
 			float_double_pointer.c \
 			write_and_set_flags.c \
 			get_va_arg_numbers.c \
+			parser_helpers.c \
 
 OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
@@ -57,6 +58,8 @@ $(NAME):
 	@gcc  $(FLAGS) -I includes -o obj/write_and_set_flags.o -c srcs/write_and_set_flags.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
+	@mkdir -p obj
+	@gcc  $(FLAGS) -I includes -o obj/parser_helpers.o -c srcs/parser_helpers.c
 	@mkdir -p obj
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)
@@ -92,6 +95,8 @@ nf:
 	@gcc -I includes -o obj/write_and_set_flags.o -c srcs/write_and_set_flags.c
 	@mkdir -p obj
 	@gcc -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
+	@mkdir -p obj
+	@gcc  $(FLAGS) -I includes -o obj/parser_helpers.o -c srcs/parser_helpers.c
 	@mkdir -p obj
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)
