@@ -6,50 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:44:22 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/21 14:45:33 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/26 10:00:50 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
-
-double	ft_pow(double n, int pow)
-{
-	if (pow)
-		return (n * ft_pow(n, pow - 1));
-	else
-		return (1);
-}
-
-int	ft_islower(int c)
-{
-	if ((c >= 97 && c <= 122))
-		return (1);
-	else
-		return (0);
-}
-
-int	ft_isupper(int c)
-{
-	if ((c >= 65 && c <= 90))
-		return (1);
-	else
-		return (0);
-}
-
-long long	ft_abs_ll(long long i)
-{
-	if (i < 0)
-		return (i * -1);
-	return (i);
-}
-
-int	ft_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	else
-		return (b);
-}
 
 int	ft_strchri(char *s, int c, int index)
 {
@@ -71,14 +32,20 @@ int	ft_strchri(char *s, int c, int index)
 	return (-1);
 }
 
+long long	ft_abs_ll(long long i)
+{
+	if (i < 0)
+		return (i * -1);
+	return (i);
+}
+
+/*
 int	ft_strchri_lu(char *s, int c, int index)
 {
 	char	*str;
 	char	ch;
 	int		ret;
 
-	printf("c: %c\n", c);
-	printf("s: %s\n", s);
 	str = (char *)s;
 	ch = (char)c;
 	ret = -1;
@@ -88,12 +55,10 @@ int	ft_strchri_lu(char *s, int c, int index)
 			ret = index;
 		index++;
 	}
-	printf("retlu: %d\n", ret);
-	printf("str[i]: %c\n", str[index - 1]);
 	if (ret > -1)
 		return (ret);
 	return (-1);
-}
+}*/
 
 static size_t	ft_len(long long n)
 {

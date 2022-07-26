@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 18:03:32 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/06/12 15:56:07 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/26 09:57:15 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,12 @@ int			ft_abs(int i);
 size_t		ft_countwords(char *string, char seperator);
 int			get_next_line(const int fd, char **line);
 int			ft_max(int a, int b);
-double		ft_abs_db(double i);
 double		ft_max_double(double a, double b);
+double		ft_abs_db(double i);
+double		ft_pow(double n, int pow);
+int			ft_islower(int c);
+int			ft_isupper(int c);
+int			ft_min(int a, int b);
+int			ft_strchri(char *s, int c, int index);
 
 #endif

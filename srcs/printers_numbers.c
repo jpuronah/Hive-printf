@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/22 11:57:34 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/26 10:39:48 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	itoa_base_fill(uintmax_t tmp, int base, char s[21], t_printf *flags)
 {
 	int		len;
 
-	//printf("wid: %d, prec: %d, numlen: %d\n", flags->width, flags->precision, flags->num_length);
 	if (tmp && !(flags->flag & (1 << F_POINTER))
 		&& (flags->flag & (1 << F_ZERO))
 		&& (flags->flag & (1 << F_PREFIX)) && base == 16
@@ -35,22 +34,11 @@ void	itoa_base_fill(uintmax_t tmp, int base, char s[21], t_printf *flags)
 			s[len] = (char)(tmp % (uintmax_t)base + (uintmax_t)flags->numchar);
 		tmp /= (uintmax_t)base;
 	}
-	//if (flags->flag & (1 << F_PRECISION) && flags->flag & (1 << F_ZERO))// && flags->width < flags->precision)
-	//	s[0] = ' ';
-
-
-	//printf("|%ju|\n", tmp);
-	//printf("wid: %d, prec: %d, numlen: %d\n", flags->width, flags->precision, flags->num_length);
-	//printf("string: %s\n", s);
-	//if (tmp == 0)
-	//	s[0] = '0';
 }
 
 static void	base_adjust_padding(uintmax_t number,
 	t_printf *flags, int oct_zero_check, int base)
 {
-	//if (flags->flag & (1 << F_ZERO))
-	//	flags->precision = flags->width;
 	if (flags->flag & (1 << F_ZERO) && flags->width > flags->precision)
 		flags->padding = flags->width - flags->precision;
 	if (flags->flag & (1 << F_ZERO) && number < 0)
@@ -152,9 +140,13 @@ void	itoa_printf(intmax_t number, t_printf *flags, int length)
 	int_adjust_padding(number, length, flags);
 	padding(flags, 0);
 	tmp = (uintmax_t)ft_abs_ll((long long)number);
-	if (number < 0 && flags->flag & (1 << F_ZERO))
+	if (number < 0 && flags->flag & (1 << F_ZERO))// && ~flags->flag & (1 << F_PRECISION))
 		if (flags->min_length < flags->num_length)
 			flags->num_length--;
+	//printf("padding: %d, prec: %d, wdth: %d, numlen: %d\n", flags->padding, flags->precision, flags->width, flags->num_length);
+	if (flags->width > flags->num_length)
+		if (flags->precision < flags->num_length)
+			flags->precision = ft_max(flags->precision, flags->num_length);
 	itoa_base_fill(tmp, 10, number_as_char, flags);
 	if (flags->flag & (1 << F_SPACE))
 		number_as_char[0] = ' ';

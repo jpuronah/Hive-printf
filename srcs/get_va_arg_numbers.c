@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:33:45 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/22 13:02:27 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/26 10:39:56 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,21 @@ void	get_va_arg(t_printf *flags)
 		number = ((intmax_t)va_arg(flags->args, ssize_t));
 	else
 		number = ((intmax_t)va_arg(flags->args, int));
-	////printf("padding: %d, prec: %d, wdth: %d, numlen: %d,  zeropad: %d\n", flags->padding, flags->precision, flags->width, flags->num_length, flags->zero_padding_precision);
+	//printf("padding: %d, prec: %d, wdth: %d, numlen: %d,  zeropad: %d\n", flags->padding, flags->precision, flags->width, flags->num_length, flags->zero_padding_precision);
 	if (flags->flag & (1 << F_ZERO))
 	{
+		if (flags->precision < flags->num_length)
+			flags->precision = flags->num_length;
 		if (flags->width > flags->precision && flags->flag & (1 << F_PRECISION))
-			flags->zero_padding_precision = ft_abs(flags->width - flags->precision);
+			flags->zero_padding_precision = flags->width - flags->precision;
 		flags->precision = ft_max(flags->width, flags->precision);
 		flags->padding += flags->zero_padding_precision;
 		flags->num_length -= flags->zero_padding_precision;
 	}
+	if (number < 0 && flags->flag & (1 << F_ZERO) && flags->zero_padding_precision > 0)
+		flags->precision++;
 	//	flags->zero_padding_precision = (flags->width - flags->precision);
-	////printf("padding: %d, prec: %d, wdth: %d, numlen: %d,  zeropad: %d\n", flags->padding, flags->precision, flags->width, flags->num_length, flags->zero_padding_precision);
+	//printf("padding: %d, prec: %d, wdth: %d, numlen: %d,  zeropad: %d\n", flags->padding, flags->precision, flags->width, flags->num_length, flags->zero_padding_precision);
 	itoa_printf(number, flags, 0);
 }
 
