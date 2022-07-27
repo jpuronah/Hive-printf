@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write_and_set_flags.c                              :+:      :+:    :+:   */
+/*   write_padding_flags.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:29:39 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/26 12:16:32 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:43:32 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 /*
 	Täält ft_strdup pois, koska void* new ei aina lopu '\0'
 		-> segfault strdupis
-
 */
+
 void	printf_write(t_printf *flags, void *new, size_t size)
 {
 	int		index;
@@ -49,7 +49,7 @@ static char	set_ch(t_printf *flags)
 	ch = 32;
 	if (flags->flag & (1 << F_ZERO))
 		ch = 48;
-	if (flags->zero_padding_precision > 0)
+	if (flags->zero_pad_precision > 0)
 		ch = 32;
 	return (ch);
 }
@@ -81,6 +81,20 @@ void	padding(t_printf *flags, int phase)
 	}
 }
 
+void	free_flags(t_printf *flags)
+{
+	if (flags)
+	{
+		if (flags->format_string)
+		{
+			free(flags->format_string);
+			flags->format_string = NULL;
+		}
+		free(flags);
+		flags = NULL;
+	}
+}
+
 void	reset_flags(t_printf *flags)
 {
 	flags->flag = 0;
@@ -92,19 +106,6 @@ void	reset_flags(t_printf *flags)
 	flags->padding = 0;
 	flags->wordlen = 0;
 	flags->charlen = 0;
-	flags->zero_padding_precision = 0;
+	flags->zero_pad_precision = 0;
 	flags->min_length = 0;
-}
-
-void	ft_no_conversion_specifier(t_printf *flags, char *format)
-{
-	flags->padding = flags->width - 1;
-	if (flags->padding > 0)
-	{
-		padding(flags, 0);
-		printf_write(flags, (char *)format, 1);
-		padding(flags, 1);
-		return ;
-	}
-	printf_write(flags, (char *)format, 1);
 }

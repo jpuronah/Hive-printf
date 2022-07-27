@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/26 12:02:47 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:48:22 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@
 //# include "libft.h"
 # include "../libft/libft.h"
 # include <stdarg.h>
-# include <stdio.h>
-# include <math.h>
-
-//# include <errno.h>// ??!?!
+//# include <stdio.h>
+//# include <math.h>
 
 # define F_PREFIX 0
 # define F_SPACE 1
@@ -53,7 +51,7 @@ typedef struct s_printf
 	int			width;
 	int			precision;
 	int			padding;
-	int			zero_padding_precision;
+	int			zero_pad_precision;
 
 	int			length_written;
 	int			wordlen;
@@ -67,57 +65,42 @@ int		ft_printf(const char *format, ...);
 
 /* -------------------------- Parsing Functions ----------------------------- */
 
-int		conversion_specifiers(char *format, int index, t_printf *flags);
 int		parse_flags(char *format, int index, t_printf *flags);
-int		parse_precision(char *format, int index, t_printf *flags);
 int		parse_width(char *format, int index, t_printf *flags);
+int		parse_precision(char *format, int index, t_printf *flags);
 int		parse_l(char *format, int index, t_printf *flags);
 int		parse_h(char *format, int index, t_printf *flags);
-int		check_unsigned_and_l(char *format, int index, t_printf *flags);
-//int		parse_h_l(char *format, int index, t_printf *flags);
 
-/* --------------------------- Print & Padding ------------------------------ */
+int		check_unsigned_and_l(char *format, int index, t_printf *flags);
+
+/* ------------------------ Print & Padding --------------------------------- */
 
 void	printf_write(t_printf *flags, void *new, size_t size);
 void	padding(t_printf *flags, int phase);
 void	reset_flags(t_printf *flags);
+void	free_flags(t_printf *flags);
 
-/* ---------------------- Strings & Chars Functions ------------------------- */
+/* -------------------- Strings & Chars Functions --------------------------- */
 
 void	ft_print_char(t_printf *flags, char ch);
 void	ft_print_string(t_printf *flags);
 void	ft_no_conversion_specifier(t_printf *flags, char *format);
 
-/* -------------------------- va_arg Functions ----------------------------- */
+/* -------------------- va_arg Numbers Functions ---------------------------- */
 
 void	get_va_arg(t_printf *flags);
 void	get_va_arg_base(char format, t_printf *flags);
-//void	get_va_arg_base(int base, t_printf *flags);
 void	get_va_arg_float_double(t_printf *flags);
 
-/* -------------------------- Numbers Functions ----------------------------- */
+/* ------------------------ I to A Functions -------------------------------- */
 
 void	itoa_printf(intmax_t number, t_printf *flags, int length);
 void	itoa_base_printf(uintmax_t number, t_printf *flags, int base);
 void	itoa_float_double(long double number, t_printf *flags, long num);
-void	pf_putdouble(t_printf *p);
+void	itoa_base_fill(uintmax_t tmp, int base,
+					char *number_as_char, t_printf *flags);
+
+/* ------------------------ Bonus Functions --------------------------------- */
+
 void	print_pointer_address(t_printf *flags);
-
-/* -------------------------- Bonus Functions ------------------------------- */
-
-
-
-/* ------------------------ Libft Extra Functions --------------------------- */
-
-int			ft_strchri(char *s, int c, int index);
-int			ft_strchri_lu(char *s, int c, int index);
-int			ft_islower(int c);
-int			ft_isupper(int c);
-int			ft_min(int a, int b);
-int			ft_max(int a, int b);
-char		*ft_itoa_long_long(long long n);
-char		*ft_strdupi(char const *s1, size_t size);
-double		ft_pow(double n, int pow);
-long long	ft_abs_ll(long long i);
-
 #endif

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 18:03:32 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/26 11:59:48 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:11:41 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ int			ft_islower(int c);
 int			ft_isupper(int c);
 int			ft_min(int a, int b);
 int			ft_strchri(char *s, int c, int index);
+long long	ft_abs_long_long(long long i);
 
 #endif

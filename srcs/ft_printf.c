@@ -6,25 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/26 11:57:04 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:47:12 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
-
-static void	free_flags(t_printf *flags)
-{
-	if (flags)
-	{
-		if (flags->format_string)
-		{
-			free(flags->format_string);
-			flags->format_string = NULL;
-		}
-		free(flags);
-		flags = NULL;
-	}
-}
 
 static t_printf	*init_and_malloc_structure(void)
 {
@@ -46,8 +32,35 @@ static t_printf	*init_and_malloc_structure(void)
 	flags->wordlen = 0;
 	flags->charlen = 0;
 	flags->min_length = 0;
-	flags->zero_padding_precision = 0;
+	flags->zero_pad_precision = 0;
 	return (flags);
+}
+
+static int	conversion_specifiers(char *format, int index, t_printf *flags)
+{
+	index = check_unsigned_and_l(format, index, flags);
+	if (format[index] == 's')
+		ft_print_string(flags);
+	else if (format[index] == 'c' || format[index] == 'C')
+		ft_print_char(flags, 0);
+	else if (ft_strchri("diD", format[index], 0) > -1)
+		get_va_arg(flags);
+	else if (format[index] == 'f' || format[index] == 'F')
+	{
+		if (flags->flag & (1 << F_PRECISION) && !flags->precision)
+			get_va_arg(flags);
+		else
+			get_va_arg_float_double(flags);
+	}
+	else if (ft_strchri("oOuUbBxX", format[index], 0) > -1)
+		get_va_arg_base(format[index], flags);
+	else if (format[index] == 'p')
+		print_pointer_address(flags);
+	else if (format[index] == '%')
+		ft_print_char(flags, '%');
+	else
+		ft_no_conversion_specifier(flags, format);
+	return (index);
 }
 
 static int	evaluate_format_type(char *format, int index, t_printf *flags)

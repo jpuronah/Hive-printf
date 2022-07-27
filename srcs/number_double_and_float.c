@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 10:48:02 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/26 12:02:37 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/27 14:09:31 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ void	itoa_float_double(long double number, t_printf *flags, long num)
 	}
 	if (flags->precision > 0)
 		string[length] = '.';
-	num = ft_abs_ll((long long)number);
-	while (accuracy < length)
+	num = ft_abs_long_long((long long)number);
+	while (++accuracy < length)
 	{
-		accuracy++;
 		string[length - accuracy - 1] = num % 10 + '0';
 		num /= 10;
 	}
@@ -56,6 +55,53 @@ void	itoa_float_double(long double number, t_printf *flags, long num)
 	printf_write(flags, string, (size_t)flags->num_length);
 	free(string);
 	string = NULL;
+}
+
+long double	get_decimal(t_printf *flags, long double number)
+{
+	long double		decimal;
+
+	if (number < 0)
+		flags->num_length++;
+	decimal = number;
+	if (number < 0)
+		decimal *= -1;
+	if ((long)number < 0.0f)
+		decimal = (decimal + ((long)number)) * ft_pow(10, flags->precision + 1);
+	else
+		decimal = (decimal - ((long)number)) * ft_pow(10, flags->precision + 1);
+	if ((long)decimal % 10 > 4)
+		decimal = (decimal) / 10 + 1;
+	else
+		decimal = (decimal) / 10;
+	return (decimal);
+}
+
+void	get_va_arg_float_double(t_printf *flags)
+{
+	long double		number;
+	long			tmp;
+	int				length;
+	long			num;
+
+	if (flags->flag & (1 << F_LONG))
+		number = (long double)(va_arg(flags->args, long double));
+	else
+		number = (long double)(va_arg(flags->args, double));
+	if (flags->flag & (1 << F_ZERO))
+		flags->precision = flags->width;
+	if (~flags->flag & (1 << F_PRECISION))
+		flags->precision = 6;
+	if (flags->precision > 0)
+		length = 1;
+	tmp = ft_abs_long_long((long long)number);
+	while (tmp)
+	{
+		tmp /= 10;
+		flags->num_length = flags->precision + (++length);
+	}
+	num = (int)get_decimal(flags, number);
+	itoa_float_double(number, flags, num);
 }
 
 void	print_pointer_address(t_printf *flags)

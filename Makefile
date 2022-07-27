@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 08:14:52 by jpuronah          #+#    #+#              #
-#    Updated: 2022/07/26 11:55:01 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/07/27 14:49:16 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,14 +26,14 @@ DIR_O = obj
 HEADER = includes
 
 SOURCES = ft_printf.c \
-			parser.c \
-			printers_characters.c \
-			printers_numbers.c \
-			libft_extras.c \
-			float_double_pointer.c \
-			write_and_set_flags.c \
+			parser1.c \
+			parser2.c \
+			string_and_no_specifier.c \
+			number.c \
+			number_base.c \
+			number_double_and_float.c \
+			write_padding_flags.c \
 			get_va_arg_numbers.c \
-			parser_helpers.c \
 
 OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
@@ -45,21 +45,21 @@ $(NAME):
 	@mkdir -p obj
 	@gcc $(FLAGS) -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/printers_characters.o -c srcs/printers_characters.c
+	@gcc  $(FLAGS) -I includes -o obj/string_and_no_specifier.o -c srcs/string_and_no_specifier.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/parser.o -c srcs/parser.c
+	@gcc  $(FLAGS) -I includes -o obj/parser1.o -c srcs/parser1.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/libft_extras.o -c srcs/libft_extras.c
+	@gcc  $(FLAGS) -I includes -o obj/number.o -c srcs/number.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/printers_numbers.o -c srcs/printers_numbers.c
+	@gcc  $(FLAGS) -I includes -o obj/number_double_and_float.o -c srcs/number_double_and_float.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/float_double_pointer.o -c srcs/float_double_pointer.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/write_and_set_flags.o -c srcs/write_and_set_flags.c
+	@gcc  $(FLAGS) -I includes -o obj/write_padding_flags.o -c srcs/write_padding_flags.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/parser_helpers.o -c srcs/parser_helpers.c
+	@gcc  $(FLAGS) -I includes -o obj/parser2.o -c srcs/parser2.c
+	@mkdir -p obj
+	@gcc  $(FLAGS) -I includes -o obj/number_base.o -c srcs/number_base.c
 	@mkdir -p obj
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)
@@ -82,21 +82,21 @@ nf:
 	@mkdir -p obj
 	@gcc  -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
 	@mkdir -p obj
-	@gcc  -I includes -o obj/printers_characters.o -c srcs/printers_characters.c
+	@gcc  -I includes -o obj/string_and_no_specifier.o -c srcs/string_and_no_specifier.c
 	@mkdir -p obj
-	@gcc -I includes -o obj/parser.o -c srcs/parser.c
+	@gcc -I includes -o obj/parser1.o -c srcs/parser1.c
 	@mkdir -p obj
-	@gcc -I includes -o obj/libft_extras.o -c srcs/libft_extras.c
+	@gcc -I includes -o obj/number.o -c srcs/number.c
 	@mkdir -p obj
-	@gcc -I includes -o obj/printers_numbers.o -c srcs/printers_numbers.c
+	@gcc -I includes -o obj/number_double_and_float.o -c srcs/number_double_and_float.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/float_double_pointer.o -c srcs/float_double_pointer.c
-	@mkdir -p obj
-	@gcc -I includes -o obj/write_and_set_flags.o -c srcs/write_and_set_flags.c
+	@gcc -I includes -o obj/write_padding_flags.o -c srcs/write_padding_flags.c
 	@mkdir -p obj
 	@gcc -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/parser_helpers.o -c srcs/parser_helpers.c
+	@gcc -I includes -o obj/parser2.o -c srcs/parser2.c
+	@mkdir -p obj
+	@gcc -I includes -o obj/number_base.o -c srcs/number_base.c
 	@mkdir -p obj
 	@cp libft/libft.a ./$(NAME)
 	@ar rc $(NAME) $(OBJS)

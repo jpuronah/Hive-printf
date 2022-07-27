@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/09 15:40:47 by jpuronah          #+#    #+#              #
-#    Updated: 2022/07/26 11:59:22 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/07/27 14:12:23 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,8 @@ $(NAME):
 			./ft_islower.c \
 			./ft_isupper.c \
 			./ft_min.c \
-			./ft_strchri.c
+			./ft_strchri.c \
+			./ft_abs_long_long.c
 	ar -rc libft.a ./ft_atoi.o \
 			./ft_bzero.o \
 			./ft_isalnum.o \
@@ -163,7 +164,8 @@ $(NAME):
 			./ft_islower.o \
 			./ft_isupper.o \
 			./ft_min.o \
-			./ft_strchri.o
+			./ft_strchri.o \
+			./ft_abs_long_long.o
 
 leaks:
 	gcc -fsanitize=address -g -Wall -Wextra -Werror -c ./ft_atoi.c \
@@ -238,7 +240,8 @@ leaks:
 			./ft_islower.c \
 			./ft_isupper.c \
 			./ft_min.c \
-			./ft_strchri.c
+			./ft_strchri.c \
+			./ft_abs_long_long.c
 	ar -rc libft.a ./ft_atoi.o \
 			./ft_bzero.o \
 			./ft_isalnum.o \
@@ -311,7 +314,8 @@ leaks:
 			./ft_islower.o \
 			./ft_isupper.o \
 			./ft_min.o \
-			./ft_strchri.c
+			./ft_strchri.c \
+			./ft_abs_long_long.o
 
 clean:
 	rm -f *.o
