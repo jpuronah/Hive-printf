@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:33:45 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/26 12:04:47 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/07/27 13:19:03 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	get_va_arg_base(char format, t_printf *flags)
 	uintmax_t	number;
 	int			base;
 
+	printf("c: %c, format string: %s\n", format, flags->format_string);
 	base = get_base(format);
 	if (flags->num_type & (1 << F_LONG))
 		number = ((uintmax_t)va_arg(flags->args, unsigned long));
@@ -87,6 +88,7 @@ void	get_va_arg_base(char format, t_printf *flags)
 		flags->padding += flags->zero_padding_precision;
 		flags->num_length -= flags->zero_padding_precision;
 	}
+	printf("number: %jd\n", number);
 	itoa_base_printf(number, flags, base);
 }
 
