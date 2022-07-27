@@ -6,12 +6,16 @@ School project
 
 Instructions:
 
-• You have to manage the following conversions: csp, diouxX (with flags: hh, h, l and ll), f (with flags: l and L)
 
-• You must manage %%, flags #0-+ and space, minimum field-width and precision.
+✅ You have to manage the following conversions: csp, diouxX (with flags: hh, h, l and ll), f (with flags: l and L)
 
-Bonuses done:
+✅ You must manage %%, flags #0-+ and space, minimum field-width and precision.
 
-• %p (pointers)
 
-• %b (binary)
+
+Bonuses:
+
+
+✅ %p (pointers)
+
+✅ %b (binary)
