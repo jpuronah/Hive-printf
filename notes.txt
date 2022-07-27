@@ -1,0 +1,5 @@
+Todo:
+
+-Makefile to the jiiri
+-number_as_char mallocci
+- ...
