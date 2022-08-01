@@ -1,16 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/27 14:39:38 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/01 14:04:47 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
+
+int	parse_flags(char *format, int index, t_printf *flags)
+{
+	int		tmp;
+
+	tmp = -1;
+	tmp = ft_strchri("# +-0", format[index], 0);
+	while (tmp > -1)
+	{
+		flags->flag |= (1 << tmp);
+		if (tmp > -1)
+			index++;
+		tmp = ft_strchri("# +-0", format[index], 0);
+	}
+	if (flags->flag & (1 << F_MINUS))
+		flags->flag &= ~(1 << F_ZERO);
+	return (index);
+}
 
 int	parse_width(char *format, int index, t_printf *flags)
 {
@@ -52,20 +70,46 @@ int	parse_precision(char *format, int index, t_printf *flags)
 	return (index);
 }
 
-int	parse_flags(char *format, int index, t_printf *flags)
+int	parse_l(char *format, int index, t_printf *flags)
 {
-	int		tmp;
-
-	tmp = -1;
-	tmp = ft_strchri("# +-0", format[index], 0);
-	while (tmp > -1)
+	while (1)
 	{
-		flags->flag |= (1 << tmp);
-		if (tmp > -1)
+		if (format[index] == 'l')
+		{
+			if (format[index + 1] == 'l')
+				flags->num_type |= (1 << F_LONGLONG);
+			else
+				flags->num_type |= (1 << F_LONG);
+			if (flags->num_type == (1 << F_LONGLONG))
+				index++;
 			index++;
-		tmp = ft_strchri("# +-0", format[index], 0);
+			break ;
+		}
+		else
+			break ;
+		index++;
 	}
-	if (flags->flag & (1 << F_MINUS))
-		flags->flag &= ~(1 << F_ZERO);
+	return (index);
+}
+
+int	parse_h(char *format, int index, t_printf *flags)
+{
+	while (1)
+	{
+		if (format[index] == 'h')
+		{
+			if (format[index + 1] == 'h')
+				flags->num_type = (1 << F_SHORTCHAR);
+			else
+				flags->num_type = (1 << F_SHORT);
+			if (flags->num_type == (1 << F_SHORTCHAR))
+				index++;
+			index++;
+			break ;
+		}
+		else
+			break ;
+		index++;
+	}
 	return (index);
 }

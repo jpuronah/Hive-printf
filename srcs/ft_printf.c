@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/27 14:47:12 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/01 14:04:30 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ static t_printf	*init_and_malloc_structure(void)
 	flags->min_length = 0;
 	flags->zero_pad_precision = 0;
 	return (flags);
+}
+
+int	check_unsigned_and_l(char *format, int index, t_printf *flags)
+{
+	if (ft_isupper(format[index]) == 1)
+		flags->flag |= (1 << F_CAPS_ON);
+	if (format[index] == 'u' || format[index] == 'U')
+		flags->num_type |= (1 << F_UNSIGNED);
+	if (format[index] == 'L')
+	{
+		flags->flag |= (1 << F_LONG);
+		index++;
+	}
+	return (index);
 }
 
 static int	conversion_specifiers(char *format, int index, t_printf *flags)

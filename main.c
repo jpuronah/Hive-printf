@@ -3,6 +3,8 @@
 
 int	main(int ac, char **av)
 {
+	int ret;
+
 	printf("own printf:\n");
 	ret = ft_printf("%f", -1.234);
 	printf("|\nret: %d\n", ret);

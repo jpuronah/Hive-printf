@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 08:14:52 by jpuronah          #+#    #+#              #
-#    Updated: 2022/07/27 14:49:16 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/08/01 14:09:04 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,7 @@ DIR_O = obj
 HEADER = includes
 
 SOURCES = ft_printf.c \
-			parser1.c \
-			parser2.c \
+			parser.c \
 			string_and_no_specifier.c \
 			number.c \
 			number_base.c \
@@ -47,7 +46,7 @@ $(NAME):
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/string_and_no_specifier.o -c srcs/string_and_no_specifier.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/parser1.o -c srcs/parser1.c
+	@gcc  $(FLAGS) -I includes -o obj/parser.o -c srcs/parser.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/number.o -c srcs/number.c
 	@mkdir -p obj
@@ -56,8 +55,6 @@ $(NAME):
 	@gcc  $(FLAGS) -I includes -o obj/write_padding_flags.o -c srcs/write_padding_flags.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/parser2.o -c srcs/parser2.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/number_base.o -c srcs/number_base.c
 	@mkdir -p obj
@@ -84,7 +81,7 @@ nf:
 	@mkdir -p obj
 	@gcc  -I includes -o obj/string_and_no_specifier.o -c srcs/string_and_no_specifier.c
 	@mkdir -p obj
-	@gcc -I includes -o obj/parser1.o -c srcs/parser1.c
+	@gcc -I includes -o obj/parser.o -c srcs/parser.c
 	@mkdir -p obj
 	@gcc -I includes -o obj/number.o -c srcs/number.c
 	@mkdir -p obj
@@ -93,8 +90,6 @@ nf:
 	@gcc -I includes -o obj/write_padding_flags.o -c srcs/write_padding_flags.c
 	@mkdir -p obj
 	@gcc -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
-	@mkdir -p obj
-	@gcc -I includes -o obj/parser2.o -c srcs/parser2.c
 	@mkdir -p obj
 	@gcc -I includes -o obj/number_base.o -c srcs/number_base.c
 	@mkdir -p obj

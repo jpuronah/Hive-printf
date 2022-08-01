@@ -6,19 +6,17 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/27 14:48:22 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/01 14:08:32 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRINTF_H
 # define PRINTF_H
 
-//# include "libft.h"
 # include "../libft/libft.h"
 # include <stdarg.h>
-//# include <stdio.h>
-//# include <math.h>
-
+# include <stdio.h>
+//pois
 # define F_PREFIX 0
 # define F_SPACE 1
 # define F_PLUS 2
@@ -58,7 +56,6 @@ typedef struct s_printf
 	int			charlen;
 }				t_printf;
 
-
 /* ------------------------------ Prototypes -------------------------------- */
 
 int		ft_printf(const char *format, ...);
@@ -71,7 +68,7 @@ int		parse_precision(char *format, int index, t_printf *flags);
 int		parse_l(char *format, int index, t_printf *flags);
 int		parse_h(char *format, int index, t_printf *flags);
 
-int		check_unsigned_and_l(char *format, int index, t_printf *flags);
+//int		check_unsigned_and_l(char *format, int index, t_printf *flags);
 
 /* ------------------------ Print & Padding --------------------------------- */
 
@@ -98,7 +95,7 @@ void	itoa_printf(intmax_t number, t_printf *flags, int length);
 void	itoa_base_printf(uintmax_t number, t_printf *flags, int base);
 void	itoa_float_double(long double number, t_printf *flags, long num);
 void	itoa_base_fill(uintmax_t tmp, int base,
-					char *number_as_char, t_printf *flags);
+			char *number_as_char, t_printf *flags);
 
 /* ------------------------ Bonus Functions --------------------------------- */
 
