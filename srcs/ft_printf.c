@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/01 14:04:30 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:44:09 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,34 @@ static t_printf	*init_and_malloc_structure(void)
 	return (flags);
 }
 
-int	check_unsigned_and_l(char *format, int index, t_printf *flags)
+static int	conversion_specifiers(char *format, int index, t_printf *flags)
+{
+	if (format[index] == 's')
+		ft_print_string(flags);
+	else if (format[index] == 'c' || format[index] == 'C')
+		ft_print_char(flags, 0);
+	else if (ft_strchri("diD", format[index], 0) > -1)
+		get_va_arg(flags);
+	else if (format[index] == 'f' || format[index] == 'F')
+		get_va_arg_float_double(flags);
+	else if (ft_strchri("oOuUbBxX", format[index], 0) > -1)
+		get_va_arg_base(format[index], flags);
+	else if (format[index] == 'p')
+		print_pointer_address(flags);
+	else if (format[index] == '%')
+		ft_print_char(flags, '%');
+	else if (ft_strchr("# +-0hl", format[index]) > 0)
+	{
+		parse_flags(format, index, flags);
+		index++;
+		index = conversion_specifiers(format, index, flags);
+	}
+	else
+		printf_write(flags, "", 0);
+	return (index);
+}
+
+int	check_caps_and_unsigned_and_long(char *format, int index, t_printf *flags)
 {
 	if (ft_isupper(format[index]) == 1)
 		flags->flag |= (1 << F_CAPS_ON);
@@ -50,33 +77,6 @@ int	check_unsigned_and_l(char *format, int index, t_printf *flags)
 	return (index);
 }
 
-static int	conversion_specifiers(char *format, int index, t_printf *flags)
-{
-	index = check_unsigned_and_l(format, index, flags);
-	if (format[index] == 's')
-		ft_print_string(flags);
-	else if (format[index] == 'c' || format[index] == 'C')
-		ft_print_char(flags, 0);
-	else if (ft_strchri("diD", format[index], 0) > -1)
-		get_va_arg(flags);
-	else if (format[index] == 'f' || format[index] == 'F')
-	{
-		if (flags->flag & (1 << F_PRECISION) && !flags->precision)
-			get_va_arg(flags);
-		else
-			get_va_arg_float_double(flags);
-	}
-	else if (ft_strchri("oOuUbBxX", format[index], 0) > -1)
-		get_va_arg_base(format[index], flags);
-	else if (format[index] == 'p')
-		print_pointer_address(flags);
-	else if (format[index] == '%')
-		ft_print_char(flags, '%');
-	else
-		ft_no_conversion_specifier(flags, format);
-	return (index);
-}
-
 static int	evaluate_format_type(char *format, int index, t_printf *flags)
 {
 	if (format[index] == '%')
@@ -84,14 +84,15 @@ static int	evaluate_format_type(char *format, int index, t_printf *flags)
 	index = parse_flags(format, index, flags);
 	index = parse_width(format, index, flags);
 	index = parse_precision(format, index, flags);
-	index = parse_l(format, index, flags);
 	index = parse_h(format, index, flags);
+	index = parse_l(format, index, flags);
+	index = check_caps_and_unsigned_and_long(format, index, flags);
 	index = conversion_specifiers(format, index, flags);
 	reset_flags(flags);
 	return (index);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_printf(const char *restrict format, ...)
 {
 	t_printf	*flags;
 	int			return_value;

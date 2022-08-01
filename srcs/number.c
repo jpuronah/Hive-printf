@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printers_numbers.c                                 :+:      :+:    :+:   */
+/*   number.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/27 14:30:29 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:22:47 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	itoa_printf(intmax_t number, t_printf *flags, int length)
 	char		*number_as_char;
 	uintmax_t	tmp;
 
-	number_as_char = ft_memalloc(210);
+	number_as_char = NULL;
 	tmp = (uintmax_t)ft_abs_long_long((long long)number);
 	if (tmp == 0 && flags->flag & (1 << F_ZERO))
 		length++;
@@ -99,6 +99,7 @@ void	itoa_printf(intmax_t number, t_printf *flags, int length)
 	if (number < 0)
 		flags->min_length++;
 	adjust_padding(number, length, flags);
+	number_as_char = ft_memalloc((size_t)(flags->num_length + 1));
 	padding(flags, 0);
 	tmp = (uintmax_t)ft_abs_long_long((long long)number);
 	itoa_base_fill(tmp, 10, number_as_char, flags);

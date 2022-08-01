@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/01 14:08:32 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:29:36 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	free_flags(t_printf *flags);
 
 void	ft_print_char(t_printf *flags, char ch);
 void	ft_print_string(t_printf *flags);
-void	ft_no_conversion_specifier(t_printf *flags, char *format);
+//void	ft_no_conversion_specifier(t_printf *flags, char *format);
 
 /* -------------------- va_arg Numbers Functions ---------------------------- */
 

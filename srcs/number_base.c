@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   itoa_base.c                                        :+:      :+:    :+:   */
+/*   number_base.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:30:50 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/27 14:31:14 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:23:28 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 	int			oct_zero;
 	char		*number_as_char;
 
-	number_as_char = ft_memalloc(210);
+	number_as_char = NULL;
 	oct_zero = 0;
 	flags->num_length = 0;
 	tmp = number;
@@ -73,6 +73,7 @@ void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 	if (flags->num_length < flags->precision)
 		oct_zero = 1;
 	base_adjust_padding(number, flags, oct_zero, base);
+	number_as_char = ft_memalloc((size_t)(flags->num_length + 1));
 	padding(flags, 0);
 	write_prefix(number, flags, base, oct_zero);
 	itoa_base_fill(number, base, number_as_char, flags);

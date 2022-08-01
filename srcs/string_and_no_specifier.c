@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string.c                                           :+:      :+:    :+:   */
+/*   string_and_no_specifier.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/27 14:43:38 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:44:34 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,4 @@ void	ft_print_string(t_printf *flags)
 		printf_write(flags, string, (size_t)flags->wordlen);
 		padding(flags, 1);
 	}
-}
-
-void	ft_no_conversion_specifier(t_printf *flags, char *format)
-{
-	flags->padding = flags->width - 1;
-	if (flags->padding > 0)
-	{
-		padding(flags, 0);
-		printf_write(flags, (char *)format, 1);
-		padding(flags, 1);
-		return ;
-	}
-	printf_write(flags, (char *)format, 1);
 }

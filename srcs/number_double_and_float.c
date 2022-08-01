@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   float_double_pointer.c                             :+:      :+:    :+:   */
+/*   number_double_and_float.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 10:48:02 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/27 14:09:31 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:26:11 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	get_va_arg_float_double(t_printf *flags)
 	int				length;
 	long			num;
 
+	if (flags->flag & (1 << F_PRECISION) && !flags->precision)
+		get_va_arg(flags);
 	if (flags->flag & (1 << F_LONG))
 		number = (long double)(va_arg(flags->args, long double));
 	else
