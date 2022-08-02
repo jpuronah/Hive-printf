@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 10:48:02 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/02 14:02:59 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:03:50 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,4 @@ void	get_va_arg_float_double(t_printf *flags)
 	}
 	num = (int)get_decimal(flags, number);
 	itoa_float_double(number, flags, num);
-}
-
-void	print_pointer_address(t_printf *flags)
-{
-	void	*pointer;
-
-	pointer = va_arg(flags->args, void *);
-	flags->flag &= ~(1 << F_PREFIX);
-	if (flags->flag & (1 << F_ZERO))
-		flags->width -= 2;
-	if (flags->num_length > flags->width - 3)
-		flags->padding = flags->width - 3 - flags->num_length;
-	flags->flag |= (1 << F_PREFIX);
-	flags->flag |= (1 << F_POINTER);
-	itoa_base_printf((uintmax_t)pointer, flags, 16);
-	flags->flag = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:30:50 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/02 14:02:13 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:04:40 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,20 @@ void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 	padding(flags, 1);
 	free(number_as_char);
 	number_as_char = NULL;
+}
+
+void	print_pointer_address(t_printf *flags)
+{
+	void	*pointer;
+
+	pointer = va_arg(flags->args, void *);
+	flags->flag &= ~(1 << F_PREFIX);
+	if (flags->flag & (1 << F_ZERO))
+		flags->width -= 2;
+	if (flags->num_length > flags->width - 3)
+		flags->padding = flags->width - 3 - flags->num_length;
+	flags->flag |= (1 << F_PREFIX);
+	flags->flag |= (1 << F_POINTER);
+	itoa_base_printf((uintmax_t)pointer, flags, 16);
+	flags->flag = 0;
 }
