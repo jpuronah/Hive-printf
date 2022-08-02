@@ -6,13 +6,13 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 11:58:36 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/26 11:58:52 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:36:01 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strchri(char *s, int c, int index)
+int	ft_strchri(const char *s, int c, int index)
 {
 	char	*str;
 	char	ch;

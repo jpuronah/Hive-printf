@@ -6,12 +6,12 @@ int	main(int ac, char **av)
 	int ret;
 
 	printf("own printf:\n");
-	ret = ft_printf("%f", 42.42);
+	ret = ft_printf("% d", 42);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 
 	printf("\nreal printf:\n");
-	ret = printf("%f", 42.42);
+	ret = printf("% d", 42);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 	return (0);
