@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:33:45 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/07/27 14:04:01 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:00:58 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,6 @@ void	get_va_arg(t_printf *flags)
 	itoa_printf(number, flags, 0);
 }
 
-int	get_base(char format)
-{
-	int	base;
-
-	base = 0;
-	if (format == 'b' || format == 'B')
-		base = 2;
-	if (format == 'o' || format == 'O')
-		base = 8;
-	if (format == 'u' || format == 'U')
-		base = 10;
-	if (format == 'x' || format == 'X')
-		base = 16;
-	return (base);
-}
-
 static void	check_for_zero_flag_base(t_printf *flags, uintmax_t number)
 {
 	if (flags->flag & (1 << F_ZERO))
@@ -80,6 +64,22 @@ static void	check_for_zero_flag_base(t_printf *flags, uintmax_t number)
 	if (number < 0 && flags->flag & (1 << F_ZERO)
 		&& flags->zero_pad_precision > 0)
 		flags->precision++;
+}
+
+static int	get_base(char format)
+{
+	int	base;
+
+	base = 0;
+	if (format == 'b' || format == 'B')
+		base = 2;
+	if (format == 'o' || format == 'O')
+		base = 8;
+	if (format == 'u' || format == 'U')
+		base = 10;
+	if (format == 'x' || format == 'X')
+		base = 16;
+	return (base);
 }
 
 void	get_va_arg_base(char format, t_printf *flags)
