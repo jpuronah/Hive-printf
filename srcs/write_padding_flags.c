@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:29:39 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/01 16:24:33 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 13:54:25 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 void	printf_write(t_printf *flags, void *new, size_t size)
 {
 	int		index;
-	size_t	hold_size;
+	size_t	original_size;
 	char	*string;
 	char	tmp;
 
 	index = 0;
 	tmp = 0;
-	hold_size = size;
+	original_size = size;
 	string = ft_strdup((char *)new);
 	while (size--)
 	{
@@ -37,12 +37,12 @@ void	printf_write(t_printf *flags, void *new, size_t size)
 		else
 			write(1, &string[index++], 1);
 	}
-	flags->length_written += hold_size;
+	flags->length_written += original_size;
 	flags->precision = 1;
 	free(string);
 }
 
-static char	set_ch(t_printf *flags)
+static char	set_padding_character(t_printf *flags)
 {
 	char	ch;
 
@@ -58,7 +58,7 @@ void	padding(t_printf *flags, int phase)
 {
 	char	ch;
 
-	ch = set_ch(flags);
+	ch = set_padding_character(flags);
 	if (flags->padding > -1)
 	{
 		if (!phase && !(flags->flag & (1 << F_MINUS)))

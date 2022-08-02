@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 08:14:52 by jpuronah          #+#    #+#              #
-#    Updated: 2022/08/01 14:09:04 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/08/02 13:55:06 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ C = clang
 NAME = libftprintf.a
 
 #FLAGS = -Wall -Wextra -Werror
-FLAGS = -Wconversion -Wall -Wextra -Werror -O2
+FLAGS = -Wconversion -Wall -Wextra -Werror# -O2
 
 LIBFT = libft
 
@@ -27,7 +27,7 @@ HEADER = includes
 
 SOURCES = ft_printf.c \
 			parser.c \
-			string_and_no_specifier.c \
+			string.c \
 			number.c \
 			number_base.c \
 			number_double_and_float.c \
@@ -44,7 +44,7 @@ $(NAME):
 	@mkdir -p obj
 	@gcc $(FLAGS) -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
 	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/string_and_no_specifier.o -c srcs/string_and_no_specifier.c
+	@gcc  $(FLAGS) -I includes -o obj/string.o -c srcs/string.c
 	@mkdir -p obj
 	@gcc  $(FLAGS) -I includes -o obj/parser.o -c srcs/parser.c
 	@mkdir -p obj
@@ -79,7 +79,7 @@ nf:
 	@mkdir -p obj
 	@gcc  -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
 	@mkdir -p obj
-	@gcc  -I includes -o obj/string_and_no_specifier.o -c srcs/string_and_no_specifier.c
+	@gcc  -I includes -o obj/string.o -c srcs/string.c
 	@mkdir -p obj
 	@gcc -I includes -o obj/parser.o -c srcs/parser.c
 	@mkdir -p obj

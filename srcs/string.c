@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_and_no_specifier.c                          :+:      :+:    :+:   */
+/*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:30:54 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/01 16:44:34 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 13:55:56 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_print_char(t_printf *flags, char ch)
 	padding(flags, 1);
 }
 
-void	print_null_string(char *string, t_printf *flags)
+static void	print_null_string(char *string, t_printf *flags)
 {
 	char	*nul_str;
 
