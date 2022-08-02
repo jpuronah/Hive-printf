@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/01 16:29:36 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:06:55 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	get_va_arg_float_double(t_printf *flags);
 
 void	itoa_printf(intmax_t number, t_printf *flags, int length);
 void	itoa_base_printf(uintmax_t number, t_printf *flags, int base);
-void	itoa_float_double(long double number, t_printf *flags, long num);
+//void	itoa_float_double(long double number, t_printf *flags, long num);
 void	itoa_base_fill(uintmax_t tmp, int base,
 			char *number_as_char, t_printf *flags);
 
