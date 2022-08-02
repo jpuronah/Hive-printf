@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 10:48:02 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/01 16:26:11 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:02:59 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	check_flags(t_printf *flags, char *string, long double number)
 	return (tmp);
 }
 
-void	itoa_float_double(long double number, t_printf *flags, long num)
+static void	itoa_float_double(long double number, t_printf *flags, long num)
 {
 	int		length;
 	int		accuracy;
@@ -57,7 +57,7 @@ void	itoa_float_double(long double number, t_printf *flags, long num)
 	string = NULL;
 }
 
-long double	get_decimal(t_printf *flags, long double number)
+static long double	get_decimal(t_printf *flags, long double number)
 {
 	long double		decimal;
 

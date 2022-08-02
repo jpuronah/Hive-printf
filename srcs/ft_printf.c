@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/01 16:44:09 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:01:51 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	conversion_specifiers(char *format, int index, t_printf *flags)
 	return (index);
 }
 
-int	check_caps_and_unsigned_and_long(char *format, int index, t_printf *flags)
+static int	check_caps_and_unsigned_and_long(char *format, int index, t_printf *flags)
 {
 	if (ft_isupper(format[index]) == 1)
 		flags->flag |= (1 << F_CAPS_ON);

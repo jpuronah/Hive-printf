@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:30:50 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/01 16:23:28 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:02:13 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	base_adjust_padding(uintmax_t number,
 	}
 }
 
-void	write_prefix(uintmax_t number, t_printf *flags, int base, int oct_zero)
+static void	write_prefix(uintmax_t number, t_printf *flags, int base, int oct_zero)
 {
 	if ((number || flags->flag & (1 << F_POINTER))
 		&& (flags->flag & (1 << F_PREFIX)
