@@ -8,3 +8,4 @@ undefined.txt
 *.log
 ____save_backup
 exe
+libft/mkfile

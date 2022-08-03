@@ -6,25 +6,21 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 08:14:52 by jpuronah          #+#    #+#              #
-#    Updated: 2022/08/02 13:55:06 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/08/03 22:48:52 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-C = clang
+#C = clang
 
 NAME = libftprintf.a
 
-#FLAGS = -Wall -Wextra -Werror
-FLAGS = -Wconversion -Wall -Wextra -Werror# -O2
+FLAGS = -Wall -Wextra -Werror
+#FLAGS = -Wconversion -Wall -Wextra -Werror# -O2
 
 LIBFT = libft
-
 DIR_S = srcs
-
 DIR_O = obj
-
 HEADER = includes
-
 SOURCES = ft_printf.c \
 			parser.c \
 			string.c \
@@ -34,81 +30,110 @@ SOURCES = ft_printf.c \
 			write_padding_flags.c \
 			get_va_arg_numbers.c \
 
-OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
+$(DIR_O)ARRC = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
 all: $(NAME)
 
 $(NAME):
 	@make -C $(LIBFT)
-	@echo "\033[32mlibft compiled \033[0m"
-	@mkdir -p obj
-	@gcc $(FLAGS) -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/string.o -c srcs/string.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/parser.o -c srcs/parser.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/number.o -c srcs/number.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/number_double_and_float.o -c srcs/number_double_and_float.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/write_padding_flags.o -c srcs/write_padding_flags.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
-	@mkdir -p obj
-	@gcc  $(FLAGS) -I includes -o obj/number_base.o -c srcs/number_base.c
-	@mkdir -p obj
+	@echo "\033[32m libft compiled \033[0m"
+	@mkdir -p $(DIR_O)
+	@gcc $(FLAGS) -I includes -o $(DIR_O)/ft_printf.o -c $(DIR_S)/ft_printf.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/string.o -c $(DIR_S)/string.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/parser.o -c $(DIR_S)/parser.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/number.o -c $(DIR_S)/number.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/number_double_and_float.o -c $(DIR_S)/number_double_and_float.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/write_padding_flags.o -c $(DIR_S)/write_padding_flags.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/get_va_arg_numbers.o -c $(DIR_S)/get_va_arg_numbers.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/number_base.o -c $(DIR_S)/number_base.c
+	@mkdir -p $(DIR_O)
 	@cp libft/libft.a ./$(NAME)
-	@ar rc $(NAME) $(OBJS)
+	@ar rc $(NAME) $($(DIR_O)ARRC)
 	@ranlib $(NAME)
-	@echo "\033[32m Compilation SUCCESS \033[0m"
+	@echo "\033[32m ft_printf Compilation SUCCESS \033[0m"
 
 test:
 	@make all
 	@echo "\033[32m main & printf linked and runned \033[0m"
-	@gcc -o exe main.c libftprintf.a
-	./exe
+	@gcc -o test_exe main.c libftprintf.a
+	./test_exe
 
 leaks:
-	@make all
-	@echo "\033[32m main & printf linked and runned \033[0m"
-	@gcc -o exe main.c libftprintf.a
-	leaks -atExit -- ./exe
-
-nf:
-	@mkdir -p obj
-	@gcc  -I includes -o obj/ft_printf.o -c srcs/ft_printf.c
-	@mkdir -p obj
-	@gcc  -I includes -o obj/string.o -c srcs/string.c
-	@mkdir -p obj
-	@gcc -I includes -o obj/parser.o -c srcs/parser.c
-	@mkdir -p obj
-	@gcc -I includes -o obj/number.o -c srcs/number.c
-	@mkdir -p obj
-	@gcc -I includes -o obj/number_double_and_float.o -c srcs/number_double_and_float.c
-	@mkdir -p obj
-	@gcc -I includes -o obj/write_padding_flags.o -c srcs/write_padding_flags.c
-	@mkdir -p obj
-	@gcc -I includes -o obj/get_va_arg_numbers.o -c srcs/get_va_arg_numbers.c
-	@mkdir -p obj
-	@gcc -I includes -o obj/number_base.o -c srcs/number_base.c
-	@mkdir -p obj
+	@make leaks -C $(LIBFT)
+	@echo "\033[32mlibft compiled \033[0m"
+	@mkdir -p $(DIR_O)
+	@gcc $(FLAGS) -I includes -o $(DIR_O)/ft_printf.o -c $(DIR_S)/ft_printf.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/string.o -c $(DIR_S)/string.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/parser.o -c $(DIR_S)/parser.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/number.o -c $(DIR_S)/number.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/number_double_and_float.o -c $(DIR_S)/number_double_and_float.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/write_padding_flags.o -c $(DIR_S)/write_padding_flags.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/get_va_arg_numbers.o -c $(DIR_S)/get_va_arg_numbers.c
+	@mkdir -p $(DIR_O)
+	@gcc  $(FLAGS) -I includes -o $(DIR_O)/number_base.o -c $(DIR_S)/number_base.c
+	@mkdir -p $(DIR_O)
 	@cp libft/libft.a ./$(NAME)
-	@ar rc $(NAME) $(OBJS)
+	@ar rc $(NAME) $($(DIR_O)ARRC)
 	@ranlib $(NAME)
 	@echo "\033[32m Compilation SUCCESS \033[0m"
+	@echo "\033[32m main & printf linked and runned \033[0m"
+	@gcc -o test_exe main.c libftprintf.a
+	leaks -atExit -- ./test_exe
+
+nf:
+	@mkdir -p $(DIR_O)
+	@gcc  -I includes -o $(DIR_O)/ft_printf.o -c $(DIR_S)/ft_printf.c
+	@mkdir -p $(DIR_O)
+	@gcc  -I includes -o $(DIR_O)/string.o -c $(DIR_S)/string.c
+	@mkdir -p $(DIR_O)
+	@gcc -I includes -o $(DIR_O)/parser.o -c $(DIR_S)/parser.c
+	@mkdir -p $(DIR_O)
+	@gcc -I includes -o $(DIR_O)/number.o -c $(DIR_S)/number.c
+	@mkdir -p $(DIR_O)
+	@gcc -I includes -o $(DIR_O)/number_double_and_float.o -c $(DIR_S)/number_double_and_float.c
+	@mkdir -p $(DIR_O)
+	@gcc -I includes -o $(DIR_O)/write_padding_flags.o -c $(DIR_S)/write_padding_flags.c
+	@mkdir -p $(DIR_O)
+	@gcc -I includes -o $(DIR_O)/get_va_arg_numbers.o -c $(DIR_S)/get_va_arg_numbers.c
+	@mkdir -p $(DIR_O)
+	@gcc -I includes -o $(DIR_O)/number_base.o -c $(DIR_S)/number_base.c
+	@mkdir -p $(DIR_O)
+	@cp libft/libft.a ./$(NAME)
+	@ar rc $(NAME) $($(DIR_O)ARRC)
+	@ranlib $(NAME)
+	@echo "\033[32m Compilation SUCCESS  ---  NO FLAGS \033[0m"
 
 clean:
-	rm -f $(OBJS)
-	rm -rf $(DIR_O)
-	make clean -C $(LIBFT)
-	echo "\033[32m Objects deleted \033[0m"
+	@make clean -C $(LIBFT)
+	@rm -f $($(DIR_O)ARRC)
+	@rm -rf $(DIR_O)
+	@echo "\033[32m ft_printf object files cleaned \033[0m"
 
 fclean: clean
-	rm -f $(NAME)
-	make fclean -C $(LIBFT)
-	echo "\033[32m Everything deleted \033[0m"
+	@rm -f $(NAME)
+	@make fclean -C $(LIBFT)
+	@echo "\033[32m Everything cleaned \033[0m"
+
+cleantest:
+	rm -f $($(DIR_O)S)
+	rm -rf $(DIR_O)
+	rm -f test_exe
+	make clean -C $(LIBFT)
+	echo "\033[32m objects deleted \033[0m"
 
 re: fclean all
 
-.PHONY: fclean re norme all clean
+.PHONY: re norme all clean fclean cleantest nf

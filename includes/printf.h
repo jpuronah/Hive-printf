@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/02 14:06:55 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/03 22:27:27 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define F_PLUS 2
 # define F_MINUS 3
 # define F_ZERO 4
-//# define F_ASTERISK 5
+//# define F_WILDCARD 5
 # define F_LONG 6
 # define F_LONGLONG 7
 # define F_SHORT 8
@@ -60,6 +60,9 @@ typedef struct s_printf
 
 int		ft_printf(const char *format, ...);
 
+void	reset_flags(t_printf *flags);
+void	free_flags(t_printf *flags);
+
 /* -------------------------- Parsing Functions ----------------------------- */
 
 int		parse_flags(char *format, int index, t_printf *flags);
@@ -74,8 +77,6 @@ int		parse_h(char *format, int index, t_printf *flags);
 
 void	printf_write(t_printf *flags, void *new, size_t size);
 void	padding(t_printf *flags, int phase);
-void	reset_flags(t_printf *flags);
-void	free_flags(t_printf *flags);
 
 /* -------------------- Strings & Chars Functions --------------------------- */
 
@@ -93,11 +94,11 @@ void	get_va_arg_float_double(t_printf *flags);
 
 void	itoa_printf(intmax_t number, t_printf *flags, int length);
 void	itoa_base_printf(uintmax_t number, t_printf *flags, int base);
-//void	itoa_float_double(long double number, t_printf *flags, long num);
 void	itoa_base_fill(uintmax_t tmp, int base,
 			char *number_as_char, t_printf *flags);
 
+void	print_pointer_address(t_printf *flags);
+
 /* ------------------------ Bonus Functions --------------------------------- */
 
-void	print_pointer_address(t_printf *flags);
 #endif
