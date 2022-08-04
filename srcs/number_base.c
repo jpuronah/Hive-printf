@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:30:50 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/02 14:04:40 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/04 12:34:20 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	base_adjust_padding(uintmax_t number,
 	}
 }
 
-static void	write_prefix(uintmax_t number, t_printf *flags, int base, int oct_zero)
+static void	prefix(uintmax_t number, t_printf *flags, int base, int oct_zero)
 {
 	if ((number || flags->flag & (1 << F_POINTER))
 		&& (flags->flag & (1 << F_PREFIX)
@@ -75,7 +75,7 @@ void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 	base_adjust_padding(number, flags, oct_zero, base);
 	number_as_char = ft_memalloc((size_t)(flags->num_length + 1));
 	padding(flags, 0);
-	write_prefix(number, flags, base, oct_zero);
+	prefix(number, flags, base, oct_zero);
 	itoa_base_fill(number, base, number_as_char, flags);
 	printf_write(flags, number_as_char, (size_t)flags->num_length);
 	padding(flags, 1);
