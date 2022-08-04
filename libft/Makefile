@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/09 15:40:47 by jpuronah          #+#    #+#              #
-#    Updated: 2022/08/03 22:49:01 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/08/04 13:18:25 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,8 @@ NAME = libft.a
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-#FLAGS = -Wconversion -Wall -Wextra -Werror# -O2
+#CFLAGS = -Wconversion -Wall -Wextra -Werror# -O2
 AR = ar rcs
-
 LIBFT = libft
 HEADER = includes
 SOURCES = ./ft_atoi \
@@ -93,13 +92,15 @@ SOURCES = ./ft_atoi \
 			./ft_min \
 			./ft_strchri \
 			./ft_abs_long_long
-		
 
-#SRCS = $(addprefix $(SRCS_DIR), $(addsuffix , $(SOURCES)))
-OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(SOURCES)))
+#SRCS = $(addprefix $(-), $(addsuffix .c, $(SOURCES)))
+#OBJS = $(addsuffix .o, $(DIR_O)/$(SOURCES))
+#mkdir -p $(DIR_O)
+#MKDIR_O = mkdir -p $(DIR_O)
+OBJS = $(addprefix $(-), $(addsuffix .o, $(SOURCES)))
 
-$(NAME): $(OBJS)	
-	@$(AR) $(NAME) $(OBJS)
+$(NAME): $(OBJS)
+	$(AR) $(NAME) $(OBJS)
 
 all: $(NAME)
 

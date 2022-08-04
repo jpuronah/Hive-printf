@@ -6,16 +6,15 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 08:14:52 by jpuronah          #+#    #+#              #
-#    Updated: 2022/08/03 22:48:52 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/08/04 13:19:39 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-#C = clang
 
 NAME = libftprintf.a
 
 FLAGS = -Wall -Wextra -Werror
 #FLAGS = -Wconversion -Wall -Wextra -Werror# -O2
+AR = ar rcs
 
 LIBFT = libft
 DIR_S = srcs
@@ -37,6 +36,11 @@ all: $(NAME)
 $(NAME):
 	@make -C $(LIBFT)
 	@echo "\033[32m libft compiled \033[0m"
+	@mkdir -p $(DIR_O)
+	
+
+
+
 	@mkdir -p $(DIR_O)
 	@gcc $(FLAGS) -I includes -o $(DIR_O)/ft_printf.o -c $(DIR_S)/ft_printf.c
 	@mkdir -p $(DIR_O)
@@ -112,7 +116,7 @@ nf:
 	@gcc -I includes -o $(DIR_O)/number_base.o -c $(DIR_S)/number_base.c
 	@mkdir -p $(DIR_O)
 	@cp libft/libft.a ./$(NAME)
-	@ar rc $(NAME) $($(DIR_O)ARRC)
+	@$(AR) $(NAME) $($(DIR_O)ARRC)
 	@ranlib $(NAME)
 	@echo "\033[32m Compilation SUCCESS  ---  NO FLAGS \033[0m"
 

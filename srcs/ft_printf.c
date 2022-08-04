@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/04 12:33:55 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/08/04 13:20:15 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	evaluate_format_type(char *format, int index, t_printf *flags)
 	index = parse_precision(format, index, flags);
 	index = parse_h(format, index, flags);
 	index = parse_l(format, index, flags);
-	index = check_caps_and_unsigned_and_long(format, index, flags);
+	index = check_caps_unsigned_long(format, index, flags);
 	index = conversion_specifiers(format, index, flags);
 	reset_flags(flags);
 	return (index);
