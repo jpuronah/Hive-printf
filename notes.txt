@@ -1,5 +1,30 @@
 Todo:
 
+Oikee printf seg faulttaa myös?!?!??!
+
+((- 0 precision ("0.0%d,2 0); ei skulaa))
+
+  1 #include <stdio.h>
+  2 
+  3 int main()
+  4 {
+  5         printf("%s", -2);
+  6         return (0);
+  7 }
+
+  $Joels-MacBook-Air:beginner_C luukurkkuun$		gcc printf_segfault.c
+  $printf_segfault.c:5:15: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
+  $      printf("%s", -2);
+  $              ~~   ^~
+  $              %d
+  $1 warning generated.
+  $Joels-MacBook-Air:beginner_C luukurkkuun$		./a.out
+  $	Segmentation fault: 11
+  $Joels-MacBook-Air:beginner_C luukurkkuun$
+
+
 -Makefile to the jiiri
 -number_as_char mallocci
 - ...
+
+
