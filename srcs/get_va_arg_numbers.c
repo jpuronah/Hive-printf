@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:33:45 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/19 08:09:10 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:48:01 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,3 @@ void	get_va_arg_base(char format, t_printf *flags)
 	check_for_zero_flag_base(flags, number);
 	itoa_base_printf(number, flags, base);
 }
-
