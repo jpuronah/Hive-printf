@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/01 16:23:16 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:59:24 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,6 @@ int	parse_precision(char *format, int index, t_printf *flags)
 	return (index);
 }
 
-int	parse_l(char *format, int index, t_printf *flags)
-{
-	while (1)
-	{
-		if (format[index] == 'l')
-		{
-			if (format[index + 1] == 'l')
-				flags->num_type |= (1 << F_LONGLONG);
-			else
-				flags->num_type |= (1 << F_LONG);
-			if (flags->num_type == (1 << F_LONGLONG))
-				index++;
-			index++;
-			break ;
-		}
-		else
-			break ;
-		index++;
-	}
-	return (index);
-}
-
 int	parse_h(char *format, int index, t_printf *flags)
 {
 	while (1)
@@ -103,6 +81,28 @@ int	parse_h(char *format, int index, t_printf *flags)
 			else
 				flags->num_type = (1 << F_SHORT);
 			if (flags->num_type == (1 << F_SHORTCHAR))
+				index++;
+			index++;
+			break ;
+		}
+		else
+			break ;
+		index++;
+	}
+	return (index);
+}
+
+int	parse_l(char *format, int index, t_printf *flags)
+{
+	while (1)
+	{
+		if (format[index] == 'l')
+		{
+			if (format[index + 1] == 'l')
+				flags->num_type |= (1 << F_LONGLONG);
+			else
+				flags->num_type |= (1 << F_LONG);
+			if (flags->num_type == (1 << F_LONGLONG))
 				index++;
 			index++;
 			break ;

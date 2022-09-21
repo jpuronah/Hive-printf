@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:29:39 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/02 13:54:25 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:04:10 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 void	printf_write(t_printf *flags, void *new, size_t size)
 {
-	int		index;
 	size_t	original_size;
+	int		index;
 	char	*string;
 	char	tmp;
 
