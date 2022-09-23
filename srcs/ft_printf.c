@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/20 13:01:30 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:06:47 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	conversion_specifiers(char *format, int index, t_printf *flags)
 		print_pointer_address(flags);
 	else if (format[index] == '%')
 		ft_print_char(flags, '%');
-	else if (ft_strchri("# +-0hl", format[index], 0) > 0)	//Edge case ?
+	else if (ft_strchri("# +-0hl", format[index], 0) > 0)	//Edge case ??
 	{
 		parse_flags(format, index, flags);
 		index++;
