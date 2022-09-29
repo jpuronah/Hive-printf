@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 22:49:58 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/05 14:30:02 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:23:51 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	main(int ac, char **av)
 
 
 	printf("own printf:\n");
-	ret = ft_printf("M1fv%12cX%2s", 'd', "By4UP2W9g2wcluZyuFPDIjTcIRtiWf6EcT35JP7fGigC5muuPsiwbnC8zwrxdfJGOrDR7R VNmRCMLl5");
+	ret = ft_printf("%08.5u", 34);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 	printf("\nreal printf:\n");
-	ret = printf("M1fv%12cX%2s", 'd', "By4UP2W9g2wcluZyuFPDIjTcIRtiWf6EcT35JP7fGigC5muuPsiwbnC8zwrxdfJGOrDR7R VNmRCMLl5");
+	ret = printf("%08.5u", 34);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 	return (0);

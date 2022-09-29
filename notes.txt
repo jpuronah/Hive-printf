@@ -1,3 +1,5 @@
+OK: 825  KO: 106
+
 Todo:
 
 ft_printf("%08.3i", 8375)

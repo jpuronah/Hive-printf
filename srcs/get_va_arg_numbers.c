@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:33:45 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/20 12:48:01 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:24:11 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,49 @@
 
 static void	check_for_zero_flag(t_printf *flags, intmax_t number)
 {
+	intmax_t	tmp;
+
+	tmp = number;
+	if (tmp > 0)
+	{
+		while (tmp > 0)
+		{
+			tmp /= 10;
+			flags->num_length++;
+		}
+	}
+	else if (tmp < 0)
+	{
+		while (tmp < 0)
+		{
+			tmp /= 10;
+			flags->num_length++;
+		}
+	}
+	//printf("%d, %d, %d\n", flags->width, flags->precision, flags->num_length);
 	if (flags->flag & (1 << F_ZERO))
 	{
-		if (flags->precision < flags->num_length)
-			flags->precision = flags->num_length;
-		if (flags->width > flags->precision && flags->flag & (1 << F_PRECISION))
+		if (flags->flag & (1 << F_PRECISION) && flags->width > flags->precision)
+		{
+			if (flags->precision < flags->num_length)
+				flags->precision = flags->num_length;
 			flags->zero_pad_precision = flags->width - flags->precision;
+			if (number < 0)// && flags->precision > flags->num_length)
+			{
+				//printf("paska\n");
+				flags->num_length++;
+				flags->precision++;
+			}
+		}
+		if (number < 0 && flags->flag & (1 << F_PRECISION) && flags->width < flags->precision && flags->width < flags->num_length)
+			flags->precision++;
 		flags->precision = ft_max(flags->width, flags->precision);
 		flags->padding += flags->zero_pad_precision;
 		flags->num_length -= flags->zero_pad_precision;
+		if (number < 0 && flags->zero_pad_precision > 0)
+			flags->precision++;
 	}
-	if (number < 0 && flags->flag & (1 << F_ZERO)
-		&& flags->zero_pad_precision > 0)
-		flags->precision++;
+	//printf("%d, %d, %d, %d\n", flags->width, flags->precision, flags->padding, flags->zero_pad_precision);
 }
 
 void	get_va_arg(t_printf *flags)
