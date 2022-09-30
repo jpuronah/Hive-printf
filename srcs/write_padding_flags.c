@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:29:39 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 11:01:16 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:51:54 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	padding(t_printf *flags, int phase)
 {
 	char	ch;
 
-	//printf("pad: %d, %d, %d, %d, %d\n", flags->width, flags->precision, flags->num_length, flags->padding, flags->zero_pad_precision);
 	ch = set_padding_character(flags);
 	if (flags->padding > -1)
 	{
@@ -68,7 +67,6 @@ void	padding(t_printf *flags, int phase)
 			{
 				flags->length_written += write(1, &ch, 1);
 				flags->padding--;
-				//printf("\npaska\n");
 			}
 		}
 		else if (phase && (flags->flag & (1 << F_MINUS)))

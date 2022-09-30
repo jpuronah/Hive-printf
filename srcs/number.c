@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 11:39:48 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:31:55 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ char *number_as_char, t_printf *flags)
 
 static void	adjust_padding(intmax_t number, int length, t_printf *flags)
 {
-	//printf("adj: %d, %d, %d, %d, %d\n", flags->width, flags->precision, flags->num_length, flags->padding, flags->zero_pad_precision);
-	if (flags->flag & (1 << F_ZERO) && flags->width > flags->precision && flags->width > flags->num_length)
+	if (flags->flag & (1 << F_ZERO) && flags->width > flags->precision)
 		flags->padding = flags->width - flags->precision;
 	if (flags->flag & (1 << F_ZERO) && number < 0)
 	{
@@ -65,7 +64,6 @@ static void	adjust_padding(intmax_t number, int length, t_printf *flags)
 	if (flags->width > flags->num_length)
 		if (flags->precision < flags->num_length)
 			flags->precision = ft_max(flags->precision, flags->num_length);
-	//printf("adj: %d, %d, %d, %d, %d\n", flags->width, flags->precision, flags->num_length, flags->padding, flags->zero_pad_precision);
 }
 
 static void	add_prefix_character(t_printf *flags,
@@ -110,4 +108,27 @@ void	itoa_printf(intmax_t number, t_printf *flags, int length)
 	padding(flags, 1);
 	free(number_as_char);
 	number_as_char = NULL;
+}
+
+void	get_number_length(t_printf *flags, intmax_t number)
+{
+	intmax_t	tmp;
+
+	tmp = number;
+	if (tmp > 0)
+	{
+		while (tmp > 0)
+		{
+			tmp /= 10;
+			flags->num_length++;
+		}
+	}
+	else if (tmp < 0)
+	{
+		while (tmp < 0)
+		{
+			tmp /= 10;
+			flags->num_length++;
+		}
+	}
 }

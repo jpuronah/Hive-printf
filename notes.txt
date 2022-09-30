@@ -1,4 +1,6 @@
-OK: 825  KO: 106
+OCT ZERO USELESS?
+
+WTF IS 0x00000023  tms "%#8x", 420 failing xddddd
 
 Todo:
 

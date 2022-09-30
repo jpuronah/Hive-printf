@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:33:45 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 11:31:40 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:38:55 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,36 +27,15 @@ static void	check_for_zero_flag(t_printf *flags, intmax_t number)
 				flags->precision++;
 			}
 		}
-		if (number < 0 && flags->flag & (1 << F_PRECISION) && flags->width < flags->precision && flags->width < flags->num_length)
+		if (number < 0 && flags->flag & (1 << F_PRECISION)
+			&& flags->width < flags->precision
+			&& flags->width < flags->num_length)
 			flags->precision++;
 		flags->precision = ft_max(flags->width, flags->precision);
 		flags->padding += flags->zero_pad_precision;
 		flags->num_length -= flags->zero_pad_precision;
 		if (number < 0 && flags->zero_pad_precision > 0)
 			flags->precision++;
-	}
-}
-
-void	get_number_length(t_printf *flags, intmax_t number)
-{
-	intmax_t	tmp;
-
-	tmp = number;
-	if (tmp > 0)
-	{
-		while (tmp > 0)
-		{
-			tmp /= 10;
-			flags->num_length++;
-		}
-	}
-	else if (tmp < 0)
-	{
-		while (tmp < 0)
-		{
-			tmp /= 10;
-			flags->num_length++;
-		}
 	}
 }
 
@@ -97,30 +76,6 @@ static void	check_for_zero_flag_base(t_printf *flags, uintmax_t number)
 	if (number < 0 && flags->flag & (1 << F_ZERO)
 		&& flags->zero_pad_precision > 0)
 		flags->precision++;
-	
-	//printf("%d, %d, %d, %d\n", flags->width, flags->precision, flags->num_length, flags->padding);
-	/*
-	if (flags->flag & (1 << F_ZERO))
-	{
-		if (flags->flag & (1 << F_PRECISION) && flags->width > flags->precision)
-		{
-			if (flags->precision < flags->num_length)
-				flags->precision = flags->num_length;
-			flags->zero_pad_precision = flags->width - flags->precision;
-			if (number < 0)
-			{
-				flags->num_length++;
-				flags->precision++;
-			}
-		}
-		if (number < 0 && flags->flag & (1 << F_PRECISION) && flags->width < flags->precision && flags->width < flags->num_length)
-			flags->precision++;
-		flags->precision = ft_max(flags->width, flags->precision);
-		flags->padding += flags->zero_pad_precision;
-		flags->num_length -= flags->zero_pad_precision;
-		if (number < 0 && flags->zero_pad_precision > 0)
-			flags->precision++;
-	}*/
 }
 
 static int	get_base(char format)
@@ -158,7 +113,6 @@ void	get_va_arg_base(char format, t_printf *flags)
 	else
 		number = ((uintmax_t)va_arg(flags->args, unsigned int));
 	get_number_length(flags, number);
-	//printf("%d, %d, %d, %d\n", flags->width, flags->precision, flags->num_length, flags->padding);
 	check_for_zero_flag_base(flags, number);
 	itoa_base_printf(number, flags, base);
 }
