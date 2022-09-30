@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/03 22:27:27 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/30 10:20:57 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	itoa_base_fill(uintmax_t tmp, int base,
 			char *number_as_char, t_printf *flags);
 
 void	print_pointer_address(t_printf *flags);
+
+void	get_number_length(t_printf *flags, intmax_t number);
 
 /* ------------------------ Bonus Functions --------------------------------- */
 

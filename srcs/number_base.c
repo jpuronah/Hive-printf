@@ -6,16 +6,16 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:30:50 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/04 12:34:20 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:42:56 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
 
-static void	base_adjust_padding(uintmax_t number,
+static void	base_adjust_padding_2(uintmax_t number,
 	t_printf *flags, int oct_zero, int base)
 {
-	if (flags->flag & (1 << F_ZERO) && flags->width > flags->precision)
+	if (flags->flag & (1 << F_ZERO) && flags->flag & (1 << F_PRECISION) && flags->width > flags->precision)
 		flags->padding = flags->width - flags->precision;
 	if (flags->flag & (1 << F_ZERO) && number < 0)
 	{
@@ -23,6 +23,14 @@ static void	base_adjust_padding(uintmax_t number,
 		flags->padding--;
 	}
 	flags->num_length = ft_max(flags->precision, flags->num_length);
+	
+}
+
+static void	base_adjust_padding(uintmax_t number,
+	t_printf *flags, int oct_zero, int base)
+{
+	//printf("%d, %d, %d, %d\n", flags->width, flags->precision, flags->num_length, flags->padding);
+	base_adjust_padding_2(number, flags, oct_zero, base);
 	if (flags->flag & (1 << F_PREFIX) && base == 8 && oct_zero == 0)
 		flags->width--;
 	if (flags->flag & (1 << F_PREFIX) && base == 8 && number == 0
@@ -37,6 +45,7 @@ static void	base_adjust_padding(uintmax_t number,
 		if (flags->flag & (1 << F_PREFIX))
 			flags->padding -= 2;
 	}
+	//printf("%d, %d, %d, %d\n", flags->width, flags->precision, flags->num_length, flags->padding);
 }
 
 static void	prefix(uintmax_t number, t_printf *flags, int base, int oct_zero)
@@ -61,6 +70,7 @@ void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 	int			oct_zero;
 	char		*number_as_char;
 
+	//printf("%d, %d, %d, %d\n", flags->width, flags->precision, flags->num_length, flags->padding);
 	number_as_char = NULL;
 	oct_zero = 0;
 	flags->num_length = 0;

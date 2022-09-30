@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 22:49:58 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/29 11:23:51 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:43:31 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	main(int ac, char **av)
 
 
 	printf("own printf:\n");
-	ret = ft_printf("%08.5u", 34);
+	ret = ft_printf("%.3u", 0);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 	printf("\nreal printf:\n");
-	ret = printf("%08.5u", 34);
+	ret = printf("%.3u", 0);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 	return (0);
