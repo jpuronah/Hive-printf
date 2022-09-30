@@ -1,15 +1,17 @@
 flags->numchar in number.c
+-...... !! itoabasefilleri !!
+
+- PFT at school
+- Libft makefile to the jiiri
+- Makefile to the jiiri - (makefile 3 error(s))
+- undefined behavior tests - (29 failed test(s) out of 55 tests)
+-number_as_char mallocci 
+- speed awful (7-11%)
+
+flag0, precision, width
 
 
 OCT ZERO USELESS? -> not useless
-
-WTF IS 0x00000023  tms "%#8x", 420 failing xddddd
-
-Todo:
-
-ft_printf("%08.3i", 8375)
-
-flag0, precision, width
 
 
 Oikee printf seg faulttaa myös?!?!??!
