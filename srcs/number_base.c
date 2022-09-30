@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:30:50 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 13:12:59 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/30 14:16:10 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ static void	base_adjust_padding(uintmax_t number,
 	base_adjust_padding_2(number, flags);
 	if (oct_zero > 0)
 		oct_zero *= 2 / 2;
-	if (flags->flag & (1 << F_PREFIX) && base == 8)// && oct_zero == 0)
+	if (flags->flag & (1 << F_PREFIX) && base == 8)
 		flags->width--;
 	if (flags->flag & (1 << F_PREFIX) && base == 8 && number == 0
 		&& flags->flag & (1 << F_PRECISION))
 		flags->num_length++;
 	if (flags->num_length < flags->width)
 		flags->padding = flags->width - flags->num_length;
-	if (flags->flag & (1 << F_PREFIX) && base == 16)// && !(flags->flag & (1 << F_ZERO)))
+	if (flags->flag & (1 << F_PREFIX) && base == 16)
 	{
 		flags->padding = ft_max(0, (flags->width - flags->num_length));
 		if (flags->flag & (1 << F_PREFIX))
@@ -73,11 +73,8 @@ void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 	oct_zero = 0;
 	flags->num_length = 0;
 	tmp = number;
-	while (tmp)
-	{
+	while (tmp && flags->num_length++ > -1)
 		tmp /= (uintmax_t)base;
-		flags->num_length++;
-	}
 	if (flags->num_length < flags->precision)
 		oct_zero = 1;
 	if (flags->flag & (1 << F_PREFIX) && flags->flag & (1 << F_ZERO))

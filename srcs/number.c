@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 12:31:55 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/09/30 14:33:39 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,14 @@ char *number_as_char, t_printf *flags)
 	while (len--)
 	{
 		if (tmp % (uintmax_t)base < 10)
+		{
 			number_as_char[len] = (char)(tmp % (uintmax_t)base + '0');
+		}
 		else
+		{
 			number_as_char[len]
 				= (char)(tmp % (uintmax_t)base + (uintmax_t)flags->numchar);
+		}
 		tmp /= (uintmax_t)base;
 	}
 }

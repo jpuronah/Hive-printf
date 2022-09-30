@@ -1,4 +1,7 @@
-OCT ZERO USELESS?
+flags->numchar in number.c
+
+
+OCT ZERO USELESS? -> not useless
 
 WTF IS 0x00000023  tms "%#8x", 420 failing xddddd
 
