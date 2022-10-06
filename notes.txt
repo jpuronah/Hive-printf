@@ -2,18 +2,22 @@ Copy from school::::
 
 change list:
 -//# define F_WILDCARD 5
-
 -       flags->numchar = 0;             //some unknowns at number.c
-
 - Binary %b removed
 -  oct_zero -> octal precision
 - base == 8 && precision ehto
 - flags->field_width, flags->width
 -  flags->field_width turha?
 - stdio and F_WILDCARD from printf.h
-
 - get_base: base = 1; -> muute jaetaa nollal
 
+
+
+
+
+TOdo
+
+- number_double_and_float added 2 MONTHS AGO, Check it ---_>>>>>
 - flags->numchar in number.c
 - Libft makefile to the jiiri
 - Makefile to the jiiri - (makefile 3 error(s))
