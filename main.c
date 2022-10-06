@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 22:49:58 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 14:33:09 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:00:14 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int ac, char **av)
 {
 	int	ret;
 
+/*
 	int		a = -4;
 	int		b = 0;
 	char	c = 'a';
@@ -38,15 +39,15 @@ int	main(int ac, char **av)
 	char	*s = "-2147483648";
 	char	*t = "0x12345678";
 	char	*u = "-0";
-
+*/
 
 
 	printf("own printf:\n");
-	ret = ft_printf("%#08x", 420);
+	ret = ft_printf("%#-08x", 42);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 	printf("\nreal printf:\n");
-	ret = printf("%#08x", 420);
+	ret = printf("%#-08x", 42);
 	printf("|\nret: %d\n", ret);
 	printf("\n**********************\n");
 	return (0);

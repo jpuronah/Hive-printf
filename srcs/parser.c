@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 13:43:56 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/20 12:59:24 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:00:31 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ int	parse_width(char *format, int index, t_printf *flags)
 	if (ft_isdigit(format[index]) == 1 && format[index] != '0')
 	{
 		if (ft_atoi(tmp) > 0)
-			flags->width = (int)ft_atoi(tmp);
+			flags->field_width = (int)ft_atoi(tmp);
 		while (ft_isdigit(format[index]) == 1)
 			index++;
 	}
+	flags->width = flags->field_width;
 	free(tmp);
 	tmp = NULL;
 	return (index);

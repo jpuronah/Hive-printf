@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:45:34 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 14:33:39 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:49:18 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,6 @@ static void	add_prefix_character(t_printf *flags,
 	if (number >= 0 && flags->flag & (1 << F_PLUS))
 		number_as_char[0] = '+';
 }
-
-/*printf("padding: %d, prec: %d, wdth: %d, numlen: %d\n", 
-		flags->padding, flags->precision, flags->width, flags->num_length);
-*/
 
 void	itoa_printf(intmax_t number, t_printf *flags, int length)
 {

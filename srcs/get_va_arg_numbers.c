@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:33:45 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 12:38:55 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:38:51 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ static int	get_base(char format)
 {
 	int	base;
 
-	base = 0;
-	if (format == 'b' || format == 'B')
-		base = 2;
+	base = 1;
 	if (format == 'o' || format == 'O')
 		base = 8;
 	if (format == 'u' || format == 'U')

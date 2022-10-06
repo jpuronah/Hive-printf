@@ -6,15 +6,11 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:29:39 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 12:51:54 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:00:05 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
-/*
-	Täält ft_strdup pois, koska void* new ei aina lopu '\0'
-		-> segfault strdupis
-*/
 
 void	printf_write(t_printf *flags, void *new, size_t size)
 {
@@ -102,6 +98,7 @@ void	reset_flags(t_printf *flags)
 	flags->num_length = 0;
 	flags->numchar = 0;
 	flags->width = 0;
+	flags->field_width = 0;
 	flags->precision = 1;
 	flags->padding = 0;
 	flags->wordlen = 0;

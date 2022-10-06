@@ -6,14 +6,13 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 14:30:50 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 14:16:10 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:31:56 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
 
-static void	base_adjust_padding_2(uintmax_t number,
-	t_printf *flags)
+static void	base_adjust_padding_2(uintmax_t number, t_printf *flags)
 {
 	if (flags->flag & (1 << F_ZERO) && flags->flag & (1 << F_PRECISION)
 		&& flags->width > flags->precision)
@@ -26,13 +25,11 @@ static void	base_adjust_padding_2(uintmax_t number,
 	flags->num_length = ft_max(flags->precision, flags->num_length);
 }
 
-static void	base_adjust_padding(uintmax_t number,
-	t_printf *flags, int oct_zero, int base)
+static void	base_adjust_padding(uintmax_t number, t_printf *flags, int base)
 {
 	base_adjust_padding_2(number, flags);
-	if (oct_zero > 0)
-		oct_zero *= 2 / 2;
-	if (flags->flag & (1 << F_PREFIX) && base == 8)
+	if (base == 8 && flags->flag & (1 << F_PREFIX)
+		&& ~ flags->flag & (1 << F_PRECISION))
 		flags->width--;
 	if (flags->flag & (1 << F_PREFIX) && base == 8 && number == 0
 		&& flags->flag & (1 << F_PRECISION))
@@ -47,11 +44,12 @@ static void	base_adjust_padding(uintmax_t number,
 	}
 }
 
-static void	prefix(uintmax_t number, t_printf *flags, int base, int oct_zero)
+static void	prefix(uintmax_t number, t_printf *flags,
+int base, int octal_precision)
 {
 	if ((number || flags->flag & (1 << F_POINTER))
 		&& (flags->flag & (1 << F_PREFIX)
-			&& ((base == 8 && oct_zero == 0) || base == 16)))
+			&& ((base == 8 && octal_precision == 0) || base == 16)))
 		printf_write(flags, "0", 1);
 	if ((number || (flags->flag & (1 << F_POINTER)))
 		&& (flags->flag & (1 << F_PREFIX) && base == 16))
@@ -66,24 +64,24 @@ static void	prefix(uintmax_t number, t_printf *flags, int base, int oct_zero)
 void	itoa_base_printf(uintmax_t number, t_printf *flags, int base)
 {
 	uintmax_t	tmp;
-	int			oct_zero;
+	int			octal_precision;
 	char		*number_as_char;
 
 	number_as_char = NULL;
-	oct_zero = 0;
+	octal_precision = 0;
 	flags->num_length = 0;
 	tmp = number;
 	while (tmp && flags->num_length++ > -1)
 		tmp /= (uintmax_t)base;
 	if (flags->num_length < flags->precision)
-		oct_zero = 1;
+		octal_precision = 1;
 	if (flags->flag & (1 << F_PREFIX) && flags->flag & (1 << F_ZERO))
-		prefix(number, flags, base, oct_zero);
-	base_adjust_padding(number, flags, oct_zero, base);
+		prefix(number, flags, base, octal_precision);
+	base_adjust_padding(number, flags, base);
 	number_as_char = ft_memalloc((size_t)(flags->num_length + 1));
 	padding(flags, 0);
 	if (!(flags->flag & (1 << F_PREFIX)) || !(flags->flag & (1 << F_ZERO)))
-		prefix(number, flags, base, oct_zero);
+		prefix(number, flags, base, octal_precision);
 	itoa_base_fill(number, base, number_as_char, flags);
 	printf_write(flags, number_as_char, (size_t)flags->num_length);
 	padding(flags, 1);
@@ -96,11 +94,6 @@ void	print_pointer_address(t_printf *flags)
 	void	*pointer;
 
 	pointer = va_arg(flags->args, void *);
-	flags->flag &= ~(1 << F_PREFIX);
-	if (flags->flag & (1 << F_ZERO))
-		flags->width -= 2;
-	if (flags->num_length > flags->width - 3)
-		flags->padding = flags->width - 3 - flags->num_length;
 	flags->flag |= (1 << F_PREFIX);
 	flags->flag |= (1 << F_POINTER);
 	itoa_base_printf((uintmax_t)pointer, flags, 16);

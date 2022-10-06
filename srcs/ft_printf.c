@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/29 08:54:46 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:29:59 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ static t_printf	*init_and_malloc_structure(void)
 	flags->flag = 0;
 	flags->num_type = 0;
 	flags->num_length = 0;
-	flags->numchar = 0;		//some unknowns at number.c
+	flags->numchar = 0;
 	flags->length_written = 0;
 	flags->width = 0;
+	flags->field_width = 0;
 	flags->precision = 1;
 	flags->padding = 0;
 	flags->wordlen = 0;
@@ -46,7 +47,7 @@ static int	conversion_specifiers(char *format, int index, t_printf *flags)
 		get_va_arg(flags);
 	else if (format[index] == 'f' || format[index] == 'F')
 		get_va_arg_float_double(flags);
-	else if (ft_strchri("oOuUbBxX", format[index], 0) > -1)
+	else if (ft_strchri("oOuUxX", format[index], 0) > -1)
 		get_va_arg_base(format[index], flags);
 	else if (format[index] == 'p')
 		print_pointer_address(flags);

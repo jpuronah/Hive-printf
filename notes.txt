@@ -1,17 +1,52 @@
-flags->numchar in number.c
--...... !! itoabasefilleri !!
+Copy from school::::
 
-- PFT at school
+change list:
+-//# define F_WILDCARD 5
+
+-       flags->numchar = 0;             //some unknowns at number.c
+
+- Binary %b removed
+-  oct_zero -> octal precision
+- base == 8 && precision ehto
+- flags->field_width, flags->width
+-  flags->field_width turha?
+- stdio and F_WILDCARD from printf.h
+
+- get_base: base = 1; -> muute jaetaa nollal
+
+- flags->numchar in number.c
 - Libft makefile to the jiiri
 - Makefile to the jiiri - (makefile 3 error(s))
-- undefined behavior tests - (29 failed test(s) out of 55 tests)
--number_as_char mallocci 
-- speed awful (7-11%)
-
-flag0, precision, width
+- number_as_char mallocci 
+- itoa_base_fill
 
 
-OCT ZERO USELESS? -> not useless
+
+
+
+
+
+from: void	print_pointer_address(t_printf *flags)
+
+  //if (flags->flag & (1 << F_ZERO))
+	//	flags->width -= 2;
+	//printf("%d, %d, %d\n", flags->num_length, flags->width, flags->precision);
+	//if (flags->num_length > flags->width - 3)
+	//	flags->padding = flags->width - 3 - flags->num_length;
+
+write_padding_flags:
+
+/*
+	Täält ft_strdup pois, koska void* new ei aina lopu '\0'
+		-> segfault strdupis
+*/
+
+
+/*printf("padding: %d, prec: %d, wdth: %d, numlen: %d\n", 
+		flags->padding, flags->precision, flags->width, flags->num_length);
+*/
+
+
 
 
 Oikee printf seg faulttaa myös?!?!??!
@@ -36,9 +71,6 @@ Oikee printf seg faulttaa myös?!?!??!
   $	Segmentation fault: 11
   $Joels-MacBook-Air:beginner_C luukurkkuun$
 
-
--Makefile to the jiiri
--number_as_char mallocci
 - ...
 
 

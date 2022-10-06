@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 11:36:01 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/09/30 10:20:57 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:55:27 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 
 # include "../libft/libft.h"
 # include <stdarg.h>
-# include <stdio.h>
-//pois
+
 # define F_PREFIX 0
 # define F_SPACE 1
 # define F_PLUS 2
 # define F_MINUS 3
 # define F_ZERO 4
-//# define F_WILDCARD 5
 # define F_LONG 6
 # define F_LONGLONG 7
 # define F_SHORT 8
@@ -47,6 +45,7 @@ typedef struct s_printf
 	short		numchar;
 
 	int			width;
+	int			field_width;
 	int			precision;
 	int			padding;
 	int			zero_pad_precision;
@@ -71,8 +70,6 @@ int		parse_precision(char *format, int index, t_printf *flags);
 int		parse_l(char *format, int index, t_printf *flags);
 int		parse_h(char *format, int index, t_printf *flags);
 
-//int		check_unsigned_and_l(char *format, int index, t_printf *flags);
-
 /* ------------------------ Print & Padding --------------------------------- */
 
 void	printf_write(t_printf *flags, void *new, size_t size);
@@ -82,7 +79,6 @@ void	padding(t_printf *flags, int phase);
 
 void	ft_print_char(t_printf *flags, char ch);
 void	ft_print_string(t_printf *flags);
-//void	ft_no_conversion_specifier(t_printf *flags, char *format);
 
 /* -------------------- va_arg Numbers Functions ---------------------------- */
 
@@ -100,7 +96,5 @@ void	itoa_base_fill(uintmax_t tmp, int base,
 void	print_pointer_address(t_printf *flags);
 
 void	get_number_length(t_printf *flags, intmax_t number);
-
-/* ------------------------ Bonus Functions --------------------------------- */
 
 #endif
