@@ -6,118 +6,121 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:36:13 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/10/06 16:29:59 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/18 11:05:38 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/printf.h"
+#include "../includes/ft_printf.h"
 
-static t_printf	*init_and_malloc_structure(void)
+static t_printf	*init_and_malloc_vars(void)
 {
-	t_printf	*flags;
+	t_printf	*vars;
 
-	flags = NULL;
-	flags = (t_printf *)malloc(sizeof(t_printf));
-	if (flags == NULL)
+	vars = NULL;
+	vars = (t_printf *)malloc(sizeof(t_printf));
+	if (vars == NULL)
 		return (NULL);
-	flags->format_string = NULL;
-	flags->flag = 0;
-	flags->num_type = 0;
-	flags->num_length = 0;
-	flags->numchar = 0;
-	flags->length_written = 0;
-	flags->width = 0;
-	flags->field_width = 0;
-	flags->precision = 1;
-	flags->padding = 0;
-	flags->wordlen = 0;
-	flags->charlen = 0;
-	flags->min_length = 0;
-	flags->zero_pad_precision = 0;
-	return (flags);
+	vars->format_string = NULL;
+	vars->flag = 0;
+	vars->num_type = 0;
+	vars->num_length = 0;
+	vars->numchar = 0;
+	vars->length_written = 0;
+	vars->width = 0;
+	vars->field_width = 0;
+	vars->precision = 1;
+	vars->padding = 0;
+	vars->wordlen = 0;
+	vars->charlen = 0;
+	vars->min_length = 0;
+	vars->zero_pad_precision = 0;
+	vars->negative_float = 0;
+	vars->padding_char = 32;
+	vars->float_sign_written = 0;
+	return (vars);
 }
 
-static int	conversion_specifiers(char *format, int index, t_printf *flags)
+static int	conversion_specifiers(char *format, int index, t_printf *vars)
 {
 	if (format[index] == 's')
-		ft_print_string(flags);
+		ft_print_string(vars);
 	else if (format[index] == 'c' || format[index] == 'C')
-		ft_print_char(flags, 0);
+		ft_print_char(vars, 0);
 	else if (ft_strchri("diD", format[index], 0) > -1)
-		get_va_arg(flags);
+		get_va_arg(vars);
 	else if (format[index] == 'f' || format[index] == 'F')
-		get_va_arg_float_double(flags);
+		get_va_arg_float_double(vars);
 	else if (ft_strchri("oOuUxX", format[index], 0) > -1)
-		get_va_arg_base(format[index], flags);
+		get_va_arg_base(format[index], vars);
 	else if (format[index] == 'p')
-		print_pointer_address(flags);
+		print_pointer_address(vars);
 	else if (format[index] == '%')
-		ft_print_char(flags, '%');
+		ft_print_char(vars, '%');
 	else if (ft_strchri("# +-0hl", format[index], 0) > 0)
 	{
-		parse_flags(format, index, flags);
+		parse_flags(format, index, vars);
 		index++;
-		index = conversion_specifiers(format, index, flags);
+		index = conversion_specifiers(format, index, vars);
 	}
 	else
-		printf_write(flags, "", 0);
+		printf_write(vars, "", 0);
 	return (index);
 }
 
-static int	check_caps_unsigned_long(char *format, int index, t_printf *flags)
+static int	check_caps_unsigned_long(char *format, int index, t_printf *vars)
 {
 	if (ft_isupper(format[index]) == 1)
-		flags->flag |= (1 << F_CAPS_ON);
+		vars->flag |= (1 << CAPS_ON);
 	if (format[index] == 'u' || format[index] == 'U')
-		flags->num_type |= (1 << F_UNSIGNED);
+		vars->num_type |= (1 << UNSIGNED);
 	if (format[index] == 'L')
 	{
-		flags->flag |= (1 << F_LONG);
+		vars->flag |= (1 << LONG);
 		index++;
 	}
 	return (index);
 }
 
-static int	evaluate_format_type(char *format, int index, t_printf *flags)
+static int	parse_format(char *format, int index, t_printf *vars)
 {
 	if (format[index] == '%')
 		index++;
-	index = parse_flags(format, index, flags);
-	index = parse_width(format, index, flags);
-	index = parse_precision(format, index, flags);
-	index = parse_h(format, index, flags);
-	index = parse_l(format, index, flags);
-	index = check_caps_unsigned_long(format, index, flags);
-	index = conversion_specifiers(format, index, flags);
-	reset_flags(flags);
+	index = parse_flags(format, index, vars);
+	index = parse_width(format, index, vars);
+	index = parse_precision(format, index, vars);
+	index = parse_h(format, index, vars);
+	index = parse_l(format, index, vars);
+	index = check_caps_unsigned_long(format, index, vars);
+	index = conversion_specifiers(format, index, vars);
+	reset_vars(vars);
 	return (index);
 }
 
-int	ft_printf(const char *restrict format, ...)
+int	ft_printf(const char *format, ...)
 {
-	t_printf	*flags;
+	t_printf	*vars;
 	int			return_value;
 	int			index;
 
 	index = 0;
-	flags = NULL;
-	flags = init_and_malloc_structure();
-	flags->format_string = ft_strdup((char *)format);
-	va_start(flags->args, format);
-	while (flags->format_string[index] != '\0')
+	vars = NULL;
+	vars = init_and_malloc_vars();
+	vars->format_string = ft_strdup((char *)format);
+	va_start(vars->args, format);
+	while (vars->format_string[index] != '\0')
 	{
-		if (flags->format_string[index] == '%')
+		if (vars->format_string[index] == '%')
 		{
-			if (!flags->format_string[index + 1])
+			if (!vars->format_string[index + 1])
 				break ;
-			index = evaluate_format_type(flags->format_string, index, flags);
+			index = parse_format(vars->format_string, index, vars);
 		}
 		else
-			flags->length_written += write(1, &flags->format_string[index], 1);
+			vars->length_written += write(1, &vars->format_string[index], 1);
 		index++;
 	}
-	va_end(flags->args);
-	return_value = flags->length_written;
-	free_flags(flags);
+	va_end(vars->args);
+	return_value = vars->length_written;
+	free_vars(vars);
 	return (return_value);
 }

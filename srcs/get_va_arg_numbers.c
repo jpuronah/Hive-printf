@@ -6,76 +6,77 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 12:33:45 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/10/06 16:38:51 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/17 19:57:14 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/printf.h"
+#include "../includes/ft_printf.h"
 
-static void	check_for_zero_flag(t_printf *flags, intmax_t number)
+static void	check_for_zero_flag(t_printf *vars, intmax_t number)
 {
-	if (flags->flag & (1 << F_ZERO))
+	if (vars->flag & (1 << ZERO))
 	{
-		if (flags->flag & (1 << F_PRECISION) && flags->width > flags->precision)
+		if (vars->flag & (1 << PRECISION) && vars->width > vars->precision)
 		{
-			if (flags->precision < flags->num_length)
-				flags->precision = flags->num_length;
-			flags->zero_pad_precision = flags->width - flags->precision;
+			if (vars->precision < vars->num_length)
+				vars->precision = vars->num_length;
+			vars->zero_pad_precision = vars->width - vars->precision;
 			if (number < 0)
-			{
-				flags->num_length++;
-				flags->precision++;
-			}
+				vars->num_length++;
 		}
-		if (number < 0 && flags->flag & (1 << F_PRECISION)
-			&& flags->width < flags->precision
-			&& flags->width < flags->num_length)
-			flags->precision++;
-		flags->precision = ft_max(flags->width, flags->precision);
-		flags->padding += flags->zero_pad_precision;
-		flags->num_length -= flags->zero_pad_precision;
-		if (number < 0 && flags->zero_pad_precision > 0)
-			flags->precision++;
+		if (number < 0 && vars->flag & (1 << PRECISION)
+			&& vars->width < vars->precision
+			&& vars->width < vars->num_length)
+			vars->precision++;
+		vars->precision = ft_max(vars->width, vars->precision);
+		vars->padding += vars->zero_pad_precision;
+		if (vars->zero_pad_precision > 0)
+			vars->num_length -= vars->zero_pad_precision;
+		if (number < 0 && vars->zero_pad_precision > 0)
+			vars->precision++;
 	}
 }
 
-void	get_va_arg(t_printf *flags)
+void	get_va_arg(t_printf *vars)
 {
 	intmax_t	number;
 
-	if (flags->num_type & (1 << F_LONG))
-		number = (intmax_t)va_arg(flags->args, long);
-	else if (flags->num_type & (1 << F_LONGLONG))
-		number = (intmax_t)va_arg(flags->args, long long);
-	else if (flags->num_type & (1 << F_SHORT))
-		number = (intmax_t)((short)va_arg(flags->args, int));
-	else if (flags->num_type & (1 << F_SHORTCHAR))
-		number = (intmax_t)((char)va_arg(flags->args, int));
-	else if (flags->num_type & (1 << F_MAXINT))
-		number = (va_arg(flags->args, intmax_t));
-	else if (flags->num_type & F_UNSIGNED)
-		number = ((intmax_t)va_arg(flags->args, ssize_t));
+	if (vars->num_type & (1 << LONG))
+		number = (intmax_t)va_arg(vars->args, long);
+	else if (vars->num_type & (1 << LONGLONG))
+		number = (intmax_t)va_arg(vars->args, long long);
+	else if (vars->num_type & (1 << SHORT))
+		number = (intmax_t)((short)va_arg(vars->args, int));
+	else if (vars->num_type & (1 << SHORTCHAR))
+		number = (intmax_t)((char)va_arg(vars->args, int));
+	else if (vars->num_type & (1 << MAXINT))
+		number = (va_arg(vars->args, intmax_t));
+	else if (vars->num_type & UNSIGNED)
+		number = ((intmax_t)va_arg(vars->args, ssize_t));
 	else
-		number = ((intmax_t)va_arg(flags->args, int));
-	get_number_length(flags, number);
-	check_for_zero_flag(flags, number);
-	itoa_printf(number, flags, 0);
+		number = ((intmax_t)va_arg(vars->args, int));
+	get_number_length(vars, number);
+	check_for_zero_flag(vars, number);
+	itoa_printf(number, vars, 0);
 }
 
-static void	check_for_zero_flag_base(t_printf *flags, uintmax_t number)
+static void	check_for_zero_flag_base(t_printf *vars, uintmax_t number)
 {
-	if (flags->flag & (1 << F_ZERO))
+	if (vars->flag & (1 << ZERO) && vars->flag & (1 << PRECISION)
+		&& vars->precision == 0)
+		vars->padding = vars->width - vars->num_length;
+	else if (vars->flag & (1 << ZERO))
 	{
-		if (flags->width > flags->precision && flags->flag & (1 << F_PRECISION))
-			flags->zero_pad_precision = flags->width - flags->precision;
-		if (flags->precision == 0)
-			flags->precision = ft_max(flags->width, flags->precision);
-		flags->padding += flags->zero_pad_precision;
-		flags->num_length -= flags->zero_pad_precision;
+		if (vars->width > vars->precision && vars->flag & (1 << PRECISION))
+			vars->zero_pad_precision = vars->width - vars->precision;
+		if (vars->precision == 0)
+			vars->precision = ft_max(vars->width, vars->precision);
+		vars->padding += vars->zero_pad_precision;
+		vars->num_length -= vars->zero_pad_precision;
 	}
-	if (number < 0 && flags->flag & (1 << F_ZERO)
-		&& flags->zero_pad_precision > 0)
-		flags->precision++;
+	if (number < 0 && vars->flag & (1 << ZERO)
+		&& vars->zero_pad_precision > 0)
+		vars->precision++;
 }
 
 static int	get_base(char format)
@@ -92,25 +93,25 @@ static int	get_base(char format)
 	return (base);
 }
 
-void	get_va_arg_base(char format, t_printf *flags)
+void	get_va_arg_base(char format, t_printf *vars)
 {
 	uintmax_t	number;
 	int			base;
 
 	base = get_base(format);
-	if (flags->num_type & (1 << F_LONG))
-		number = ((uintmax_t)va_arg(flags->args, unsigned long));
-	else if (flags->num_type & (1 << F_LONGLONG))
-		number = ((uintmax_t)va_arg(flags->args, unsigned long long));
-	else if (flags->num_type & (1 << F_SHORT))
-		number = (uintmax_t)((unsigned short)va_arg(flags->args, int));
-	else if (flags->num_type & (1 << F_SHORTCHAR))
-		number = (uintmax_t)((unsigned char)va_arg(flags->args, int));
-	else if (flags->num_type & (1 << F_SIZET))
-		number = ((uintmax_t)va_arg(flags->args, size_t));
+	if (vars->num_type & (1 << LONG))
+		number = ((uintmax_t)va_arg(vars->args, unsigned long));
+	else if (vars->num_type & (1 << LONGLONG))
+		number = ((uintmax_t)va_arg(vars->args, unsigned long long));
+	else if (vars->num_type & (1 << SHORT))
+		number = (uintmax_t)((unsigned short)va_arg(vars->args, int));
+	else if (vars->num_type & (1 << SHORTCHAR))
+		number = (uintmax_t)((unsigned char)va_arg(vars->args, int));
+	else if (vars->num_type & (1 << SIZET))
+		number = ((uintmax_t)va_arg(vars->args, size_t));
 	else
-		number = ((uintmax_t)va_arg(flags->args, unsigned int));
-	get_number_length(flags, number);
-	check_for_zero_flag_base(flags, number);
-	itoa_base_printf(number, flags, base);
+		number = ((uintmax_t)va_arg(vars->args, unsigned int));
+	get_number_length(vars, (intmax_t)number);
+	check_for_zero_flag_base(vars, number);
+	itoa_base_printf(number, vars, base);
 }

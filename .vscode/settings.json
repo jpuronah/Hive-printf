@@ -1,7 +1,0 @@
-{
-	"files.associations": {
-		"ostream": "c",
-		"printf.h": "c",
-		"math.h": "c"
-	}
-}

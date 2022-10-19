@@ -6,7 +6,7 @@
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 18:03:32 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/08/03 22:52:36 by jpuronah         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:45:52 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void		ft_lstrev(t_list **alst);
 int			ft_abs(int i);
 int			get_next_line(const int fd, char **line);
 int			ft_max(int a, int b);
-size_t		ft_countwords(char *string, char seperator);
 double		ft_max_double(double a, double b);
 double		ft_abs_db(double i);
 double		ft_pow(double n, int pow);
@@ -106,5 +105,6 @@ int			ft_isupper(int c);
 int			ft_min(int a, int b);
 int			ft_strchri(const char *s, int c, int index);
 long long	ft_abs_long_long(long long i);
+int			ft_number_length(long long number);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/09 15:40:47 by jpuronah          #+#    #+#              #
-#    Updated: 2022/08/04 13:18:25 by jpuronah         ###   ########.fr        #
+#    Updated: 2022/10/18 10:50:59 by jpuronah         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,8 @@ NAME = libft.a
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-#CFLAGS = -Wconversion -Wall -Wextra -Werror# -O2
 AR = ar rcs
 LIBFT = libft
-HEADER = includes
 SOURCES = ./ft_atoi \
 			./ft_bzero \
 			./ft_isalnum \
@@ -79,7 +77,6 @@ SOURCES = ./ft_atoi \
 			./ft_tolower \
 			./ft_toupper \
 			./get_next_line \
-			./ft_countwords \
 			./ft_lstrev \
 			./ft_abs \
 			./ft_create_elem \
@@ -91,12 +88,9 @@ SOURCES = ./ft_atoi \
 			./ft_isupper \
 			./ft_min \
 			./ft_strchri \
-			./ft_abs_long_long
+			./ft_abs_long_long \
+			./ft_number_length
 
-#SRCS = $(addprefix $(-), $(addsuffix .c, $(SOURCES)))
-#OBJS = $(addsuffix .o, $(DIR_O)/$(SOURCES))
-#mkdir -p $(DIR_O)
-#MKDIR_O = mkdir -p $(DIR_O)
 OBJS = $(addprefix $(-), $(addsuffix .o, $(SOURCES)))
 
 $(NAME): $(OBJS)
@@ -106,11 +100,8 @@ all: $(NAME)
 
 clean:
 	@rm -f *.o
-#	@echo "\033[32m libft object files deleted \033[0m"
 
 fclean: clean
-	rm -f libft.a
+	@rm -f libft.a
 
 re: fclean all
-
-.PHONY: all fclean clean re

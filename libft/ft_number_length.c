@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_countwords.c                                    :+:      :+:    :+:   */
+/*   ft_number_length.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpuronah <jpuronah@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 16:35:07 by jpuronah          #+#    #+#             */
-/*   Updated: 2022/05/19 15:54:19 by jpuronah         ###   ########.fr       */
+/*   Created: 2022/10/18 10:46:50 by jpuronah          #+#    #+#             */
+/*   Updated: 2022/10/18 10:46:54 by jpuronah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-size_t	ft_countwords(char *string, char seperator)
+int	ft_number_length(long long number)
 {
-	size_t	result;
-	size_t	index;
+	int	i;
 
-	index = 0;
-	result = 0;
-	while (string[index] && string[index] == seperator)
-		index++;
-	while (string[index])
+	i = 1;
+	if (number < 0)
 	{
-		while (string[index] && string[index] != seperator)
-			index++;
-		result++;
-		while (string[index] && string[index] == seperator)
-			index++;
+		number *= -1;
+		i++;
 	}
-	return (result);
+	while (number >= 10)
+	{
+		number /= 10;
+		i++;
+	}
+	return (i);
 }
